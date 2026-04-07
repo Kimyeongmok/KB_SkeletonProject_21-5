@@ -69,7 +69,7 @@
       "id": "budget-001",
       "userId": "user-001",
       "month": "2026-04",
-      "limit": 300000
+      "limit": 200000
     },
     {
       "id": "budget-002",

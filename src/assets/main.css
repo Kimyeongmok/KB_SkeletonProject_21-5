@@ -38,7 +38,12 @@
 }
 
 .auth-copy {
-  background: linear-gradient(160deg, rgba(4, 113, 233, 0.12), rgba(0, 191, 165, 0.18), rgba(254, 218, 74, 0.24));
+  background: linear-gradient(
+    160deg,
+    rgba(4, 113, 233, 0.12),
+    rgba(0, 191, 165, 0.18),
+    rgba(254, 218, 74, 0.24)
+  );
 }
 
 .auth-copy h1,
@@ -210,7 +215,11 @@ select:focus {
 }
 
 .summary-panel-card {
-  background: linear-gradient(180deg, rgba(200, 246, 236, 0.9), rgba(221, 250, 241, 0.84));
+  background: linear-gradient(
+    180deg,
+    rgba(200, 246, 236, 0.9),
+    rgba(221, 250, 241, 0.84)
+  );
 }
 
 .recent-panel-card {
@@ -231,7 +240,11 @@ select:focus {
 }
 
 .money-panel {
-  background: linear-gradient(180deg, rgba(255, 245, 215, 0.96), rgba(255, 238, 192, 0.92));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 245, 215, 0.96),
+    rgba(255, 238, 192, 0.92)
+  );
 }
 
 .money-panel strong {
@@ -246,7 +259,11 @@ select:focus {
 }
 
 .side-menu-panel {
-  background: linear-gradient(180deg, rgba(255, 248, 232, 0.96), rgba(251, 239, 204, 0.92));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 232, 0.96),
+    rgba(251, 239, 204, 0.92)
+  );
 }
 
 .side-menu-panel,
@@ -302,6 +319,11 @@ select:focus {
   border: 1px solid var(--border);
 }
 
+.bonobono-card {
+  position: relative;
+  overflow: hidden;
+}
+
 .metric-card span {
   display: block;
   margin-bottom: 12px;
@@ -335,12 +357,77 @@ select:focus {
   background: linear-gradient(90deg, var(--mint), var(--primary));
 }
 
+.bonobono-stage {
+  height: 180px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 18px;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.95),
+    rgba(240, 248, 255, 0.72)
+  );
+  overflow: hidden;
+}
+
+.bonobono-figure {
+  position: relative;
+  width: 112px;
+  height: 168px;
+  display: grid;
+  place-items: center;
+}
+
+.bonobono-image {
+  height: 165px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
+
+.bonobono-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bonobono-glow i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 245, 245, 0.98);
+  box-shadow:
+    0 0 6px rgba(255, 80, 80, 0.95),
+    0 0 12px rgba(255, 80, 80, 0.78),
+    0 0 21px rgba(255, 80, 80, 0.4);
+}
+
+.bonobono-glow .left-eye {
+  left: 28px;
+  top: 45px;
+}
+
+.bonobono-glow .right-eye {
+  right: 28px;
+  top: 45px;
+}
+
 .mini-donut {
   width: 82px;
   aspect-ratio: 1;
   margin: 0 auto;
   border-radius: 50%;
-  background: conic-gradient(var(--primary) 0 42%, rgba(240, 181, 107, 0.92) 42% 68%, rgba(0, 191, 165, 0.72) 68% 100%);
+  background: conic-gradient(
+    var(--primary) 0 42%,
+    rgba(240, 181, 107, 0.92) 42% 68%,
+    rgba(0, 191, 165, 0.72) 68% 100%
+  );
   position: relative;
 }
 
@@ -363,13 +450,30 @@ select:focus {
   display: block;
   flex: 1;
   border-radius: 8px 8px 4px 4px;
-  background: linear-gradient(180deg, rgba(0, 170, 204, 0.4), rgba(0, 191, 165, 0.9));
+  background: linear-gradient(
+    180deg,
+    rgba(0, 170, 204, 0.4),
+    rgba(0, 191, 165, 0.9)
+  );
 }
 
-.mini-bars i:nth-child(1) { height: 34px; }
-.mini-bars i:nth-child(2) { height: 48px; }
-.mini-bars i:nth-child(3) { height: 58px; }
-.mini-bars i:nth-child(4) { height: 42px; background: linear-gradient(180deg, rgba(254, 218, 74, 0.48), rgba(254, 218, 74, 0.92)); }
+.mini-bars i:nth-child(1) {
+  height: 34px;
+}
+.mini-bars i:nth-child(2) {
+  height: 48px;
+}
+.mini-bars i:nth-child(3) {
+  height: 58px;
+}
+.mini-bars i:nth-child(4) {
+  height: 42px;
+  background: linear-gradient(
+    180deg,
+    rgba(254, 218, 74, 0.48),
+    rgba(254, 218, 74, 0.92)
+  );
+}
 
 .sidebar-menu {
   display: grid;
@@ -652,7 +756,11 @@ select:focus {
   border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: 18px;
   padding: 10px;
-  background: linear-gradient(180deg, rgba(4, 113, 233, 0.96), rgba(0, 170, 204, 0.96));
+  background: linear-gradient(
+    180deg,
+    rgba(4, 113, 233, 0.96),
+    rgba(0, 170, 204, 0.96)
+  );
   display: grid;
   align-content: start;
   gap: 6px;
@@ -671,7 +779,9 @@ select:focus {
 
 .calendar-cell.selected {
   border-color: rgba(254, 218, 74, 0.75);
-  box-shadow: inset 0 0 0 1px rgba(254, 218, 74, 0.32), 0 0 0 2px rgba(254, 218, 74, 0.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(254, 218, 74, 0.32),
+    0 0 0 2px rgba(254, 218, 74, 0.12);
 }
 
 .calendar-cell span {
