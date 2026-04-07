@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useFinanceStore } from '@/stores/finance'
-import { formatCurrency } from '@/utils/format'
+import { formatCurrency, formatTime } from '@/utils/format'
 
 const financeStore = useFinanceStore()
 const today = new Date()
@@ -138,7 +138,10 @@ function selectDate(date) {
       <div v-if="selectedDaySummary?.items?.length" class="day-list">
         <article v-for="item in selectedDaySummary.items" :key="item.id" class="day-item">
           <div>
-            <strong>{{ item.category }}</strong>
+            <div class="day-item-head">
+              <strong>{{ item.category }}</strong>
+            </div>
+            <span class="day-item-time">{{ formatTime(item.time) }}</span>
             <p>{{ item.memo || '메모 없음' }}</p>
           </div>
           <span :class="item.type === 'income' ? 'income-text' : 'expense-text'">

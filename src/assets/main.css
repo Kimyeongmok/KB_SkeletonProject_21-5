@@ -38,12 +38,7 @@
 }
 
 .auth-copy {
-  background: linear-gradient(
-    160deg,
-    rgba(4, 113, 233, 0.12),
-    rgba(0, 191, 165, 0.18),
-    rgba(254, 218, 74, 0.24)
-  );
+  background: linear-gradient(160deg, var(--primary-soft), var(--neutral-soft));
 }
 
 .auth-copy h1,
@@ -72,6 +67,43 @@
   gap: 16px;
 }
 
+.type-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  background: var(--neutral-soft);
+  border: 1px solid var(--border);
+}
+
+.toggle-pill {
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.toggle-pill:hover {
+  background: rgba(255, 255, 255, 0.46);
+  color: var(--text-main);
+}
+
+.toggle-pill.active {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+}
+
 label {
   display: grid;
   gap: 8px;
@@ -81,17 +113,17 @@ label {
 input,
 select {
   width: 100%;
-  border: 1px solid rgba(77, 108, 141, 0.24);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px 16px;
   background: var(--surface-strong);
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 input:focus,
 select:focus {
-  outline: 2px solid rgba(4, 113, 233, 0.16);
-  border-color: rgba(4, 113, 233, 0.36);
+  outline: 2px solid var(--primary-soft);
+  border-color: var(--primary);
 }
 
 .primary-button,
@@ -104,12 +136,12 @@ select:focus {
 
 .primary-button {
   color: white;
-  background: linear-gradient(135deg, var(--primary), var(--turquoise));
+  background: var(--primary);
 }
 
 .secondary-button {
   color: var(--primary);
-  background: rgba(0, 191, 165, 0.14);
+  background: var(--primary-soft);
 }
 
 .feedback {
@@ -137,7 +169,7 @@ select:focus {
   padding: 18px 28px;
   border-radius: 0 0 24px 24px;
   background: var(--topbar-bg);
-  border: 1px solid rgba(0, 170, 204, 0.12);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
 
@@ -153,8 +185,8 @@ select:focus {
   border-radius: 14px;
   display: grid;
   place-items: center;
-  background: rgba(0, 191, 165, 0.14);
-  color: var(--mint);
+  background: var(--primary-soft);
+  color: var(--primary);
   font-weight: 800;
 }
 
@@ -178,7 +210,7 @@ select:focus {
 .user-chip {
   padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--chip-bg);
   color: var(--primary);
   font-weight: 700;
 }
@@ -187,7 +219,7 @@ select:focus {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.78);
+  background: var(--chip-bg);
   color: var(--primary);
   font-weight: 700;
 }
@@ -215,15 +247,11 @@ select:focus {
 }
 
 .summary-panel-card {
-  background: linear-gradient(
-    180deg,
-    rgba(200, 246, 236, 0.9),
-    rgba(221, 250, 241, 0.84)
-  );
+  background: var(--panel-emphasis-bg);
 }
 
 .recent-panel-card {
-  background: rgba(230, 234, 239, 0.95);
+  background: var(--panel-subtle-bg);
 }
 
 .recent-panel-card,
@@ -236,15 +264,11 @@ select:focus {
 .recent-panel-card .donut-hole span,
 .recent-panel-card .legend-copy strong,
 .recent-panel-card .legend-copy span {
-  color: #111111;
+  color: var(--text-main);
 }
 
 .money-panel {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 245, 215, 0.96),
-    rgba(255, 238, 192, 0.92)
-  );
+  background: var(--panel-emphasis-bg);
 }
 
 .money-panel strong {
@@ -255,15 +279,58 @@ select:focus {
 }
 
 .money-panel small {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-soft);
+}
+
+.monthly-progress {
+  display: grid;
+  gap: 18px;
+}
+
+.monthly-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.progress-stat-card {
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.progress-stat-card span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.progress-stat-card strong {
+  display: block;
+  font-size: 1.35rem;
+}
+
+.progress-stat-card .metric-bar {
+  margin-top: 14px;
+}
+
+.progress-rate {
+  margin-top: 12px;
+  font-size: 1.15rem;
+}
+
+.progress-stat-card small {
+  display: block;
+  margin-top: 10px;
   color: var(--ink-soft);
 }
 
 .side-menu-panel {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 248, 232, 0.96),
-    rgba(251, 239, 204, 0.92)
-  );
+  background: var(--panel-subtle-bg);
 }
 
 .side-menu-panel,
@@ -271,13 +338,17 @@ select:focus {
 .side-menu-panel h2,
 .side-menu-panel .sidebar-menu-item,
 .side-menu-panel .sidebar-menu-item strong {
-  color: #26425f;
+  color: var(--text-main);
 }
 
 .input-panel,
 .budget-panel,
 .menu-panel {
   grid-column: span 4;
+}
+
+.half-panel {
+  grid-column: span 6;
 }
 
 .wide-panel,
@@ -344,17 +415,197 @@ select:focus {
   font-size: 0.86rem;
 }
 
+.metric-top-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.metric-top-item {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.metric-top-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+.metric-top-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.metric-top-copy strong {
+  font-size: 0.92rem;
+}
+
+.metric-top-copy span {
+  color: inherit;
+  font-size: 0.82rem;
+}
+
+.analysis-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.analysis-kicker {
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.analysis-title {
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.analysis-title.tone-good {
+  color: var(--text-main);
+}
+
+.analysis-title.tone-warn {
+  color: var(--primary);
+}
+
+.analysis-title.tone-danger {
+  color: #b42318;
+}
+
+.analysis-title.tone-neutral {
+  color: var(--text-main);
+}
+
+.analysis-summary {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.analysis-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.analysis-stats div {
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--neutral-soft);
+  border: 1px solid var(--border);
+}
+
+.analysis-stats span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.analysis-stats strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.analysis-points {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-main);
+}
+
+.analysis-points li + li {
+  margin-top: 8px;
+}
+
+.transaction-history-filters {
+  margin-bottom: 18px;
+}
+
+.three-month-expense {
+  display: grid;
+  gap: 22px;
+}
+
+.three-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.three-month-header h2 {
+  margin: 0;
+}
+
+.three-month-header strong {
+  font-size: 1.5rem;
+  color: var(--text-main);
+}
+
+.three-month-board {
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.three-month-bars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: end;
+}
+
+.three-month-bar-card {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.three-month-bar-track {
+  width: 100%;
+  max-width: 140px;
+  height: 220px;
+  padding: 10px;
+  border-radius: 22px;
+  background: var(--neutral-soft);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+}
+
+.three-month-bar-fill {
+  width: 100%;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #93c5fd, #60a5fa);
+}
+
+.three-month-bar-card strong {
+  font-size: 1rem;
+}
+
+.three-month-bar-card span {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
 .metric-bar {
   height: 10px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.08);
+  background: var(--neutral-soft-strong);
   overflow: hidden;
 }
 
 .metric-fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--mint), var(--primary));
+  background: var(--primary);
 }
 
 .bonobono-stage {
@@ -363,28 +614,29 @@ select:focus {
   place-items: center;
   margin-bottom: 14px;
   border-radius: 18px;
-  background: radial-gradient(
-    circle at top,
-    rgba(255, 255, 255, 0.95),
-    rgba(240, 248, 255, 0.72)
-  );
+  background: var(--bonobono-stage-bg);
   overflow: hidden;
 }
 
 .bonobono-figure {
   position: relative;
-  width: 112px;
-  height: 168px;
+  width: min(100%, 220px);
+  height: 100%;
   display: grid;
   place-items: center;
+  margin: 0 auto;
+  background: var(--bonobono-stage-bg);
 }
 
 .bonobono-image {
-  height: 165px;
-  width: auto;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-  transform: translateY(8px);
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  mix-blend-mode: normal;
+  transform: translateY(4px);
+  margin: 0 auto;
   transition:
     opacity 0.3s ease,
     filter 0.3s ease;
@@ -409,13 +661,13 @@ select:focus {
 }
 
 .bonobono-glow .left-eye {
-  left: 28px;
-  top: 45px;
+  left: 63px;
+  top: 48px;
 }
 
 .bonobono-glow .right-eye {
-  right: 28px;
-  top: 45px;
+  right: 63px;
+  top: 48px;
 }
 
 .mini-donut {
@@ -494,7 +746,7 @@ select:focus {
 
 .sidebar-menu-item.active,
 .sidebar-menu-item:hover {
-  background: rgba(255, 255, 255, 0.62);
+  background: var(--neutral-soft);
 }
 
 .menu-bullet {
@@ -526,7 +778,7 @@ select:focus {
 
 .recent-row {
   padding: 12px 14px;
-  border-top: 1px solid rgba(120, 142, 166, 0.16);
+  border-top: 1px solid var(--border);
 }
 
 .recent-row strong,
@@ -584,8 +836,8 @@ select:focus {
 .transaction-card {
   padding: 18px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
 }
 
 .chart-header {
@@ -630,7 +882,7 @@ select:focus {
   width: 94px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.97);
+  background: var(--surface-strong);
   display: grid;
   place-items: center;
   text-align: center;
@@ -690,6 +942,22 @@ select:focus {
   text-align: right;
 }
 
+.transaction-expense-amount {
+  color: #b42318;
+}
+
+.transaction-delete-button {
+  margin-top: 8px;
+  border: 1px solid rgba(180, 35, 24, 0.22);
+  border-radius: 10px;
+  padding: 5px 9px;
+  background: rgba(180, 35, 24, 0.08);
+  color: #b42318;
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -704,13 +972,17 @@ select:focus {
   color: var(--income);
 }
 
+.expense-text {
+  color: #ef4444;
+}
+
 .badge.income {
-  background: rgba(4, 113, 233, 0.12);
+  background: var(--primary-soft);
 }
 
 .badge.expense {
-  background: rgba(0, 170, 204, 0.14);
-  color: var(--expense);
+  background: rgba(180, 35, 24, 0.12);
+  color: #b42318;
 }
 
 .calendar-layout {
@@ -723,6 +995,10 @@ select:focus {
 .calendar-board,
 .calendar-side {
   padding: 18px;
+  background: #ffffff;
+  border: 1px solid #111111;
+  box-shadow: none;
+  color: #111111;
 }
 
 .calendar-toolbar {
@@ -735,6 +1011,7 @@ select:focus {
 
 .calendar-toolbar strong {
   font-size: 1.1rem;
+  color: #111111;
 }
 
 .calendar-weekdays,
@@ -746,26 +1023,23 @@ select:focus {
 
 .calendar-weekdays {
   margin-bottom: 10px;
-  color: var(--ink-soft);
+  color: #111111;
   font-size: 0.9rem;
   text-align: center;
+  font-weight: 700;
 }
 
 .calendar-cell {
   min-height: 108px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  border: 1px solid #111111;
   border-radius: 18px;
   padding: 10px;
-  background: linear-gradient(
-    180deg,
-    rgba(4, 113, 233, 0.96),
-    rgba(0, 170, 204, 0.96)
-  );
+  background: #ffffff;
   display: grid;
   align-content: start;
   gap: 6px;
   text-align: left;
-  color: #f8fafc;
+  color: #111111;
 }
 
 .calendar-cell strong {
@@ -778,10 +1052,10 @@ select:focus {
 }
 
 .calendar-cell.selected {
-  border-color: rgba(254, 218, 74, 0.75);
-  box-shadow:
-    inset 0 0 0 1px rgba(254, 218, 74, 0.32),
-    0 0 0 2px rgba(254, 218, 74, 0.12);
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .calendar-cell span {
@@ -790,11 +1064,19 @@ select:focus {
 }
 
 .calendar-cell .income-text {
-  color: #ffffff;
+  color: #2563eb;
 }
 
 .calendar-cell .expense-text {
-  color: #ff8a8a;
+  color: #ef4444;
+}
+
+.calendar-cell.selected .income-text {
+  color: #ffffff;
+}
+
+.calendar-cell.selected .expense-text {
+  color: #ff7b7b;
 }
 
 .day-summary {
@@ -806,7 +1088,7 @@ select:focus {
 
 .day-metric span {
   display: block;
-  color: var(--ink-soft);
+  color: #6b7280;
   margin-bottom: 6px;
 }
 
@@ -815,6 +1097,28 @@ select:focus {
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
+  padding: 14px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.day-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.day-item-head {
+  display: block;
+}
+
+.day-item-time {
+  display: inline-flex;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .day-item p {
@@ -837,6 +1141,7 @@ select:focus {
   .input-panel,
   .budget-panel,
   .menu-panel,
+  .half-panel,
   .wide-panel,
   .overview-chart-panel,
   .list-panel,
@@ -866,6 +1171,9 @@ select:focus {
   .topbar,
   .topbar-actions,
   .overview-metrics,
+  .monthly-progress-grid,
+  .analysis-stats,
+  .three-month-bars,
   .filter-grid,
   .budget-stats,
   .inline-form,

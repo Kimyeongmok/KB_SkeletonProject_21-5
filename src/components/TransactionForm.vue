@@ -8,9 +8,24 @@ const categoryMap = {
   expense: ['식비', '교통', '주거', '쇼핑', '문화', '의료', '기타지출'],
 }
 
+function padNumber(value) {
+  return String(value).padStart(2, '0')
+}
+
+function getCurrentLocalDate() {
+  const now = new Date()
+  return `${now.getFullYear()}-${padNumber(now.getMonth() + 1)}-${padNumber(now.getDate())}`
+}
+
+function getCurrentLocalTime() {
+  const now = new Date()
+  return `${padNumber(now.getHours())}:${padNumber(now.getMinutes())}`
+}
+
 const form = reactive({
   type: 'expense',
-  date: new Date().toISOString().slice(0, 10),
+  date: getCurrentLocalDate(),
+  time: getCurrentLocalTime(),
   amount: '',
   category: '식비',
   memo: '',
@@ -33,6 +48,7 @@ async function handleSubmit() {
   await emit('submit-transaction', {
     type: form.type,
     date: form.date,
+    time: form.time,
     amount: Number(form.amount),
     category: form.category,
     memo: form.memo.trim(),
@@ -66,6 +82,10 @@ async function handleSubmit() {
       <label>
         <span>금액</span>
         <input v-model="form.amount" type="number" min="0" placeholder="예: 50000" />
+      </label>
+      <label>
+        <span>시간</span>
+        <input v-model="form.time" type="time" />
       </label>
       <label>
         <span>카테고리</span>

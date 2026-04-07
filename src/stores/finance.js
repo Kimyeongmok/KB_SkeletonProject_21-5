@@ -9,8 +9,13 @@ export const useFinanceStore = defineStore('finance', () => {
   const isLoading = ref(false)
   const errorMessage = ref('')
 
+  function getTransactionTimestamp(item) {
+    const time = item.time ? `${item.time}:00` : '00:00:00'
+    return new Date(`${item.date}T${time}`).getTime()
+  }
+
   const sortedTransactions = computed(() =>
-    [...transactions.value].sort((a, b) => new Date(b.date) - new Date(a.date)),
+    [...transactions.value].sort((a, b) => getTransactionTimestamp(b) - getTransactionTimestamp(a)),
   )
 
   async function loadFinanceData(userId) {
@@ -64,6 +69,31 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
+  async function deleteTransaction(transactionId) {
+    const authStore = useAuthStore()
+    const target = transactions.value.find((item) => item.id === transactionId)
+
+    if (!target) {
+      return
+    }
+
+    await api.delete(`/finances/${transactionId}`)
+    transactions.value = transactions.value.filter((item) => item.id !== transactionId)
+
+    if (authStore.currentUser) {
+      const nextMoney =
+        target.type === 'income'
+          ? Number(authStore.currentUser.money) - Number(target.amount)
+          : Number(authStore.currentUser.money) + Number(target.amount)
+
+      await api.patch(`/users/${authStore.currentUser.id}`, {
+        money: nextMoney,
+      })
+
+      await authStore.refreshUser()
+    }
+  }
+
   async function saveBudget({ userId, month, limit }) {
     const { data } = await api.get('/budgets', {
       params: {
@@ -99,6 +129,7 @@ export const useFinanceStore = defineStore('finance', () => {
     sortedTransactions,
     loadFinanceData,
     addTransaction,
+    deleteTransaction,
     saveBudget,
   }
 })

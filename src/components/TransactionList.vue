@@ -4,6 +4,8 @@ import { formatCurrency } from '@/utils/format'
 defineProps({
   items: { type: Array, default: () => [] },
 })
+
+const emit = defineEmits(['delete-transaction'])
 </script>
 
 <template>
@@ -17,8 +19,13 @@ defineProps({
         <p>{{ item.memo || '메모 없음' }}</p>
       </div>
       <div class="transaction-meta">
-        <strong>{{ formatCurrency(item.amount) }}</strong>
+        <strong :class="item.type === 'expense' ? 'transaction-expense-amount' : 'income-text'">
+          {{ formatCurrency(item.amount) }}
+        </strong>
         <span>{{ item.date }}</span>
+        <button class="transaction-delete-button" type="button" @click="emit('delete-transaction', item.id)">
+          삭제
+        </button>
       </div>
     </article>
   </div>

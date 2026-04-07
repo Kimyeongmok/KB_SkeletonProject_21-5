@@ -1,15 +1,17 @@
 <script setup>
 import BudgetCard from '@/components/BudgetCard.vue'
-import MonthlySummaryTable from '@/components/MonthlySummaryTable.vue'
 import SummaryCards from '@/components/SummaryCards.vue'
+import ThreeMonthExpenseChart from '@/components/ThreeMonthExpenseChart.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
 
 const {
   currentMonth,
   currentBudget,
+  currentMonthTopExpenseCategories,
+  currentMonthSummary,
   currentMonthSpent,
-  currentMonthChartData,
-  summary,
+  recentThreeMonthExpenses,
+  recentThreeMonthExpenseTotal,
   handleBudgetSave,
 } = useFinanceDashboard()
 </script>
@@ -32,20 +34,25 @@ const {
         </div>
       </div>
       <SummaryCards
-        :summary="summary"
+        :summary="currentMonthSummary"
         :budget="currentBudget?.limit ?? 0"
         :spent="currentMonthSpent"
+        :expense-amount="currentMonthSpent"
+        :top-expense-categories="currentMonthTopExpenseCategories"
       />
     </section>
 
     <section class="panel full-panel">
       <div class="section-heading">
         <div>
-          <p class="section-label">예산 참고 차트</p>
-          <h2>이번 달 수입 / 지출 분포</h2>
+          <p class="section-label">예산 참고 현황</p>
+          <h2>지난 3달 소비 금액</h2>
         </div>
       </div>
-      <MonthlySummaryTable :month="currentMonth" :items="currentMonthChartData" />
+      <ThreeMonthExpenseChart
+        :items="recentThreeMonthExpenses"
+        :total="recentThreeMonthExpenseTotal"
+      />
     </section>
   </section>
 </template>

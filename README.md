@@ -1,38 +1,33 @@
-# Skeleton_Project_21-5
+# KB_SkeletonProject_21-5
 
-This template should help get you started developing with Vue 3 in Vite.
+## 실행 방법
 
-## Recommended IDE Setup
+1. 프로젝트를 다운로드합니다.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+```sh
+git clone -b example2 --single-branch https://github.com/Kimyeongmok/KB_SkeletonProject_21-5.git
+```
 
-## Recommended Browser Setup
+2. 다운로드한 폴더로 이동합니다.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+```sh
+cd KB_SkeletonProject_21-5
+```
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+3. 패키지를 설치합니다.
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+4. JSON 서버를 실행합니다.
+
+```sh
+npm run server
+```
+
+5. 새 터미널을 열고 같은 폴더에서 개발 서버를 실행합니다.
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
 ```

@@ -96,10 +96,29 @@ export function useFinanceDashboard() {
     ),
   )
 
+  const currentMonthTransactions = computed(() =>
+    financeStore.transactions.filter((entry) => entry.date.startsWith(currentMonth.value)),
+  )
+
+  const currentMonthSummary = computed(() =>
+    currentMonthTransactions.value.reduce(
+      (acc, item) => {
+        if (item.type === 'income') {
+          acc.income += Number(item.amount)
+        } else {
+          acc.expense += Number(item.amount)
+        }
+        acc.balance = acc.income - acc.expense
+        return acc
+      },
+      { income: 0, expense: 0, balance: 0 },
+    ),
+  )
+
   const currentMonthChartData = computed(() => {
     const grouped = new Map()
 
-    for (const item of financeStore.transactions.filter((entry) => entry.date.startsWith(currentMonth.value))) {
+    for (const item of currentMonthTransactions.value) {
       const key = `${item.type}-${item.category}`
 
       if (!grouped.has(key)) {
@@ -124,9 +143,50 @@ export function useFinanceDashboard() {
   )
 
   const currentMonthSpent = computed(() =>
-    financeStore.transactions
-      .filter((item) => item.type === 'expense' && item.date.startsWith(currentMonth.value))
+    currentMonthTransactions.value
+      .filter((item) => item.type === 'expense')
       .reduce((total, item) => total + Number(item.amount), 0),
+  )
+
+  const currentMonthIncome = computed(() =>
+    currentMonthTransactions.value
+      .filter((item) => item.type === 'income')
+      .reduce((total, item) => total + Number(item.amount), 0),
+  )
+
+  const currentMonthTopExpenseCategories = computed(() => {
+    const totalExpense = currentMonthSpent.value
+
+    return currentMonthChartData.value
+      .filter((item) => item.type === 'expense')
+      .slice(0, 3)
+      .map((item) => ({
+        category: item.category,
+        amount: item.amount,
+        percent: totalExpense ? Math.round((Number(item.amount) / totalExpense) * 100) : 0,
+      }))
+  })
+
+  const recentThreeMonthExpenses = computed(() => {
+    const baseDate = new Date(`${currentMonth.value}-01T00:00:00`)
+
+    return Array.from({ length: 3 }, (_, index) => {
+      const targetDate = new Date(baseDate.getFullYear(), baseDate.getMonth() - index, 1)
+      const monthKey = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}`
+      const total = financeStore.transactions
+        .filter((item) => item.type === 'expense' && item.date.startsWith(monthKey))
+        .reduce((sum, item) => sum + Number(item.amount), 0)
+
+      return {
+        month: monthKey,
+        label: `${targetDate.getMonth() + 1}월`,
+        amount: total,
+      }
+    }).reverse()
+  })
+
+  const recentThreeMonthExpenseTotal = computed(() =>
+    recentThreeMonthExpenses.value.reduce((sum, item) => sum + item.amount, 0),
   )
 
   async function handleTransactionSubmit(payload) {
@@ -134,6 +194,10 @@ export function useFinanceDashboard() {
       ...payload,
       userId: authStore.currentUser.id,
     })
+  }
+
+  async function handleTransactionDelete(transactionId) {
+    await financeStore.deleteTransaction(transactionId)
   }
 
   async function handleBudgetSave(limit) {
@@ -150,10 +214,17 @@ export function useFinanceDashboard() {
     categoryOptions,
     filteredTransactions,
     summary,
+    currentMonthTransactions,
+    currentMonthSummary,
     currentMonthChartData,
     currentBudget,
     currentMonthSpent,
+    currentMonthIncome,
+    currentMonthTopExpenseCategories,
+    recentThreeMonthExpenses,
+    recentThreeMonthExpenseTotal,
     handleTransactionSubmit,
+    handleTransactionDelete,
     handleBudgetSave,
   }
 }
