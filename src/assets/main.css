@@ -285,6 +285,13 @@ select:focus {
   font-size: 1.2rem;
 }
 
+.metric-card small {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
 .metric-bar {
   height: 10px;
   border-radius: 999px;
@@ -640,6 +647,14 @@ select:focus {
 .calendar-cell span {
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
+}
+
+.calendar-cell .income-text {
+  color: #ffffff;
+}
+
+.calendar-cell .expense-text {
+  color: #ff8a8a;
 }
 
 .day-summary {

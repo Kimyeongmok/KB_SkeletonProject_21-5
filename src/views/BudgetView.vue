@@ -31,7 +31,11 @@ const {
           <h2>이번 달 요약</h2>
         </div>
       </div>
-      <SummaryCards :summary="summary" />
+      <SummaryCards
+        :summary="summary"
+        :budget="currentBudget?.limit ?? 0"
+        :spent="currentMonthSpent"
+      />
     </section>
 
     <section class="panel full-panel">

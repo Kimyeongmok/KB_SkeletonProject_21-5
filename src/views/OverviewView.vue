@@ -1,16 +1,13 @@
 <script setup>
 import MainMenu from '@/components/MainMenu.vue'
+import MonthlySummaryTable from '@/components/MonthlySummaryTable.vue'
 import SummaryCards from '@/components/SummaryCards.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
 import { useAuthStore } from '@/stores/auth'
-import { useFinanceStore } from '@/stores/finance'
 import { formatCurrency } from '@/utils/format'
 
 const authStore = useAuthStore()
-const financeStore = useFinanceStore()
-const { summary } = useFinanceDashboard()
-
-const recentTransactions = financeStore.sortedTransactions.slice(0, 6)
+const { currentMonth, currentMonthChartData, currentBudget, currentMonthSpent, summary } = useFinanceDashboard()
 </script>
 
 <template>
@@ -22,32 +19,22 @@ const recentTransactions = financeStore.sortedTransactions.slice(0, 6)
             <h2>총 자산 요약</h2>
           </div>
         </div>
-        <SummaryCards :summary="summary" />
+        <SummaryCards
+          :summary="summary"
+          :budget="currentBudget?.limit ?? 0"
+          :spent="currentMonthSpent"
+        />
       </section>
 
       <section class="panel recent-panel-card">
         <div class="section-heading compact">
           <div>
-            <h2>최근 거래 내역</h2>
+            <h2>수입 / 지출 그래프</h2>
           </div>
+          <span class="count-chip">{{ currentMonth }}</span>
         </div>
 
-        <div class="recent-table">
-          <div class="recent-head">
-            <span>일시</span>
-            <span>상호명</span>
-            <span>금액</span>
-            <span>구분</span>
-          </div>
-          <div v-for="item in recentTransactions" :key="item.id" class="recent-row">
-            <span>{{ item.date }}</span>
-            <span>{{ item.memo || item.category }}</span>
-            <strong>{{ formatCurrency(item.amount) }}</strong>
-            <em :class="item.type === 'income' ? 'income-text' : 'expense-text'">
-              {{ item.category }}
-            </em>
-          </div>
-        </div>
+        <MonthlySummaryTable :month="currentMonth" :items="currentMonthChartData" />
       </section>
     </div>
 

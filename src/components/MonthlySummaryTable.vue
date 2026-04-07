@@ -7,7 +7,7 @@ const props = defineProps({
   items: { type: Array, default: () => [] },
 })
 
-const palette = ['#ea580c', '#f59e0b', '#14b8a6', '#3b82f6', '#8b5cf6', '#ef4444']
+const palette = ['#0471e9', '#00bfa5', '#00aacc', '#feda4a', '#7dd3fc', '#8de4d4']
 const incomeItems = computed(() => props.items.filter((item) => item.type === 'income'))
 const expenseItems = computed(() => props.items.filter((item) => item.type === 'expense'))
 
