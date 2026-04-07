@@ -1,4 +1,5 @@
-:root {
+:root,
+:root[data-theme='light'] {
   color-scheme: light;
   font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
   line-height: 1.5;
@@ -21,6 +22,32 @@
   --ink-soft: #4d6c8d;
   --income: #0471e9;
   --expense: #00aacc;
+  --text-main: #06305d;
+  --topbar-bg: linear-gradient(180deg, rgba(210, 246, 240, 0.96), rgba(232, 250, 247, 0.94));
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  background:
+    radial-gradient(circle at top left, rgba(4, 113, 233, 0.22), transparent 22%),
+    radial-gradient(circle at top right, rgba(0, 191, 165, 0.18), transparent 28%),
+    linear-gradient(145deg, #081625 0%, #0b2030 52%, #10263a 100%);
+  color: #e9f4ff;
+  --surface: rgba(12, 29, 45, 0.86);
+  --surface-strong: rgba(16, 35, 53, 0.96);
+  --border: rgba(125, 211, 252, 0.12);
+  --shadow: 0 22px 52px rgba(2, 8, 23, 0.4);
+  --primary: #7dc4ff;
+  --mint: #4be0cb;
+  --turquoise: #48c8e8;
+  --yellow: #feda4a;
+  --accent: #7dc4ff;
+  --accent-soft: rgba(254, 218, 74, 0.18);
+  --ink-soft: #a8c2da;
+  --income: #a9d7ff;
+  --expense: #7de3f5;
+  --text-main: #e9f4ff;
+  --topbar-bg: linear-gradient(180deg, rgba(8, 26, 42, 0.96), rgba(10, 30, 46, 0.94));
 }
 
 *,
@@ -38,7 +65,7 @@ body,
 body {
   margin: 0;
   min-width: 320px;
-  color: #06305d;
+  color: var(--text-main);
   background: transparent;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

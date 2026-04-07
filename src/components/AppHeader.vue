@@ -2,10 +2,10 @@
 defineProps({
   userName: { type: String, default: '' },
   userId: { type: String, default: '' },
-  balance: { type: Number, default: 0 },
+  isDarkMode: { type: Boolean, default: false },
 })
 
-defineEmits(['logout'])
+defineEmits(['logout', 'toggle-theme'])
 </script>
 
 <template>
@@ -20,6 +20,9 @@ defineEmits(['logout'])
 
     <div class="topbar-actions">
       <span class="user-chip">{{ userName }} · {{ userId }}</span>
+      <button class="theme-toggle" type="button" @click="$emit('toggle-theme')">
+        {{ isDarkMode ? '라이트모드' : '다크모드' }}
+      </button>
       <button class="secondary-button" type="button" @click="$emit('logout')">로그아웃</button>
     </div>
   </header>

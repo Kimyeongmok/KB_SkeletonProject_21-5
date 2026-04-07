@@ -131,7 +131,7 @@ select:focus {
   margin-bottom: 20px;
   padding: 18px 28px;
   border-radius: 0 0 24px 24px;
-  background: linear-gradient(180deg, rgba(210, 246, 240, 0.96), rgba(232, 250, 247, 0.94));
+  background: var(--topbar-bg);
   border: 1px solid rgba(0, 170, 204, 0.12);
   box-shadow: var(--shadow);
 }
@@ -161,7 +161,7 @@ select:focus {
 
 .topbar h1 {
   font-size: 1.9rem;
-  color: #18324c;
+  color: var(--text-main);
 }
 
 .topbar-actions {
@@ -174,6 +174,15 @@ select:focus {
   padding: 10px 14px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.8);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.78);
   color: var(--primary);
   font-weight: 700;
 }
@@ -208,6 +217,19 @@ select:focus {
   background: rgba(230, 234, 239, 0.95);
 }
 
+.recent-panel-card,
+.recent-panel-card h2,
+.recent-panel-card .section-label,
+.recent-panel-card .count-chip,
+.recent-panel-card .chart-header strong,
+.recent-panel-card .chart-header h3,
+.recent-panel-card .donut-hole strong,
+.recent-panel-card .donut-hole span,
+.recent-panel-card .legend-copy strong,
+.recent-panel-card .legend-copy span {
+  color: #111111;
+}
+
 .money-panel {
   background: linear-gradient(180deg, rgba(255, 245, 215, 0.96), rgba(255, 238, 192, 0.92));
 }
@@ -216,7 +238,7 @@ select:focus {
   display: block;
   margin: 6px 0;
   font-size: 2rem;
-  color: #18324c;
+  color: var(--text-main);
 }
 
 .money-panel small {
@@ -225,6 +247,14 @@ select:focus {
 
 .side-menu-panel {
   background: linear-gradient(180deg, rgba(255, 248, 232, 0.96), rgba(251, 239, 204, 0.92));
+}
+
+.side-menu-panel,
+.side-menu-panel .section-label,
+.side-menu-panel h2,
+.side-menu-panel .sidebar-menu-item,
+.side-menu-panel .sidebar-menu-item strong {
+  color: #26425f;
 }
 
 .input-panel,
@@ -268,14 +298,14 @@ select:focus {
 .metric-card {
   padding: 18px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(4, 113, 233, 0.12);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
 }
 
 .metric-card span {
   display: block;
   margin-bottom: 12px;
-  color: #284b6f;
+  color: var(--ink-soft);
   font-weight: 700;
 }
 
@@ -355,7 +385,7 @@ select:focus {
   background: transparent;
   border-radius: 14px;
   text-align: left;
-  color: #26425f;
+  color: var(--text-main);
 }
 
 .sidebar-menu-item.active,
@@ -385,7 +415,7 @@ select:focus {
 
 .recent-head {
   padding: 10px 14px;
-  color: #556b86;
+  color: var(--ink-soft);
   font-size: 0.92rem;
   font-weight: 700;
 }
