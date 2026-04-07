@@ -4,18 +4,23 @@
   line-height: 1.5;
   font-weight: 400;
   background:
-    radial-gradient(circle at top left, rgba(255, 224, 188, 0.72), transparent 28%),
-    linear-gradient(140deg, #f6f2e9 0%, #eef4ff 54%, #f9fbfe 100%);
-  color: #0f172a;
-  --surface: rgba(255, 255, 255, 0.76);
-  --surface-strong: rgba(255, 255, 255, 0.94);
-  --border: rgba(148, 163, 184, 0.24);
-  --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
-  --accent: #ea580c;
-  --accent-soft: #fff0db;
-  --ink-soft: #64748b;
-  --income: #2563eb;
-  --expense: #ef4444;
+    radial-gradient(circle at top left, rgba(4, 113, 233, 0.16), transparent 24%),
+    radial-gradient(circle at top right, rgba(0, 170, 204, 0.14), transparent 30%),
+    linear-gradient(145deg, #eef8ff 0%, #f3fffd 48%, #fffceb 100%);
+  color: #06305d;
+  --surface: rgba(255, 255, 255, 0.8);
+  --surface-strong: rgba(255, 255, 255, 0.95);
+  --border: rgba(4, 113, 233, 0.16);
+  --shadow: 0 22px 52px rgba(4, 113, 233, 0.12);
+  --primary: #0471e9;
+  --mint: #00bfa5;
+  --turquoise: #00aacc;
+  --yellow: #feda4a;
+  --accent: #0471e9;
+  --accent-soft: rgba(254, 218, 74, 0.28);
+  --ink-soft: #4d6c8d;
+  --income: #0471e9;
+  --expense: #00aacc;
 }
 
 *,
@@ -33,7 +38,7 @@ body,
 body {
   margin: 0;
   min-width: 320px;
-  color: #0f172a;
+  color: #06305d;
   background: transparent;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

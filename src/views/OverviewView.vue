@@ -1,49 +1,66 @@
 <script setup>
 import MainMenu from '@/components/MainMenu.vue'
-import MonthlySummaryTable from '@/components/MonthlySummaryTable.vue'
 import SummaryCards from '@/components/SummaryCards.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
+import { useAuthStore } from '@/stores/auth'
 import { useFinanceStore } from '@/stores/finance'
+import { formatCurrency } from '@/utils/format'
 
+const authStore = useAuthStore()
 const financeStore = useFinanceStore()
-const { currentMonth, currentMonthChartData, summary } = useFinanceDashboard()
+const { summary } = useFinanceDashboard()
+
+const recentTransactions = financeStore.sortedTransactions.slice(0, 6)
 </script>
 
 <template>
-  <section class="dashboard-grid">
-    <section class="panel overview-chart-panel">
-      <div class="section-heading">
-        <div>
-          <p class="section-label">이번 달 차트</p>
-          <h2>수입 / 지출 원형 그래프</h2>
+  <section class="overview-shell">
+    <div class="overview-main">
+      <section class="panel summary-panel-card">
+        <div class="section-heading compact">
+          <div>
+            <h2>총 자산 요약</h2>
+          </div>
         </div>
-      </div>
-      <MonthlySummaryTable :month="currentMonth" :items="currentMonthChartData" />
-    </section>
+        <SummaryCards :summary="summary" />
+      </section>
 
-    <MainMenu class="panel menu-panel" />
-
-    <section class="panel wide-panel">
-      <div class="section-heading">
-        <div>
-          <p class="section-label">현재 현황</p>
-          <h2>조건별 합계</h2>
+      <section class="panel recent-panel-card">
+        <div class="section-heading compact">
+          <div>
+            <h2>최근 거래 내역</h2>
+          </div>
         </div>
-      </div>
-      <SummaryCards :summary="summary" />
-    </section>
 
-    <section class="panel wide-panel">
-      <div class="section-heading">
-        <div>
-          <p class="section-label">안내</p>
-          <h2>메뉴 버튼으로 기능 이동</h2>
+        <div class="recent-table">
+          <div class="recent-head">
+            <span>일시</span>
+            <span>상호명</span>
+            <span>금액</span>
+            <span>구분</span>
+          </div>
+          <div v-for="item in recentTransactions" :key="item.id" class="recent-row">
+            <span>{{ item.date }}</span>
+            <span>{{ item.memo || item.category }}</span>
+            <strong>{{ formatCurrency(item.amount) }}</strong>
+            <em :class="item.type === 'income' ? 'income-text' : 'expense-text'">
+              {{ item.category }}
+            </em>
+          </div>
         </div>
-      </div>
-      <p class="feedback hint">
-        거래 관리에서는 기록 등록과 조회를 처리하고, 소비 달력에서는 날짜별 수입과 지출 및 상세 내역을 확인할 수 있습니다.
-      </p>
-      <p v-if="financeStore.errorMessage" class="feedback error">{{ financeStore.errorMessage }}</p>
-    </section>
+      </section>
+    </div>
+
+    <aside class="overview-side">
+      <section class="panel money-panel">
+        <p class="section-label">현재 보유 금액</p>
+        <strong>{{ formatCurrency(authStore.currentUser?.money || 0) }}</strong>
+        <small>(이번 달 기준)</small>
+      </section>
+
+      <section class="panel side-menu-panel">
+        <MainMenu />
+      </section>
+    </aside>
   </section>
 </template>

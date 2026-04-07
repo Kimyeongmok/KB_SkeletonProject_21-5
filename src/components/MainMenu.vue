@@ -5,10 +5,10 @@ const route = useRoute()
 const router = useRouter()
 
 const menuItems = [
-  { label: '개요', description: '차트와 전체 흐름 보기', routeName: 'dashboard' },
-  { label: '거래 관리', description: '기록 입력과 조회', routeName: 'transactions' },
-  { label: '소비 달력', description: '날짜별 수입/지출 확인', routeName: 'calendar' },
-  { label: '예산 관리', description: '월간 한도와 지출 점검', routeName: 'budget' },
+  { label: '홈', routeName: 'dashboard' },
+  { label: '거래관리', routeName: 'transactions' },
+  { label: '소비달력', routeName: 'calendar' },
+  { label: '예산관리', routeName: 'budget' },
 ]
 
 function moveTo(routeName) {
@@ -18,24 +18,24 @@ function moveTo(routeName) {
 
 <template>
   <section>
-    <div class="section-heading">
+    <div class="section-heading compact">
       <div>
-        <p class="section-label">주메뉴</p>
-        <h2>기능 바로가기</h2>
+        <p class="section-label">메뉴</p>
+        <h2>바로가기</h2>
       </div>
     </div>
 
-    <div class="menu-grid">
+    <div class="sidebar-menu">
       <button
         v-for="item in menuItems"
         :key="item.routeName"
-        class="menu-button"
+        class="sidebar-menu-item"
         :class="{ active: route.name === item.routeName }"
         type="button"
         @click="moveTo(item.routeName)"
       >
+        <span class="menu-bullet"></span>
         <strong>{{ item.label }}</strong>
-        <span>{{ item.description }}</span>
       </button>
     </div>
   </section>
