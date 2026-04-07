@@ -44,10 +44,10 @@ const {
 
     <section class="panel full-panel">
       <div class="section-heading">
-        <div>
+        <!-- <div>
           <p class="section-label">예산 참고 현황</p>
           <h2>지난 3달 소비 금액</h2>
-        </div>
+        </div> -->
       </div>
       <ThreeMonthExpenseChart
         :items="recentThreeMonthExpenses"
