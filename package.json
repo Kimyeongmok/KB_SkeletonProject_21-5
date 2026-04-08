@@ -19,6 +19,7 @@
     "@tailwindcss/vite": "^4.2.2",
     "@vitejs/plugin-vue": "^6.0.4",
     "autoprefixer": "^10.4.27",
+    "json-server": "^1.0.0-beta.3",
     "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
     "vite": "^7.3.1",
