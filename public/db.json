@@ -1,0 +1,155 @@
+{
+  "users": [
+    {
+      "id": "user-001",
+      "name": "김가계",
+      "userId": "kbstudent",
+      "pw": "kb1234",
+      "balance": 2840000
+    }
+  ],
+  "finances": [
+    {
+      "id": "fin-001",
+      "userId": "user-001",
+      "type": "expense",
+      "amount": 100000,
+      "category": "쇼핑",
+      "date": "2026-04-01",
+      "time": "11:27",
+      "memo": "봄 옷 구매"
+    },
+    {
+      "id": "fin-002",
+      "userId": "user-001",
+      "type": "income",
+      "amount": 3200000,
+      "category": "급여",
+      "date": "2026-04-01",
+      "time": "09:10",
+      "memo": "4월 급여"
+    },
+    {
+      "id": "fin-003",
+      "userId": "user-001",
+      "type": "expense",
+      "amount": 120000,
+      "category": "식비",
+      "date": "2026-04-02",
+      "time": "12:35",
+      "memo": "주말 식사"
+    },
+    {
+      "id": "fin-004",
+      "userId": "user-001",
+      "type": "expense",
+      "amount": 70000,
+      "category": "교통",
+      "date": "2026-04-03",
+      "time": "08:20",
+      "memo": "교통카드 충전"
+    },
+    {
+      "id": "fin-005",
+      "userId": "user-001",
+      "type": "expense",
+      "amount": 170000,
+      "category": "쇼핑",
+      "date": "2026-03-19",
+      "time": "19:40",
+      "memo": "생활용품 구매"
+    },
+    {
+      "id": "fin-006",
+      "userId": "user-001",
+      "type": "income",
+      "amount": 250000,
+      "category": "부수입",
+      "date": "2026-03-27",
+      "time": "21:15",
+      "memo": "프리랜서 작업"
+    },
+    {
+      "id": "fin-007",
+      "userId": "user-001",
+      "type": "expense",
+      "amount": 250000,
+      "category": "주거",
+      "date": "2026-02-10",
+      "time": "10:00",
+      "memo": "관리비"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "budget-001",
+      "userId": "user-001",
+      "month": "2026-04",
+      "limit": 1000000
+    },
+    {
+      "id": "budget-002",
+      "userId": "user-001",
+      "month": "2026-03",
+      "limit": 850000
+    }
+  ],
+  "category": [
+    {
+      "id": "cat-001",
+      "name": "월급"
+    },
+    {
+      "id": "cat-002",
+      "name": "부수입"
+    },
+    {
+      "id": "cat-003",
+      "name": "용돈"
+    },
+    {
+      "id": "cat-004",
+      "name": "상여"
+    },
+    {
+      "id": "cat-005",
+      "name": "금융소득"
+    },
+    {
+      "id": "cat-006",
+      "name": "기타(수입)"
+    },
+    {
+      "id": "cat-007",
+      "name": "식비"
+    },
+    {
+      "id": "cat-008",
+      "name": "교툥/차량"
+    },
+    {
+      "id": "cat-009",
+      "name": "문화생활"
+    },
+    {
+      "id": "cat-010",
+      "name": "쇼핑"
+    },
+    {
+      "id": "cat-011",
+      "name": "주거/통신"
+    },
+    {
+      "id": "cat-012",
+      "name": "교육"
+    },
+    {
+      "id": "cat-013",
+      "name": "경조사/회비"
+    },
+    {
+      "id": "cat-014",
+      "name": "기타(소비)"
+    }
+  ]
+}
