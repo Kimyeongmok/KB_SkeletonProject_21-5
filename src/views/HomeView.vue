@@ -22,9 +22,11 @@
       <div
         class="col-span-2 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200"
       >
+      <!--
         <h2 class="mb-2 text-xs font-bold text-yellow-400 uppercase">
           Side Area (2 Columns)
         </h2>
+      -->
 
         <div class="bg-white rounded-lg shadow-sm"><UserBalance /></div>
         <div class="bg-white rounded-lg shadow-sm"><Menu /></div>

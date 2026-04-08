@@ -8,6 +8,7 @@
   font-weight: normal;
 }
 
+/*
 a,
 .green {
   text-decoration: none;
@@ -15,6 +16,7 @@ a,
   transition: 0.4s;
   padding: 3px;
 }
+*/
 
 @media (hover: hover) {
   a:hover {
