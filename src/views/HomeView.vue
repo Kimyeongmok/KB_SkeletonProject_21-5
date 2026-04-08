@@ -7,7 +7,7 @@
     </header>
     <button type="button" @click="handleLogout" class="border-1">로그아웃</button>
 
-    <main class="grid grid-cols-12 gap-8">
+    <main class="max-w-8xl mx-auto grid grid-cols-12 gap-8">
       <div
         class="col-start-3 col-span-6 space-y-8 p-4 bg-green-50 rounded-xl border border-green-200"
       >
