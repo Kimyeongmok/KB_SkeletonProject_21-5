@@ -34,7 +34,11 @@ const currentLabel = computed(() => {
     </div>
 
     <div class="budget-progress-banner-track">
-      <div class="budget-progress-banner-fill" :style="{ width: `${progressWidth}%` }"></div>
+      <div
+        class="budget-progress-banner-fill"
+        :class="{ 'is-over': progress > 100 }"
+        :style="{ width: `${progressWidth}%` }"
+      ></div>
       <span class="budget-progress-banner-value">{{ progress }}%</span>
     </div>
   </section>

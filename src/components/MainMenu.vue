@@ -5,11 +5,11 @@ const route = useRoute()
 const router = useRouter()
 
 const menuItems = [
-  { label: '메인메뉴', routeName: 'dashboard' },
-  { label: '거래관리', routeName: 'transaction-manage' },
-  { label: '거래내역', routeName: 'transactions' },
-  { label: '거래내역 달력', routeName: 'calendar' },
-  { label: '예산관리', routeName: 'budget' },
+  { label: '메인메뉴', routeName: 'dashboard', iconClass: 'fa-solid fa-house' },
+  { label: '거래관리', routeName: 'transaction-manage', iconClass: 'fa-solid fa-pen-to-square' },
+  { label: '거래내역', routeName: 'transactions', iconClass: 'fa-solid fa-wallet' },
+  { label: '거래내역 달력', routeName: 'calendar', iconClass: 'fa-solid fa-calendar-days' },
+  { label: '예산관리', routeName: 'budget', iconClass: 'fa-solid fa-chart-pie' },
 ]
 
 function moveTo(routeName) {
@@ -35,7 +35,7 @@ function moveTo(routeName) {
         type="button"
         @click="moveTo(item.routeName)"
       >
-        <span class="menu-bullet"></span>
+        <i class="menu-icon" :class="item.iconClass" aria-hidden="true"></i>
         <strong>{{ item.label }}</strong>
       </button>
     </div>

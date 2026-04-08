@@ -592,6 +592,10 @@ select:focus {
   background: linear-gradient(90deg, #68ff6b 0%, #24f12f 100%);
 }
 
+.budget-progress-banner-fill.is-over {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ef4444 100%);
+}
+
 .budget-progress-banner-value {
   position: absolute;
   inset: 0;
@@ -899,16 +903,17 @@ select:focus {
   color: var(--text-main);
 }
 
+.menu-icon {
+  width: 18px;
+  font-size: 1rem;
+  text-align: center;
+  color: var(--primary);
+  flex: 0 0 18px;
+}
+
 .sidebar-menu-item.active,
 .sidebar-menu-item:hover {
   background: var(--neutral-soft);
-}
-
-.menu-bullet {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--primary);
 }
 
 .recent-table {
@@ -1295,6 +1300,52 @@ select:focus {
     position: static;
   }
 
+  .dashboard-layout-content {
+    padding-bottom: 110px;
+  }
+
+  .side-menu-panel {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 30;
+    padding: 12px 14px;
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+    backdrop-filter: blur(18px);
+  }
+
+  .side-menu-panel .section-heading {
+    display: none;
+  }
+
+  .side-menu-panel .sidebar-menu {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .side-menu-panel .sidebar-menu-item {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 60px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  .side-menu-panel .sidebar-menu-item strong {
+    font-size: 0.78rem;
+    line-height: 1.2;
+    word-break: keep-all;
+  }
+
+  .side-menu-panel .menu-icon {
+    width: auto;
+    font-size: 1rem;
+    flex-basis: auto;
+  }
+
   .auth-card {
     display: block;
   }
@@ -1353,6 +1404,10 @@ select:focus {
     padding: 16px;
     border-radius: 0 0 18px 18px;
     display: grid;
+  }
+
+  .dashboard-layout-content {
+    padding-bottom: 118px;
   }
 
   .transaction-card,
