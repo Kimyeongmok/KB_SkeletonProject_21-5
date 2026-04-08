@@ -83,7 +83,7 @@ const expenseChart = computed(() => buildChartSegments(expenseItems.value))
     <article class="chart-card">
       <div class="chart-header">
         <div>
-          <p class="section-label">이번 달 지출</p>
+          <p class="section-label">이번 달 소비</p>
           <h3>{{ month }}</h3>
         </div>
         <strong>{{ formatCurrency(expenseChart.total) }}</strong>
@@ -92,7 +92,7 @@ const expenseChart = computed(() => buildChartSegments(expenseItems.value))
         <div class="donut-wrap">
           <div class="donut-chart" :style="{ background: expenseChart.gradient }">
             <div class="donut-hole">
-              <span>지출</span>
+              <span>소비</span>
               <strong>{{ formatCurrency(expenseChart.total) }}</strong>
             </div>
           </div>
@@ -107,7 +107,7 @@ const expenseChart = computed(() => buildChartSegments(expenseItems.value))
           </div>
         </div>
       </div>
-      <p v-else class="feedback hint">이번 달 지출 데이터가 없습니다.</p>
+      <p v-else class="feedback hint">이번 달 소비 데이터가 없습니다.</p>
     </article>
   </div>
 </template>

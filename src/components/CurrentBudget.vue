@@ -29,7 +29,7 @@ const currentLabel = computed(() => {
 <template>
   <section class="panel budget-progress-banner">
     <div class="budget-progress-banner-labels">
-      <strong>이번달 설정 금액</strong>
+      <strong>이번 달 설정 금액</strong>
       <span>{{ currentLabel }}</span>
     </div>
 

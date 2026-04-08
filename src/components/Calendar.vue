@@ -130,7 +130,7 @@ function selectDate(date) {
           <strong class="income-text">{{ formatCurrency(selectedDaySummary.income) }}</strong>
         </div>
         <div class="day-metric">
-          <span>지출</span>
+          <span>소비</span>
           <strong class="expense-text">{{ formatCurrency(selectedDaySummary.expense) }}</strong>
         </div>
       </div>

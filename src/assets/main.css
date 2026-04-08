@@ -1304,6 +1304,11 @@ select:focus {
     padding-bottom: 110px;
   }
 
+  .dashboard-layout-sidebar {
+    gap: 14px;
+    padding-bottom: 110px;
+  }
+
   .side-menu-panel {
     position: fixed;
     left: 12px;
@@ -1407,6 +1412,10 @@ select:focus {
   }
 
   .dashboard-layout-content {
+    padding-bottom: 118px;
+  }
+
+  .dashboard-layout-sidebar {
     padding-bottom: 118px;
   }
 

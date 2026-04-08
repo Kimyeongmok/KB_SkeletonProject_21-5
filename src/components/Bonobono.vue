@@ -25,14 +25,8 @@ const budgetProgress = computed(() => {
 const budgetProgressBarWidth = computed(() => Math.min(100, Math.max(0, budgetProgress.value)))
 
 const budgetImageUrl = computed(() => {
-  if (budgetProgress.value <= 30) {
-    return greatImageUrl
-  }
-
-  if (budgetProgress.value > 100) {
-    return overBudgetImageUrl
-  }
-
+  if (budgetProgress.value <= 30) return greatImageUrl
+  if (budgetProgress.value > 100) return overBudgetImageUrl
   return bonobonoImageUrl
 })
 
@@ -44,33 +38,15 @@ const budgetLabel = computed(() => {
   return `${budgetProgress.value}%`
 })
 
-const bonobonoStyle = computed(() => {
-  if (budgetProgress.value <= 30) {
-    return {
-      opacity: 1,
-      filter: 'grayscale(0) blur(0) saturate(1) contrast(1)',
-    }
-  }
-
-  if (budgetProgress.value > 100) {
-    return {
-      opacity: 1,
-      filter: 'grayscale(0) blur(0) saturate(1) contrast(1)',
-    }
-  }
-
-  return {
-    opacity: 1,
-    filter: 'grayscale(0) blur(0) saturate(1) contrast(1)',
-  }
-})
+const bonobonoStyle = computed(() => ({
+  opacity: 1,
+  filter: 'grayscale(0) blur(0) saturate(1) contrast(1)',
+}))
 
 const glowActive = computed(() => budgetProgress.value > 30 && budgetProgress.value <= 100)
 
 const glowStyle = computed(() => {
-  if (!glowActive.value) {
-    return {}
-  }
+  if (!glowActive.value) return {}
 
   const strength = (budgetProgress.value - 30) / 70
 
@@ -119,10 +95,7 @@ const donutGradient = computed(() => {
       <div class="bonobono-stage">
         <div class="bonobono-figure">
           <img class="bonobono-image" :src="budgetImageUrl" alt="보노보노" :style="bonobonoStyle" />
-          <div v-if="glowActive" class="bonobono-glow" :style="glowStyle">
-            <!-- <i class="left-eye"></i>
-            <i class="right-eye"></i> -->
-          </div>
+          <div v-if="glowActive" class="bonobono-glow" :style="glowStyle"></div>
         </div>
       </div>
 
@@ -131,11 +104,11 @@ const donutGradient = computed(() => {
       </div>
 
       <strong>{{ budgetLabel }}</strong>
-      <small>{{ budget ? `${formatCurrency(spent)} / ${formatCurrency(budget)}` : '예산을 먼저 저장하세요' }}</small>
+      <small>{{ budget ? `${formatCurrency(spent)} / ${formatCurrency(budget)}` : '예산을 먼저 설정해 주세요' }}</small>
     </article>
 
     <article class="metric-card donut-metric">
-      <span>이번 달 소비 비율</span>
+      <span>이번 달 소비 비중</span>
       <div class="mini-donut" :style="{ background: donutGradient }"></div>
       <strong>{{ formatCurrency(displayedExpenseAmount) }}</strong>
       <div v-if="topExpenseCategories.length" class="metric-top-list">
@@ -157,11 +130,11 @@ const donutGradient = computed(() => {
           </div>
         </div>
       </div>
-      <small v-else>해당 달 소비 카테고리 TOP3가 없습니다.</small>
+      <small v-else>이번 달 소비 카테고리 데이터가 없습니다.</small>
     </article>
 
     <article class="metric-card">
-      <span>저축 목표 달성</span>
+      <span>순이익</span>
       <div class="mini-bars">
         <i></i><i></i><i></i><i></i>
       </div>

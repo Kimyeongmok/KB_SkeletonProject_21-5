@@ -13,7 +13,7 @@ const emit = defineEmits(['delete-transaction'])
     <article v-for="item in items" :key="item.id" class="transaction-card">
       <div>
         <div class="transaction-head">
-          <span class="badge" :class="item.type">{{ item.type === 'income' ? '수입' : '지출' }}</span>
+          <span class="badge" :class="item.type">{{ item.type === 'income' ? '수입' : '소비' }}</span>
           <strong>{{ item.category }}</strong>
         </div>
         <p>{{ item.memo || '메모 없음' }}</p>

@@ -1,8 +1,8 @@
 <script setup>
 import AiFinanceInsight from '@/components/AiFinanceInsight.vue'
-import SummaryCards from '@/components/SummaryCards.vue'
-import TransactionFilters from '@/components/TransactionFilters.vue'
-import TransactionList from '@/components/TransactionList.vue'
+import Bonobono from '@/components/Bonobono.vue'
+import BalanceFilter from '@/components/BalanceFilter.vue'
+import BalanceList from '@/components/BalanceList.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
 import { useFinanceStore } from '@/stores/finance'
 
@@ -26,11 +26,11 @@ const {
       <div class="section-heading">
         <div>
           <p class="section-label">거래내역</p>
-          <h2>수입 / 지출 요약</h2>
+          <h2>수입 / 소비 요약</h2>
         </div>
       </div>
       <div class="transaction-summary-compact">
-        <SummaryCards
+        <Bonobono
           :summary="currentMonthSummary"
           :budget="currentBudget?.limit ?? 0"
           :spent="currentMonthSpent"
@@ -59,12 +59,12 @@ const {
       </div>
 
       <div class="transaction-history-filters">
-        <TransactionFilters v-model="filters" :categories="categoryOptions" />
+        <BalanceFilter v-model="filters" :categories="categoryOptions" />
       </div>
 
       <p v-if="financeStore.errorMessage" class="feedback error">{{ financeStore.errorMessage }}</p>
       <p v-else-if="financeStore.isLoading" class="feedback hint">데이터를 불러오는 중입니다.</p>
-      <TransactionList
+      <BalanceList
         v-else
         :items="filteredTransactions"
         @delete-transaction="handleTransactionDelete"

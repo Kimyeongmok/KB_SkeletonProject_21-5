@@ -3,9 +3,9 @@ import { useAuthStore } from '@/stores/auth'
 import DashboardLayout from '@/views/DashboardLayout.vue'
 import BudgetView from '@/views/BudgetView.vue'
 import CalendarView from '@/views/CalendarView.vue'
+import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
-import OverviewView from '@/views/OverviewView.vue'
-import TransactionManageView from '@/views/TransactionManageView.vue'
+import TransactionView from '@/views/TransactionView.vue'
 import TransactionsView from '@/views/TransactionsView.vue'
 
 const router = createRouter({
@@ -18,8 +18,8 @@ const router = createRouter({
       component: DashboardLayout,
       meta: { requiresAuth: true },
       children: [
-        { path: '', name: 'dashboard', component: OverviewView },
-        { path: 'transaction-manage', name: 'transaction-manage', component: TransactionManageView },
+        { path: '', name: 'dashboard', component: HomeView },
+        { path: 'transaction-manage', name: 'transaction-manage', component: TransactionView },
         { path: 'transactions', name: 'transactions', component: TransactionsView },
         { path: 'calendar', name: 'calendar', component: CalendarView },
         { path: 'budget', name: 'budget', component: BudgetView },

@@ -20,7 +20,7 @@ const periodOptions = [
       <select v-model="filters.type">
         <option value="all">전체</option>
         <option value="income">수입</option>
-        <option value="expense">지출</option>
+        <option value="expense">소비</option>
       </select>
     </label>
 

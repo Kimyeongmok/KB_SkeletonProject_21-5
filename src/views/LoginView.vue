@@ -28,7 +28,7 @@ async function handleLogin() {
         <p class="eyebrow">KB Skeleton Project 21-5</p>
         <h1>가계부 서비스 앱</h1>
         <p>
-          사용자 정보와 금융 데이터를 기반으로 수입, 지출, 예산, 월별 재정 흐름을 관리하는
+          사용자 정보와 금융 데이터를 기반으로 수입, 소비, 예산, 월별 재정 흐름을 관리하는
           Vue 3 프로젝트입니다.
         </p>
       </div>

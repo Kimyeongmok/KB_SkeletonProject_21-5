@@ -25,7 +25,7 @@ function getBarHeight(amount) {
     <div class="three-month-header">
       <div>
         <p class="section-label">지난 3달 소비 금액</p>
-        <h2>최근 3개월 지출 총액</h2>
+        <h2>최근 3개월 소비 총액</h2>
       </div>
       <strong>{{ formatCurrency(total) }}</strong>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import FinanceCalendar from '@/components/FinanceCalendar.vue'
+import Calendar from '@/components/Calendar.vue'
 </script>
 
 <template>
@@ -8,10 +8,10 @@ import FinanceCalendar from '@/components/FinanceCalendar.vue'
       <div class="section-heading">
         <div>
           <p class="section-label">캘린더</p>
-          <h2>날짜별 수입 / 지출 확인</h2>
+          <h2>날짜별 수입 / 소비 확인</h2>
         </div>
       </div>
-      <FinanceCalendar />
+      <Calendar />
     </section>
   </section>
 </template>

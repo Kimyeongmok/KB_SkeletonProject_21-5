@@ -4,8 +4,8 @@ import { computed, reactive } from 'vue'
 const emit = defineEmits(['submit-transaction'])
 
 const categoryMap = {
-  income: ['급여', '부수입', '용돈', '환급', '기타수입'],
-  expense: ['식비', '교통', '주거', '쇼핑', '문화', '의료', '기타지출'],
+  income: ['급여', '부수입', '용돈', '상금', '기타수입'],
+  expense: ['식비', '교통', '주거', '쇼핑', '문화', '의료', '기타소비'],
 }
 
 function padNumber(value) {
@@ -65,13 +65,13 @@ async function handleSubmit() {
     <div class="section-heading">
       <div>
         <p class="section-label">거래 입력</p>
-        <h2>수입 / 지출 기록</h2>
+        <h2>수입 / 소비 기록</h2>
       </div>
     </div>
 
     <div class="type-toggle">
       <button class="toggle-pill" :class="{ active: form.type === 'income' }" type="button" @click="switchType('income')">수입</button>
-      <button class="toggle-pill" :class="{ active: form.type === 'expense' }" type="button" @click="switchType('expense')">지출</button>
+      <button class="toggle-pill" :class="{ active: form.type === 'expense' }" type="button" @click="switchType('expense')">소비</button>
     </div>
 
     <form class="stack-form" @submit.prevent="handleSubmit">

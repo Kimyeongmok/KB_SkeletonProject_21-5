@@ -30,14 +30,14 @@ const budgetProgressBarWidth = computed(() => {
   <section class="monthly-progress">
     <div class="section-heading compact">
       <div>
-        <p class="section-label">이번달 진행 현황</p>
-        <h2>{{ month }} 재정 요약</h2>
+        <p class="section-label">이번 달 진행 현황</p>
+        <h2>{{ month }} 설정 요약</h2>
       </div>
     </div>
 
     <div class="monthly-progress-grid">
       <article class="progress-stat-card">
-        <span>이번달 설정 예산</span>
+        <span>이번 달 설정 예산</span>
         <strong>{{ budget ? formatCurrency(budget) : '미설정' }}</strong>
         <template v-if="budgetProgress !== null">
           <div class="metric-bar">
@@ -46,7 +46,7 @@ const budgetProgressBarWidth = computed(() => {
           <strong class="progress-rate">{{ budgetProgress }}%</strong>
           <small>{{ formatCurrency(spent) }} / {{ formatCurrency(budget) }}</small>
         </template>
-        <small v-else>예산관리에서 먼저 설정하세요.</small>
+        <small v-else>예산관리에서 먼저 설정해 주세요.</small>
       </article>
 
       <article class="progress-stat-card">
@@ -56,9 +56,9 @@ const budgetProgressBarWidth = computed(() => {
       </article>
 
       <article class="progress-stat-card">
-        <span>지출 금액</span>
+        <span>소비 금액</span>
         <strong class="expense-text">{{ formatCurrency(spent) }}</strong>
-        <small>이번 달에 기록된 전체 지출입니다.</small>
+        <small>이번 달에 기록된 전체 소비입니다.</small>
       </article>
     </div>
   </section>

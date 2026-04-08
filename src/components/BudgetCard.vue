@@ -31,7 +31,7 @@ function submitBudget() {
     <div class="section-heading">
       <div>
         <p class="section-label">예산 설정</p>
-        <h2>{{ month }} 지출 한도</h2>
+        <h2>{{ month }} 소비 한도</h2>
       </div>
     </div>
 
@@ -41,7 +41,7 @@ function submitBudget() {
         <strong>{{ formatCurrency(budget) }}</strong>
       </div>
       <div>
-        <span>현재 지출</span>
+        <span>현재 소비</span>
         <strong>{{ formatCurrency(spent) }}</strong>
       </div>
       <div>

@@ -1,9 +1,9 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { RouterView } from 'vue-router'
-import { useRouter } from 'vue-router'
-import AppHeader from '@/components/AppHeader.vue'
-import MainMenu from '@/components/MainMenu.vue'
+import { RouterView, useRouter } from 'vue-router'
+import Header from '@/components/Header.vue'
+import Menu from '@/components/Menu.vue'
+import UserBalance from '@/components/UserBalance.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useFinanceStore } from '@/stores/finance'
 import { formatCurrency } from '@/utils/format'
@@ -37,14 +37,8 @@ const moneyDeltaLabel = computed(() => {
 const moneyDeltaClass = computed(() => {
   const delta = Number(financeStore.currentMonthSummary?.balance || 0)
 
-  if (delta > 0) {
-    return 'income-text'
-  }
-
-  if (delta < 0) {
-    return 'expense-text'
-  }
-
+  if (delta > 0) return 'income-text'
+  if (delta < 0) return 'expense-text'
   return ''
 })
 
@@ -81,7 +75,7 @@ onMounted(async () => {
 
 <template>
   <main class="dashboard-page">
-    <AppHeader
+    <Header
       :user-name="authStore.currentUser?.name"
       :user-id="authStore.currentUser?.userId"
       :is-dark-mode="isDarkMode"
@@ -95,15 +89,15 @@ onMounted(async () => {
       </div>
 
       <aside class="dashboard-layout-sidebar">
-        <section class="panel money-panel">
-          <p class="section-label">현재 보유 금액</p>
-          <strong>{{ formatCurrency(currentMoney) }}</strong>
-          <small :class="moneyDeltaClass">{{ moneyDeltaLabel }}</small>
-          <small>지난달 추정 잔액 {{ formatCurrency(previousMonthMoney) }}</small>
-        </section>
+        <UserBalance
+          :current-money="currentMoney"
+          :previous-month-money="previousMonthMoney"
+          :money-delta-label="moneyDeltaLabel"
+          :money-delta-class="moneyDeltaClass"
+        />
 
         <section class="panel side-menu-panel">
-          <MainMenu />
+          <Menu />
         </section>
       </aside>
     </section>

@@ -1,7 +1,7 @@
 <script setup>
-import BudgetProgressBanner from '@/components/BudgetProgressBanner.vue'
-import MonthlyStatusCards from '@/components/MonthlyStatusCards.vue'
-import TransactionForm from '@/components/TransactionForm.vue'
+import CurrentBudget from '@/components/CurrentBudget.vue'
+import BalanceIO from '@/components/BalanceIO.vue'
+import Summary from '@/components/Summary.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
 
 const { currentBudget, currentMonthSummary, currentMonthSpent, handleTransactionSubmit } =
@@ -11,10 +11,7 @@ const { currentBudget, currentMonthSummary, currentMonthSpent, handleTransaction
 <template>
   <section class="dashboard-grid manage-page-grid">
     <section class="full-panel">
-      <BudgetProgressBanner
-        :budget="currentBudget?.limit ?? 0"
-        :spent="currentMonthSpent"
-      />
+      <CurrentBudget :budget="currentBudget?.limit ?? 0" :spent="currentMonthSpent" />
     </section>
 
     <section class="panel half-panel manage-form-panel">
@@ -24,11 +21,11 @@ const { currentBudget, currentMonthSummary, currentMonthSpent, handleTransaction
           <h2>거래내역 추가</h2>
         </div>
       </div>
-      <TransactionForm @submit-transaction="handleTransactionSubmit" />
+      <BalanceIO @submit-transaction="handleTransactionSubmit" />
     </section>
 
     <section class="half-panel">
-      <MonthlyStatusCards :summary="currentMonthSummary" />
+      <Summary :summary="currentMonthSummary" />
     </section>
   </section>
 </template>

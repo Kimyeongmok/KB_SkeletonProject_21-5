@@ -1,7 +1,7 @@
 <script setup>
+import Bonobono from '@/components/Bonobono.vue'
 import BudgetCard from '@/components/BudgetCard.vue'
-import SummaryCards from '@/components/SummaryCards.vue'
-import ThreeMonthExpenseChart from '@/components/ThreeMonthExpenseChart.vue'
+import RecentTransaction from '@/components/RecentTransaction.vue'
 import { useFinanceDashboard } from '@/composables/useFinanceDashboard'
 
 const {
@@ -33,7 +33,7 @@ const {
           <h2>이번 달 요약</h2>
         </div>
       </div>
-      <SummaryCards
+      <Bonobono
         :summary="currentMonthSummary"
         :budget="currentBudget?.limit ?? 0"
         :spent="currentMonthSpent"
@@ -43,16 +43,7 @@ const {
     </section>
 
     <section class="panel full-panel">
-      <div class="section-heading">
-        <!-- <div>
-          <p class="section-label">예산 참고 현황</p>
-          <h2>지난 3달 소비 금액</h2>
-        </div> -->
-      </div>
-      <ThreeMonthExpenseChart
-        :items="recentThreeMonthExpenses"
-        :total="recentThreeMonthExpenseTotal"
-      />
+      <RecentTransaction :items="recentThreeMonthExpenses" :total="recentThreeMonthExpenseTotal" />
     </section>
   </section>
 </template>
