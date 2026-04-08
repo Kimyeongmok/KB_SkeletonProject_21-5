@@ -4,10 +4,10 @@ import FinanceCalendar from '@/components/FinanceCalendar.vue'
 
 <template>
   <section class="dashboard-grid">
-    <section class="panel full-panel">
+    <section class="panel full-panel calendar-page-panel">
       <div class="section-heading">
         <div>
-          <p class="section-label">소비 달력</p>
+          <p class="section-label">캘린더</p>
           <h2>날짜별 수입 / 지출 확인</h2>
         </div>
       </div>

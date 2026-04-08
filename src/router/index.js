@@ -5,6 +5,7 @@ import BudgetView from '@/views/BudgetView.vue'
 import CalendarView from '@/views/CalendarView.vue'
 import LoginView from '@/views/LoginView.vue'
 import OverviewView from '@/views/OverviewView.vue'
+import TransactionManageView from '@/views/TransactionManageView.vue'
 import TransactionsView from '@/views/TransactionsView.vue'
 
 const router = createRouter({
@@ -18,6 +19,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         { path: '', name: 'dashboard', component: OverviewView },
+        { path: 'transaction-manage', name: 'transaction-manage', component: TransactionManageView },
         { path: 'transactions', name: 'transactions', component: TransactionsView },
         { path: 'calendar', name: 'calendar', component: CalendarView },
         { path: 'budget', name: 'budget', component: BudgetView },

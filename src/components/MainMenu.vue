@@ -5,9 +5,10 @@ const route = useRoute()
 const router = useRouter()
 
 const menuItems = [
-  { label: '홈', routeName: 'dashboard' },
-  { label: '거래관리', routeName: 'transactions' },
-  { label: '소비달력', routeName: 'calendar' },
+  { label: '메인메뉴', routeName: 'dashboard' },
+  { label: '거래관리', routeName: 'transaction-manage' },
+  { label: '거래내역', routeName: 'transactions' },
+  { label: '거래내역 달력', routeName: 'calendar' },
   { label: '예산관리', routeName: 'budget' },
 ]
 

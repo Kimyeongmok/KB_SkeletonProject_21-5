@@ -25,17 +25,19 @@ const {
     <section class="panel half-panel">
       <div class="section-heading">
         <div>
-          <p class="section-label">거래관리</p>
+          <p class="section-label">거래내역</p>
           <h2>수입 / 지출 요약</h2>
         </div>
       </div>
-      <SummaryCards
-        :summary="currentMonthSummary"
-        :budget="currentBudget?.limit ?? 0"
-        :spent="currentMonthSpent"
-        :expense-amount="currentMonthSpent"
-        :top-expense-categories="currentMonthTopExpenseCategories"
-      />
+      <div class="transaction-summary-compact">
+        <SummaryCards
+          :summary="currentMonthSummary"
+          :budget="currentBudget?.limit ?? 0"
+          :spent="currentMonthSpent"
+          :expense-amount="currentMonthSpent"
+          :top-expense-categories="currentMonthTopExpenseCategories"
+        />
+      </div>
     </section>
 
     <section class="panel half-panel">

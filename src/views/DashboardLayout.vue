@@ -1,16 +1,52 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
+import MainMenu from '@/components/MainMenu.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useFinanceStore } from '@/stores/finance'
+import { formatCurrency } from '@/utils/format'
 
 const THEME_KEY = 'kb-theme'
 const router = useRouter()
 const authStore = useAuthStore()
 const financeStore = useFinanceStore()
 const isDarkMode = ref(false)
+
+const currentMoney = computed(() => Number(authStore.currentUser?.money || 0))
+
+const previousMonthMoney = computed(
+  () => currentMoney.value - Number(financeStore.currentMonthSummary?.balance || 0),
+)
+
+const moneyDeltaLabel = computed(() => {
+  const delta = Number(financeStore.currentMonthSummary?.balance || 0)
+
+  if (delta > 0) {
+    return `지난달 대비 +${formatCurrency(delta)}`
+  }
+
+  if (delta < 0) {
+    return `지난달 대비 ${formatCurrency(delta)}`
+  }
+
+  return '지난달과 동일'
+})
+
+const moneyDeltaClass = computed(() => {
+  const delta = Number(financeStore.currentMonthSummary?.balance || 0)
+
+  if (delta > 0) {
+    return 'income-text'
+  }
+
+  if (delta < 0) {
+    return 'expense-text'
+  }
+
+  return ''
+})
 
 function applyTheme(mode) {
   document.documentElement.dataset.theme = mode
@@ -52,6 +88,24 @@ onMounted(async () => {
       @logout="handleLogout"
       @toggle-theme="toggleTheme"
     />
-    <RouterView />
+
+    <section class="dashboard-layout-shell">
+      <div class="dashboard-layout-content">
+        <RouterView />
+      </div>
+
+      <aside class="dashboard-layout-sidebar">
+        <section class="panel money-panel">
+          <p class="section-label">현재 보유 금액</p>
+          <strong>{{ formatCurrency(currentMoney) }}</strong>
+          <small :class="moneyDeltaClass">{{ moneyDeltaLabel }}</small>
+          <small>지난달 추정 잔액 {{ formatCurrency(previousMonthMoney) }}</small>
+        </section>
+
+        <section class="panel side-menu-panel">
+          <MainMenu />
+        </section>
+      </aside>
+    </section>
   </main>
 </template>

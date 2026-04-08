@@ -230,11 +230,29 @@ select:focus {
   gap: 18px;
 }
 
+.dashboard-layout-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: start;
+}
+
+.dashboard-layout-content,
+.dashboard-layout-sidebar,
 .overview-main,
 .overview-side,
 .dashboard-grid {
   display: grid;
   gap: 18px;
+}
+
+.dashboard-layout-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+.calendar-page-panel {
+  padding: 20px;
 }
 
 .dashboard-grid {
@@ -527,6 +545,143 @@ select:focus {
   margin-bottom: 18px;
 }
 
+.manage-page-grid {
+  align-items: start;
+}
+
+.manage-form-panel {
+  min-height: 100%;
+}
+
+.budget-progress-banner {
+  display: grid;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 20px;
+}
+
+.budget-progress-banner-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.budget-progress-banner-labels strong {
+  font-size: 1rem;
+}
+
+.budget-progress-banner-labels span {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.budget-progress-banner-track {
+  position: relative;
+  height: 24px;
+  border-radius: 999px;
+  background: #edf2f7;
+  border: 1px solid rgba(16, 35, 63, 0.08);
+  overflow: hidden;
+}
+
+.budget-progress-banner-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #68ff6b 0%, #24f12f 100%);
+}
+
+.budget-progress-banner-value {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #111111;
+  font-size: 0.9rem;
+}
+
+.monthly-status-panel {
+  display: grid;
+  gap: 16px;
+  height: 100%;
+  container-type: inline-size;
+}
+
+.monthly-status-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.monthly-status-card {
+  min-height: 120px;
+}
+
+.monthly-status-card span {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.monthly-status-card strong {
+  display: block;
+  margin-top: 0;
+  font-size: clamp(1.15rem, 2vw, 1.75rem);
+  line-height: 1.2;
+  word-break: keep-all;
+}
+
+@container (max-width: 560px) {
+  .monthly-status-card strong {
+    font-size: clamp(0.95rem, 4.2cqw, 1.2rem);
+  }
+}
+
+@container (max-width: 420px) {
+  .monthly-status-card strong {
+    font-size: clamp(0.85rem, 3.8cqw, 1rem);
+  }
+}
+
+.transaction-summary-compact .overview-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.transaction-summary-compact .metric-card:last-child {
+  grid-column: span 2;
+}
+
+.transaction-summary-compact .metric-card {
+  padding: 16px;
+}
+
+.transaction-summary-compact .bonobono-stage {
+  height: 124px;
+  margin-bottom: 10px;
+}
+
+.transaction-summary-compact .bonobono-figure {
+  width: min(100%, 170px);
+}
+
+.transaction-summary-compact .mini-donut {
+  width: 72px;
+}
+
+.transaction-summary-compact .metric-top-list {
+  gap: 6px;
+}
+
+.transaction-summary-compact .metric-card strong {
+  font-size: 1.08rem;
+}
+
+.transaction-summary-compact .metric-card small {
+  font-size: 0.8rem;
+}
+
 .three-month-expense {
   display: grid;
   gap: 22px;
@@ -614,7 +769,7 @@ select:focus {
   place-items: center;
   margin-bottom: 14px;
   border-radius: 18px;
-  background: var(--bonobono-stage-bg);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -625,17 +780,17 @@ select:focus {
   display: grid;
   place-items: center;
   margin: 0 auto;
-  background: var(--bonobono-stage-bg);
+  background: transparent;
 }
 
 .bonobono-image {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
+  object-fit: contain;
+  object-position: center center;
   mix-blend-mode: normal;
-  transform: translateY(4px);
+  transform: none;
   margin: 0 auto;
   transition:
     opacity 0.3s ease,
@@ -987,14 +1142,14 @@ select:focus {
 
 .calendar-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.8fr) 260px;
+  gap: 14px;
   align-items: start;
 }
 
 .calendar-board,
 .calendar-side {
-  padding: 18px;
+  padding: 16px;
   background: #ffffff;
   border: 1px solid #111111;
   box-shadow: none;
@@ -1018,7 +1173,7 @@ select:focus {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .calendar-weekdays {
@@ -1030,20 +1185,20 @@ select:focus {
 }
 
 .calendar-cell {
-  min-height: 108px;
+  min-height: 84px;
   border: 1px solid #111111;
-  border-radius: 18px;
-  padding: 10px;
+  border-radius: 16px;
+  padding: 8px;
   background: #ffffff;
   display: grid;
   align-content: start;
-  gap: 6px;
+  gap: 4px;
   text-align: left;
   color: #111111;
 }
 
 .calendar-cell strong {
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .calendar-cell.muted {
@@ -1059,8 +1214,9 @@ select:focus {
 }
 
 .calendar-cell span {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
 
 .calendar-cell .income-text {
@@ -1128,10 +1284,15 @@ select:focus {
 
 @media (max-width: 1080px) {
   .auth-card,
+  .dashboard-layout-shell,
   .overview-shell,
   .dashboard-grid,
   .calendar-layout {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-layout-sidebar {
+    position: static;
   }
 
   .auth-card {
@@ -1152,6 +1313,10 @@ select:focus {
 
   .filter-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .monthly-status-cards {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1205,6 +1370,10 @@ select:focus {
   }
 
   .calendar-cell {
-    min-height: 86px;
+    min-height: 72px;
+  }
+
+  .transaction-summary-compact .metric-card:last-child {
+    grid-column: span 1;
   }
 }
