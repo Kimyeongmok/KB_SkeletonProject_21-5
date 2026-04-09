@@ -1,37 +1,29 @@
 <template>
   <div class="min-h-screen bg-gray-50 p-6 md:p-10">
     <header
-      class="mb-8 p-4 bg-blue-100 rounded-lg border-2 border-blue-300 border-dashed text-center"
+      class="mb-10 p-4 bg-blue-100 rounded-lg border-2 border-blue-300 border-dashed text-center"
     >
       <Header />
     </header>
+    <div class="p-4"></div>
 
-    <main class="max-w-8xl mx-auto grid grid-cols-12 gap-8">
-      <div
-        class="col-span-8 space-y-8 p-4 bg-green-50 rounded-xl border border-green-200 lg:col-start-3 lg:col-span-6"
-      >
-        <h2 class="mb-2 text-xs font-bold text-green-400 uppercase">
-          Main Content Area (6 Columns)
-        </h2>
-
+    <main class="mx-auto grid max-w-8xl grid-cols-12 gap-8">
+      <div class="col-span-8 space-y-6 lg:col-start-3 lg:col-span-6">
         <div class="bg-white rounded-lg shadow-sm"><CurrentBudget /></div>
+        <div class="p-2"></div>
         <div class="bg-white rounded-lg shadow-sm"><Summary /></div>
+        <div class="p-2"></div>
         <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
       </div>
 
-      <div
-        class="col-span-4 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200 lg:col-span-2"
-      >
-        <!--
-        <h2 class="mb-2 text-xs font-bold text-yellow-400 uppercase">
-          Side Area (2 Columns)
-        </h2>
-      -->
-
+      <div class="col-span-4 space-y-6 lg:col-span-2">
         <div class="bg-white rounded-lg shadow-sm"><UserBalance /></div>
+        <div class="p-2"></div>
         <div class="bg-white rounded-lg shadow-sm"><Menu /></div>
       </div>
     </main>
+
+    <div class="p-4"></div>
 
     <footer
       class="mt-16 p-6 bg-pink-50 rounded-lg border border-pink-100 text-center text-sm text-gray-500 space-y-1"
