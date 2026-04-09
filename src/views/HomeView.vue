@@ -1,46 +1,18 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-6 md:p-10">
-    <header
-      class="mb-10 p-4 bg-blue-100 rounded-lg border-2 border-blue-300 border-dashed text-center"
-    >
-      <Header />
-    </header>
-    <div class="p-4"></div>
-
-    <main class="mx-auto grid max-w-8xl grid-cols-12 gap-8">
-      <div class="col-span-8 space-y-6 lg:col-start-3 lg:col-span-6">
-        <div class="bg-white rounded-lg shadow-sm"><CurrentBudget /></div>
-        <div class="p-2"></div>
-        <div class="bg-white rounded-lg shadow-sm"><Summary /></div>
-        <div class="p-2"></div>
-        <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
-      </div>
-
-      <div class="col-span-4 space-y-6 lg:col-span-2">
-        <div class="bg-white rounded-lg shadow-sm"><UserBalance /></div>
-        <div class="p-2"></div>
-        <div class="bg-white rounded-lg shadow-sm"><Menu /></div>
-      </div>
-    </main>
-
-    <div class="p-4"></div>
-
-    <footer
-      class="mt-16 p-6 bg-pink-50 rounded-lg border border-pink-100 text-center text-sm text-gray-500 space-y-1"
-    >
-      <p>
-        이벤트 진행 현황: 1. 예산 진행률(차오르는 bar) 2. 수입 지출 각자 합 3.
-      </p>
-      <p>진행현황 퍼센트별 색상 변경</p>
-    </footer>
+  <div class="space-y-6">
+    <div class="bg-white rounded-lg shadow-sm"><CurrentBudget /></div>
+    <div class="p-2"></div>
+    <div class="bg-white rounded-lg shadow-sm"><Summary /></div>
+    <div class="p-2"></div>
+    <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
+    <div class="p-2"></div>
+    <div class="bg-white rounded-lg shadow-sm"><UserBalance /></div>
   </div>
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
-import UserBalance from '@/components/UserBalance.vue';
-import Menu from '@/components/Menu.vue';
-import CurrentBudget from '@/components/CurrentBudget.vue';
-import Summary from '@/components/Summary.vue';
-import Graph from '@/components/Graph.vue';
+import CurrentBudget from "@/components/CurrentBudget.vue";
+import UserBalance from "@/components/UserBalance.vue";
+import Summary from "@/components/Summary.vue";
+import Graph from "@/components/Graph.vue";
 </script>
