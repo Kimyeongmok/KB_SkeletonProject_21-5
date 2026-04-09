@@ -5,8 +5,6 @@
     <div class="bg-white rounded-lg shadow-sm"><Summary /></div>
     <div class="p-2"></div>
     <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
-    <div class="p-2"></div>
-    <div class="bg-white rounded-lg shadow-sm"><UserBalance /></div>
   </div>
 </template>
 
