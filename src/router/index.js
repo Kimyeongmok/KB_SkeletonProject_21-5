@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import { useAuthStore } from "@/stores/auth";
+import BudgetView from "@/views/BudgetView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       name: "home",
       component: HomeView,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/budget",
+      name: "budget",
+      component: BudgetView,
     },
   ],
 });
