@@ -5,10 +5,10 @@ import RecentTransaction from '@/components/RecentTransaction.vue';
 
 <template>
     <div class ="w-full">
-        <div class ="p-5 w-full md:w-[60%]">
+        <div class ="p-5 w-full">
             <BudgetCard/>
         </div>
-        <div class ="p-5 w-full md:w-[60%]">
+        <div class ="p-5 w-full">
             <RecentTransaction/>
         </div>
     </div>
