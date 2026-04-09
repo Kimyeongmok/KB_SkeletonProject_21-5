@@ -57,10 +57,16 @@ async function loadTransactions() {
     const data = await response.json();
     transactions.value = Array.isArray(data) ? data : [];
     errorMessage.value = '';
-    selectedDate.value = getDefaultDateForMonth(
-      selectedMonth.value,
-      transactions.value,
-    );
+
+    const today = new Date();
+    if (isSameMonth(selectedMonth.value, today)) {
+      selectedDate.value = toDateString(today);
+    } else {
+      selectedDate.value = getDefaultDateForMonth(
+        selectedMonth.value,
+        transactions.value,
+      );
+    }
   } catch (error) {
     transactions.value = [];
     errorMessage.value = '거래 데이터를 불러오지 못했습니다.';
@@ -107,6 +113,13 @@ function toDateString(date) {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function isSameMonth(left, right) {
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth()
+  );
 }
 </script>
 

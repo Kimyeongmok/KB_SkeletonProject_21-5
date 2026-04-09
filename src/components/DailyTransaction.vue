@@ -53,7 +53,7 @@
         <section
           v-for="group in groupedTransactions"
           :key="group.date"
-          :ref="setDateSectionRef(group.date)"
+          :data-date="group.date"
           class="date-group"
           :class="{ selected: group.date === selectedDate }"
         >
@@ -114,8 +114,6 @@ const typeFilter = ref('all');
 const categoryFilter = ref('all');
 const searchQuery = ref('');
 const scrollContainer = ref(null);
-const dateSectionMap = ref({});
-const pendingScroll = ref(false);
 
 const typeOptions = [
   { value: 'all', label: '유형 전체' },
@@ -185,46 +183,34 @@ const groupedTransactions = computed(() => {
 });
 
 watch(
-  () => props.selectedDate,
+  [() => props.selectedDate, groupedTransactions],
   async () => {
-    pendingScroll.value = true;
+    typeFilter.value = 'all';
+    categoryFilter.value = 'all';
     await nextTick();
     scrollToSelectedDate();
   },
-  { immediate: true },
+  { immediate: true, flush: 'post' },
 );
-
-watch(groupedTransactions, async () => {
-  if (!pendingScroll.value) return;
-  await nextTick();
-  scrollToSelectedDate();
-});
-
-function setDateSectionRef(date) {
-  return (element) => {
-    if (element) {
-      dateSectionMap.value[date] = element;
-    } else {
-      delete dateSectionMap.value[date];
-    }
-  };
-}
 
 function scrollToSelectedDate() {
   const container = scrollContainer.value;
-  const section = dateSectionMap.value[props.selectedDate];
+  const section = container?.querySelector(
+    `[data-date="${props.selectedDate}"]`,
+  );
 
   if (!container || !section) {
-    pendingScroll.value = false;
     return;
   }
 
+  const containerRect = container.getBoundingClientRect();
+  const sectionRect = section.getBoundingClientRect();
+  const nextTop = sectionRect.top - containerRect.top + container.scrollTop;
+
   container.scrollTo({
-    top: Math.max(section.offsetTop - 10, 0),
+    top: Math.max(nextTop, 0),
     behavior: 'smooth',
   });
-
-  pendingScroll.value = false;
 }
 
 function toTimestamp(item) {
