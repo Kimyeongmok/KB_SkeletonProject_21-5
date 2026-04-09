@@ -1,8 +1,12 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+  <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
     <h2 class="text-2xl font-bold mb-4">사용자 정보</h2>
-    <div v-if="userInfo" class="flex flex-col items-center w-full max-w-sm">
-      <img src="https://placehold.co/500x500" alt="프로필" class="w-16 h-16 rounded-full mb-4" />
+    <div v-if="userInfo" class="flex flex-col w-full">
+      <img
+        src="https://placehold.co/500x500"
+        alt="프로필"
+        class="w-16 h-16 rounded-full mb-4 mx-auto"
+      />
 
       <form @submit.prevent="saveUserInfo" class="w-full">
         <div class="mb-4">
@@ -56,14 +60,25 @@
 
 <script setup>
 import { useAuthStore } from "@/stores/auth";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 
 const authStore = useAuthStore();
-const userInfo = authStore.currentUser;
+const userInfo = computed(() => authStore.currentUser);
 const editData = ref({
-  name: userInfo?.name || "",
-  userEmail: userInfo?.userEmail || "",
+  name: userInfo.value?.name || "",
+  userEmail: userInfo.value?.userEmail || "",
 });
+
+watch(
+  userInfo,
+  (value) => {
+    editData.value = {
+      name: value?.name || "",
+      userEmail: value?.userEmail || "",
+    };
+  },
+  { immediate: true },
+);
 
 const saveUserInfo = async () => {
   try {
@@ -78,8 +93,8 @@ const saveUserInfo = async () => {
 
 const resetForm = () => {
   editData.value = {
-    name: userInfo?.name || "",
-    userEmail: userInfo?.userEmail || "",
+    name: userInfo.value?.name || "",
+    userEmail: userInfo.value?.userEmail || "",
   };
 };
 
