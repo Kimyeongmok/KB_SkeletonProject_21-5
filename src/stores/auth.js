@@ -65,6 +65,29 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
+  async function updateUser(updatedData) {
+    try {
+      isLoading.value = true;
+      const updatedUser = { ...currentUser.value, ...updatedData };
+
+      // email 필드 제거 (userEmail만 사용)
+      const { email, ...userDataToSave } = updatedUser;
+
+      // API를 통해 사용자 정보 업데이트
+      await axios.put(`/api/users/${currentUser.value.id}`, userDataToSave);
+
+      persistSession(updatedUser);
+      return updatedUser;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "사용자 정보 수정 중 오류가 발생했습니다.";
+      errorMessage.value = message;
+      throw error;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   return {
     currentUser,
     isLoading,
@@ -73,5 +96,6 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     logout,
     initialize,
+    updateUser,
   };
 });
