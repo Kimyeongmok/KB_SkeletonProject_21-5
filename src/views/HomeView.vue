@@ -5,7 +5,6 @@
     >
       <Header />
     </header>
-    <button type="button" @click="handleLogout" class="border-1">로그아웃</button>
 
     <main class="max-w-8xl mx-auto grid grid-cols-12 gap-8">
       <div
@@ -20,10 +19,8 @@
         <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
       </div>
 
-      <div
-        class="col-span-2 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200"
-      >
-      <!--
+      <div class="col-span-2 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+        <!--
         <h2 class="mb-2 text-xs font-bold text-yellow-400 uppercase">
           Side Area (2 Columns)
         </h2>
@@ -44,20 +41,10 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
 import Header from "@/components/Header.vue";
 import UserBalance from "@/components/UserBalance.vue";
 import Menu from "@/components/Menu.vue";
 import CurrentBudget from "@/components/CurrentBudget.vue";
 import Summary from "@/components/Summary.vue";
 import Graph from "@/components/Graph.vue";
-
-const router = useRouter();
-const authStore = useAuthStore();
-
-function handleLogout() {
-  authStore.logout();
-  router.push("/login");
-}
 </script>
