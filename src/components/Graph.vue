@@ -79,9 +79,34 @@ function buildChartSegments(items) {
 }
 
 function getTopSegments(chart) {
-  return [...chart.segments]
-    .sort((a, b) => b.percent - a.percent || b.amount - a.amount)
-    .slice(0, 3);
+  const sortedSegments = [...chart.segments].sort(
+    (a, b) => b.percent - a.percent || b.amount - a.amount,
+  );
+  const topSegments = sortedSegments.slice(0, 3);
+  const remainingSegments = sortedSegments.slice(3);
+
+  if (!remainingSegments.length) {
+    return topSegments;
+  }
+
+  const otherAmount = remainingSegments.reduce(
+    (sum, segment) => sum + segment.amount,
+    0,
+  );
+  const otherPercent = remainingSegments.reduce(
+    (sum, segment) => sum + segment.percent,
+    0,
+  );
+
+  return [
+    ...topSegments,
+    {
+      category: '기타',
+      amount: otherAmount,
+      percent: otherPercent,
+      color: '#9ca3af',
+    },
+  ];
 }
 
 async function loadFinances() {
@@ -282,6 +307,7 @@ onMounted(() => {
   border-radius: 1rem;
   padding: 1.25rem;
   background: rgba(255, 255, 255, 0.7);
+  min-width: 0;
 }
 
 .chart-panel-header {
@@ -296,9 +322,9 @@ onMounted(() => {
 }
 
 .chart-body {
-  display: grid;
-  grid-template-columns: minmax(180px, 220px) 1fr;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   align-items: center;
 }
 
@@ -308,8 +334,8 @@ onMounted(() => {
 }
 
 .donut-chart {
-  width: 180px;
-  height: 180px;
+  width: clamp(148px, 18vw, 180px);
+  aspect-ratio: 1;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -317,8 +343,8 @@ onMounted(() => {
 }
 
 .donut-hole {
-  width: 108px;
-  height: 108px;
+  width: clamp(92px, 11vw, 108px);
+  aspect-ratio: 1;
   border-radius: 50%;
   background: #ffffff;
   display: flex;
@@ -335,19 +361,23 @@ onMounted(() => {
 }
 
 .donut-hole strong {
-  font-size: 0.95rem;
+  font-size: clamp(0.82rem, 1.5vw, 0.95rem);
   color: #111827;
+  word-break: keep-all;
 }
 
 .chart-legend {
   display: grid;
   gap: 0.75rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .legend-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .legend-dot {
@@ -361,17 +391,21 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
 }
 
 .legend-copy strong {
   font-size: 0.95rem;
   color: #111827;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .legend-copy span,
 .feedback {
   font-size: 0.9rem;
   color: #6b7280;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 1100px) {
@@ -383,11 +417,6 @@ onMounted(() => {
 @media (max-width: 768px) {
   .chart-panel {
     padding: 1rem;
-  }
-
-  .chart-grid,
-  .chart-body {
-    grid-template-columns: 1fr;
   }
 }
 </style>
