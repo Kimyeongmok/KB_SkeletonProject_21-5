@@ -1,12 +1,18 @@
 <script setup>
-import { RouterView } from "vue-router";
+import { computed } from "vue";
+import { RouterView, useRoute } from "vue-router";
 import Header from "@/components/Header.vue";
 import Menu from "@/components/Menu.vue";
 import UserBalance from "@/components/UserBalance.vue";
+
+const route = useRoute();
+const isAuthLayout = computed(() => route.meta.layout === "auth");
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-6 md:p-10">
+  <RouterView v-if="isAuthLayout" />
+
+  <div v-else class="min-h-screen bg-gray-50 p-6 md:p-10">
     <header
       class="mb-10 p-4 bg-blue-100 rounded-lg border-2 border-blue-300 border-dashed text-center"
     >
