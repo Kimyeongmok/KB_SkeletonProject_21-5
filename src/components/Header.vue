@@ -11,11 +11,13 @@
       <button
         type="button"
         @click="handleLogout"
-        class="text-sm text-cyan-500 px-3 py-1 rounded-full hover:shadow-sm hover:bg-blue-800"
+        class="text-sm text-cyan-500 px-3 py-1 rounded-full hover:shadow-sm hover:bg-blue-800 hover:cursor-pointer"
       >
         로그아웃
       </button>
-      <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl" />
+      <button @click="goSettings" class="hover:cursor-pointer">
+        <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl" />
+      </button>
     </div>
   </div>
 </template>
@@ -35,6 +37,7 @@ function handleLogout() {
   router.push("/login");
 }
 
+// 사용자 소비 제한 금액 불러오기 - 타이틀
 onMounted(async () => {
   try {
     const response = await fetch("/db.json");
@@ -67,4 +70,9 @@ const currentUserBudget = computed(() => {
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
+
+// 라우터 이동
+function goSettings() {
+  router.push("/settings");
+}
 </script>
