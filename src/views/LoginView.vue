@@ -1,10 +1,11 @@
 <template>
-  <section class="flex min-h-screen items-center justify-center px-4 py-10">
-    <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-      <h1 class="text-2xl font-bold text-slate-800">가계부 로그인</h1>
-      <p class="mt-2 text-sm text-slate-500">json-server 사용자 정보로 로그인하세요.</p>
-
-      <form class="mt-6 space-y-4" @submit.prevent="handleLogin">
+  <section class="flex min-h-screen items-center justify-center px-4 py-10 bg-gray-50">
+    <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg flex flex-col gap-8">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-800">가계부 로그인</h1>
+        <p class="mt-2 text-sm text-slate-500">json-server 사용자 정보로 로그인하세요.</p>
+      </div>
+      <form class="mt-6 space-y-4 flex flex-col gap-2" @submit.prevent="handleLogin">
         <div>
           <label class="mb-1 block text-sm font-medium text-slate-700" for="userId">아이디</label>
           <input
@@ -29,7 +30,7 @@
           />
         </div>
 
-        <p v-if="authStore.errorMessage" class="text-sm text-red-600">
+        <p class="min-h-[1.25rem] text-sm text-red-600">
           {{ authStore.errorMessage }}
         </p>
 
