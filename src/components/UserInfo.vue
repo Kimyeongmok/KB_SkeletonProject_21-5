@@ -48,8 +48,8 @@
         </div>
       </form>
 
-      <p v-if="errorMessage" class="mt-4 text-red-500 text-sm">
-        {{ errorMessage }}
+      <p v-if="localErrorMessage" class="mt-4 text-red-500 text-sm">
+        {{ localErrorMessage }}
       </p>
     </div>
     <div v-else class="text-center">
@@ -68,6 +68,7 @@ const editData = ref({
   name: userInfo.value?.name || "",
   userEmail: userInfo.value?.userEmail || "",
 });
+const localErrorMessage = ref("");
 
 watch(
   userInfo,
@@ -81,6 +82,8 @@ watch(
 );
 
 const saveUserInfo = async () => {
+  localErrorMessage.value = "";
+
   try {
     await authStore.updateUser({
       name: editData.value.name,
@@ -88,10 +91,12 @@ const saveUserInfo = async () => {
     });
   } catch (error) {
     console.error("사용자 정보 수정 실패:", error);
+    localErrorMessage.value = authStore.errorMessage || "사용자 정보 수정에 실패했습니다.";
   }
 };
 
 const resetForm = () => {
+  localErrorMessage.value = "";
   editData.value = {
     name: userInfo.value?.name || "",
     userEmail: userInfo.value?.userEmail || "",
@@ -99,5 +104,4 @@ const resetForm = () => {
 };
 
 const isLoading = computed(() => authStore.isLoading);
-const errorMessage = computed(() => authStore.errorMessage);
 </script>
