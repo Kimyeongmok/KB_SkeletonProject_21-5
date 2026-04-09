@@ -24,7 +24,7 @@
       "userId": "user-001",
       "type": "income",
       "amount": 3200000,
-      "category": "월급",
+      "category": "급여",
       "date": "2026-04-01",
       "time": "09:10",
       "memo": "4월 급여"
@@ -44,7 +44,7 @@
       "userId": "user-001",
       "type": "expense",
       "amount": 70000,
-      "category": "교통/차량",
+      "category": "교통",
       "date": "2026-04-03",
       "time": "08:20",
       "memo": "교통카드 충전"
@@ -63,9 +63,9 @@
       "id": "fin-006",
       "userId": "user-001",
       "type": "income",
-      "amount": 400000,
+      "amount": 250000,
       "category": "부수입",
-      "date": "2026-04-27",
+      "date": "2026-03-27",
       "time": "21:15",
       "memo": "프리랜서 작업"
     },
@@ -74,30 +74,10 @@
       "userId": "user-001",
       "type": "expense",
       "amount": 250000,
-      "category": "주거/통신",
+      "category": "주거",
       "date": "2026-02-10",
       "time": "10:00",
       "memo": "관리비"
-    },
-    {
-      "id": "fin-008",
-      "userId": "user-001",
-      "type": "income",
-      "amount": 50000,
-      "category": "용돈",
-      "date": "2026-04-14",
-      "time": "18:30",
-      "memo": "부모님께 받은 용돈"
-    },
-    {
-      "id": "fin-009",
-      "userId": "user-001",
-      "type": "expense",
-      "amount": 200000,
-      "category": "교육",
-      "date": "2026-04-20",
-      "time": "20:00",
-      "memo": "학원 등록"
     }
   ],
   "budgets": [
@@ -145,7 +125,7 @@
     },
     {
       "id": "cat-008",
-      "name": "교통/차량"
+      "name": "교툥/차량"
     },
     {
       "id": "cat-009",

@@ -36,3 +36,13 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### 서버에 올리기
+```sh
+git add .
+git commit -m "작업 내용 요약"
+git push origin 내-브랜치-이름
+```
+
+#### 1. 새 브랜치를 만들면서 동시에 이동 (이미 있는 브랜치라면 -b 대신 그냥 사용)
+git checkout -b 내-브랜치-이름
