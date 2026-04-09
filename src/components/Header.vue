@@ -2,21 +2,22 @@
 <template>
   <div class="flex items-center p-4 bg-blue-100">
     <div class="flex flex-1 space-x-4 items-end">
-      <div class="text-4xl font-bold">{{ currentUserBudget }}만 원으로 한달살기</div>
+      <div class="text-4xl font-bold">{{ currentUserBudget }} 원으로 한달살기</div>
     </div>
-    <div class="flex gap-5">
+    <div class="flex gap-5 items-center">
       <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
-        <span class="text-blue-700">{{ userName }}</span> 님
+        <span class="text-cyan-600">{{ userName }}</span> 님
       </div>
       <button
         type="button"
         @click="handleLogout"
-        class="text-sm text-blue-500 px-3 py-1 rounded-full hover:shadow-sm hover:bg-blue-800"
+        class="text-sm text-cyan-500 px-3 py-1 rounded-full hover:shadow-sm hover:bg-blue-800 hover:cursor-pointer"
       >
         로그아웃
       </button>
-      <font-awesome-icon :icon="faSun" class="text-black-400 text-3xl" />
-      <font-awesome-icon :icon="faMoon" class="text-black-400 text-3xl" />
+      <button @click="goSettings" class="hover:cursor-pointer">
+        <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl" />
+      </button>
     </div>
   </div>
 </template>
@@ -36,6 +37,7 @@ function handleLogout() {
   router.push("/login");
 }
 
+// 사용자 소비 제한 금액 불러오기 - 타이틀
 onMounted(async () => {
   try {
     const response = await fetch("/db.json");
@@ -67,5 +69,10 @@ const currentUserBudget = computed(() => {
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
+
+// 라우터 이동
+function goSettings() {
+  router.push("/settings");
+}
 </script>
