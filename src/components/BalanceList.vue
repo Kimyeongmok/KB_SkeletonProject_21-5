@@ -30,7 +30,7 @@
                 : 'transaction-badge--expense'
             "
           >
-            {{ transaction.type === 'income' ? '수입' : '지출' }}
+            {{ transaction.type === 'income' ? '수입' : '소비' }}
           </span>
 
           <div class="transaction-copy">

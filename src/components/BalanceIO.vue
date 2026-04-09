@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <section class="transaction-panel">
     <div class="section-head">
       <h1>거래 등록</h1>
-      <p>수입과 지출 내역을 입력합니다.</p>
+      <p>수입과 소비 내역을 입력합니다.</p>
     </div>
 
     <form class="transaction-form" @submit.prevent="submitTransaction">
@@ -10,7 +10,7 @@
         <label class="field-chip">
           <span>유형</span>
           <select v-model="form.type">
-            <option value="expense">지출</option>
+            <option value="expense">소비</option>
             <option value="income">수입</option>
           </select>
         </label>
@@ -39,7 +39,7 @@
             v-model.number="form.amount"
             type="number"
             min="0"
-            step="1000"
+            step="1"
             placeholder="금액 입력"
           />
         </label>
