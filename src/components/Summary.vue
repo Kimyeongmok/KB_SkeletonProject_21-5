@@ -30,13 +30,14 @@ import { ref, computed, onMounted } from 'vue';
 
 const dbData = ref(null);
 const isLoaded = ref(false);
+const apiBaseUrl = 'http://localhost:3000';
 const currentUserId = 'user-001';
 const currentMonth = new Date().toISOString().slice(0, 7);
 
 onMounted(async () => {
   try {
-    const response = await fetch('/db.json');
-    dbData.value = await response.json();
+    const response = await fetch(`${apiBaseUrl}/finances`);
+    dbData.value = { finances: await response.json() };
     isLoaded.value = true;
   } catch (error) {
     console.error('요약 데이터를 불러오지 못했습니다:', error);
@@ -134,7 +135,7 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 }
 
 .net-neutral {
-  color: #ffffff;
+  color: #000000;
 }
 
 .loading-state {
