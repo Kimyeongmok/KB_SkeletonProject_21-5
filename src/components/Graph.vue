@@ -23,7 +23,6 @@ function formatCurrency(value) {
   }).format(Number(value) || 0);
 }
 
-// 같은 카테고리 거래는 금액 합침
 function groupByCategory(items) {
   const grouped = items.reduce((acc, item) => {
     const category = item.category || '기타';
@@ -39,7 +38,6 @@ function groupByCategory(items) {
   }));
 }
 
-// 합계 대비 비율 계산해서 도넛 데이터 생성
 function buildChartSegments(items) {
   const total = items.reduce((sum, item) => sum + item.amount, 0);
 
@@ -80,6 +78,12 @@ function buildChartSegments(items) {
   };
 }
 
+function getTopSegments(chart) {
+  return [...chart.segments]
+    .sort((a, b) => b.percent - a.percent || b.amount - a.amount)
+    .slice(0, 3);
+}
+
 async function loadFinances() {
   try {
     const { data } = await axios.get('http://localhost:3000/finances');
@@ -103,7 +107,6 @@ const availableMonths = computed(() =>
 
 const currentMonth = new Date().toISOString().slice(0, 7);
 
-// 현재 월 데이터가 있으면 그 달을, 없으면 가장 최근 달을 default로.
 const selectedMonth = computed(() => {
   if (availableMonths.value.includes(currentMonth)) {
     return currentMonth;
@@ -112,12 +115,10 @@ const selectedMonth = computed(() => {
   return availableMonths.value.at(-1) || currentMonth;
 });
 
-// 선택된 월의 거래만 추려서 수입/소비 그래프 계산에 사용
 const monthlyItems = computed(() =>
   finances.value.filter((item) => item.date?.startsWith(selectedMonth.value)),
 );
 
-// 수입과 소비를 분리해서 각각 도넛 그래프 데이터 생성
 const incomeChart = computed(() =>
   buildChartSegments(
     groupByCategory(
@@ -134,6 +135,9 @@ const expenseChart = computed(() =>
   ),
 );
 
+const incomeTopSegments = computed(() => getTopSegments(incomeChart.value));
+const expenseTopSegments = computed(() => getTopSegments(expenseChart.value));
+
 onMounted(() => {
   loadFinances();
 });
@@ -144,99 +148,97 @@ onMounted(() => {
     <article class="chart-card">
       <div class="chart-header">
         <div>
-          <p class="section-label">이번 달 수입</p>
+          <p class="section-label">이번 달 수입 / 소비</p>
           <h3>{{ selectedMonth }}</h3>
         </div>
       </div>
 
-      <p v-if="isLoading" class="feedback">
-        그래프 데이터를 불러오는 중입니다.
-      </p>
+      <p v-if="isLoading" class="feedback">그래프 데이터를 불러오는 중입니다.</p>
       <p v-else-if="errorMessage" class="feedback">{{ errorMessage }}</p>
-      <div v-else-if="incomeChart.total" class="chart-body">
-        <div class="donut-wrap">
-          <div
-            class="donut-chart"
-            :style="{ background: incomeChart.gradient }"
-          >
-            <div class="donut-hole">
-              <span>수입</span>
-              <strong>{{ formatCurrency(incomeChart.total) }}</strong>
-            </div>
+      <div v-else-if="incomeChart.total || expenseChart.total" class="chart-grid">
+        <section class="chart-panel">
+          <div class="chart-panel-header">
+            <p class="panel-label">수입</p>
           </div>
-        </div>
 
-        <div class="chart-legend">
-          <div
-            v-for="segment in incomeChart.segments"
-            :key="segment.category"
-            class="legend-item"
-          >
-            <span
-              class="legend-dot"
-              :style="{ backgroundColor: segment.color }"
-            ></span>
-            <div class="legend-copy">
-              <strong>{{ segment.category }} {{ segment.percent }}%</strong>
-              <span>{{ formatCurrency(segment.amount) }}</span>
+          <div v-if="incomeChart.total" class="chart-body">
+            <div class="donut-wrap">
+              <div
+                class="donut-chart"
+                :style="{ background: incomeChart.gradient }"
+              >
+                <div class="donut-hole">
+                  <span>수입</span>
+                  <strong>{{ formatCurrency(incomeChart.total) }}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-legend">
+              <div
+                v-for="segment in incomeTopSegments"
+                :key="segment.category"
+                class="legend-item"
+              >
+                <span
+                  class="legend-dot"
+                  :style="{ backgroundColor: segment.color }"
+                ></span>
+                <div class="legend-copy">
+                  <strong>{{ segment.category }} {{ segment.percent }}%</strong>
+                  <span>{{ formatCurrency(segment.amount) }}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <p v-else class="feedback">해당 월의 수입 데이터가 없습니다.</p>
+        </section>
+
+        <section class="chart-panel">
+          <div class="chart-panel-header">
+            <p class="panel-label">소비</p>
+          </div>
+
+          <div v-if="expenseChart.total" class="chart-body">
+            <div class="donut-wrap">
+              <div
+                class="donut-chart"
+                :style="{ background: expenseChart.gradient }"
+              >
+                <div class="donut-hole">
+                  <span>소비</span>
+                  <strong>{{ formatCurrency(expenseChart.total) }}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-legend">
+              <div
+                v-for="segment in expenseTopSegments"
+                :key="segment.category"
+                class="legend-item"
+              >
+                <span
+                  class="legend-dot"
+                  :style="{ backgroundColor: segment.color }"
+                ></span>
+                <div class="legend-copy">
+                  <strong>{{ segment.category }} {{ segment.percent }}%</strong>
+                  <span>{{ formatCurrency(segment.amount) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p v-else class="feedback">해당 월의 소비 데이터가 없습니다.</p>
+        </section>
       </div>
-      <p v-else class="feedback">해당 월의 수입 데이터가 없습니다.</p>
-    </article>
-
-    <article class="chart-card">
-      <div class="chart-header">
-        <div>
-          <p class="section-label">이번 달 소비</p>
-          <h3>{{ selectedMonth }}</h3>
-        </div>
-      </div>
-
-      <p v-if="isLoading" class="feedback">
-        그래프 데이터를 불러오는 중입니다.
-      </p>
-      <p v-else-if="errorMessage" class="feedback">{{ errorMessage }}</p>
-      <div v-else-if="expenseChart.total" class="chart-body">
-        <div class="donut-wrap">
-          <div
-            class="donut-chart"
-            :style="{ background: expenseChart.gradient }"
-          >
-            <div class="donut-hole">
-              <span>소비</span>
-              <strong>{{ formatCurrency(expenseChart.total) }}</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="chart-legend">
-          <div
-            v-for="segment in expenseChart.segments"
-            :key="segment.category"
-            class="legend-item"
-          >
-            <span
-              class="legend-dot"
-              :style="{ backgroundColor: segment.color }"
-            ></span>
-            <div class="legend-copy">
-              <strong>{{ segment.category }} {{ segment.percent }}%</strong>
-              <span>{{ formatCurrency(segment.amount) }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p v-else class="feedback">해당 월의 소비 데이터가 없습니다.</p>
+      <p v-else class="feedback">해당 월에 수입과 소비 데이터가 없습니다.</p>
     </article>
   </div>
 </template>
 
 <style scoped>
 .chart-board {
-  display: grid;
-  gap: 1.5rem;
   padding: 1.5rem;
 }
 
@@ -267,6 +269,30 @@ onMounted(() => {
   font-size: 0.8rem;
   font-weight: 700;
   color: #6b7280;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.chart-panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.chart-panel-header {
+  margin-bottom: 1rem;
+}
+
+.panel-label {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #374151;
 }
 
 .chart-body {
@@ -348,7 +374,18 @@ onMounted(() => {
   color: #6b7280;
 }
 
+@media (max-width: 1100px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
+  .chart-panel {
+    padding: 1rem;
+  }
+
+  .chart-grid,
   .chart-body {
     grid-template-columns: 1fr;
   }
