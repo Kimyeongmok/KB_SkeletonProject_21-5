@@ -68,7 +68,7 @@
             class="transaction-item"
           >
             <span class="type-badge" :class="item.type">
-              {{ item.type === 'expense' ? '지출' : '수입' }}
+              {{ item.type === 'expense' ? '소비' : '수입' }}
             </span>
 
             <div class="copy-block">
@@ -114,11 +114,32 @@ const typeFilter = ref('all');
 const categoryFilter = ref('all');
 const searchQuery = ref('');
 const scrollContainer = ref(null);
+const pendingScroll = ref(false);
 
 const typeOptions = [
   { value: 'all', label: '유형 전체' },
-  { value: 'expense', label: '지출' },
+  { value: 'expense', label: '소비' },
   { value: 'income', label: '수입' },
+];
+
+const incomeCategories = [
+  '월급',
+  '부수입',
+  '용돈',
+  '상여',
+  '금융소득',
+  '기타(수입)',
+];
+
+const expenseCategories = [
+  '식비',
+  '교통/차량',
+  '문화생활',
+  '쇼핑',
+  '주거/통신',
+  '교육',
+  '경조사/회비',
+  '기타(소비)',
 ];
 
 const selectedMonthKey = computed(() => {
@@ -134,8 +155,11 @@ const monthTransactions = computed(() =>
 );
 
 const categories = computed(() => {
-  const unique = new Set(monthTransactions.value.map((item) => item.category));
-  return [...unique].filter(Boolean);
+  if (typeFilter.value === 'all') {
+    return [];
+  }
+
+  return typeFilter.value === 'income' ? incomeCategories : expenseCategories;
 });
 
 const filteredTransactions = computed(() => {
@@ -183,15 +207,27 @@ const groupedTransactions = computed(() => {
 });
 
 watch(
-  [() => props.selectedDate, groupedTransactions],
+  () => props.selectedDate,
   async () => {
     typeFilter.value = 'all';
     categoryFilter.value = 'all';
+    searchQuery.value = '';
+    pendingScroll.value = true;
     await nextTick();
     scrollToSelectedDate();
   },
   { immediate: true, flush: 'post' },
 );
+
+watch(typeFilter, () => {
+  categoryFilter.value = 'all';
+});
+
+watch(groupedTransactions, async () => {
+  if (!pendingScroll.value) return;
+  await nextTick();
+  scrollToSelectedDate();
+});
 
 function scrollToSelectedDate() {
   const container = scrollContainer.value;
@@ -200,6 +236,7 @@ function scrollToSelectedDate() {
   );
 
   if (!container || !section) {
+    pendingScroll.value = false;
     return;
   }
 
@@ -211,6 +248,8 @@ function scrollToSelectedDate() {
     top: Math.max(nextTop, 0),
     behavior: 'smooth',
   });
+
+  pendingScroll.value = false;
 }
 
 function toTimestamp(item) {
