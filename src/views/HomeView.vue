@@ -8,7 +8,7 @@
 
     <main class="max-w-8xl mx-auto grid grid-cols-12 gap-8">
       <div
-        class="col-start-3 col-span-6 space-y-8 p-4 bg-green-50 rounded-xl border border-green-200"
+        class="col-span-8 space-y-8 p-4 bg-green-50 rounded-xl border border-green-200 lg:col-start-3 lg:col-span-6"
       >
         <h2 class="mb-2 text-xs font-bold text-green-400 uppercase">
           Main Content Area (6 Columns)
@@ -19,7 +19,9 @@
         <div class="bg-white rounded-lg shadow-sm"><Graph /></div>
       </div>
 
-      <div class="col-span-2 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+      <div
+        class="col-span-4 space-y-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200 lg:col-span-2"
+      >
         <!--
         <h2 class="mb-2 text-xs font-bold text-yellow-400 uppercase">
           Side Area (2 Columns)
@@ -34,17 +36,19 @@
     <footer
       class="mt-16 p-6 bg-pink-50 rounded-lg border border-pink-100 text-center text-sm text-gray-500 space-y-1"
     >
-      <p>이벤트 진행 현황: 1. 예산 진행률(차오르는 bar) 2. 수입 지출 각자 합 3.</p>
+      <p>
+        이벤트 진행 현황: 1. 예산 진행률(차오르는 bar) 2. 수입 지출 각자 합 3.
+      </p>
       <p>진행현황 퍼센트별 색상 변경</p>
     </footer>
   </div>
 </template>
 
 <script setup>
-import Header from "@/components/Header.vue";
-import UserBalance from "@/components/UserBalance.vue";
-import Menu from "@/components/Menu.vue";
-import CurrentBudget from "@/components/CurrentBudget.vue";
-import Summary from "@/components/Summary.vue";
-import Graph from "@/components/Graph.vue";
+import Header from '@/components/Header.vue';
+import UserBalance from '@/components/UserBalance.vue';
+import Menu from '@/components/Menu.vue';
+import CurrentBudget from '@/components/CurrentBudget.vue';
+import Summary from '@/components/Summary.vue';
+import Graph from '@/components/Graph.vue';
 </script>
