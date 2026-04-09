@@ -1,6 +1,6 @@
 <template>
     <!--<div class ="totalBudget text-[20px] font-bold text-[#343434]">총 자산</div>-->
-    <div class ="totalBudget">총 자산</div>
+    <h3>총 자산</h3>
     <div class ="userTotalBudget">{{ balance.toLocaleString() }}원</div>
 </template>
 <script setup>

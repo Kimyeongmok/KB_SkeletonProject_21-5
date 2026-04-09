@@ -1,1 +1,104 @@
-<!-- 예산 설정 -->
+<template>
+  <div class="flex flex-col w-full bg-white p-6 gap-4 rounded-3xl border border-gray-100 shadow-md">
+    <h3 class="mb-2 text-xl text-[#343434]">목표 설정</h3>
+    
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+        <p class="text-xs text-gray-500 mb-1">지난 달 소비 예산</p>
+        <p class="font-bold text-gray-700">{{ lastMonthLimit.toLocaleString() }}원</p>
+      </div>
+      <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
+        <p class="text-xs text-blue-500 mb-1">이번 달 목표 예산</p>
+        <p class="font-bold text-blue-700">
+          {{ currentMonthLimit > 0 ? currentMonthLimit.toLocaleString() + '원' : '미설정' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <p class="text-sm font-medium text-gray-600 ml-1">이번 달 예산 설정</p>
+      <div class="flex gap-2">
+        <input
+          v-model.number="thisMonthLimit" 
+          type="number"
+          placeholder="금액 입력"
+          @keyup.enter="registerBudget"
+          class="flex-1 bg-gray-50 p-3 rounded-xl border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all text-gray-700"
+        />
+        <button 
+          @click="registerBudget"
+          class="px-5 py-3 bg-gray-400 text-white font-bold rounded-xl hover:bg-gray-500 active:scale-95 transition-all text-sm"
+        >
+          등록
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const lastMonthLimit = ref(0);
+const currentMonthLimit = ref(0);
+const thisMonthLimit = ref(null);
+
+const getMonthString = (offset = 0) => {
+  const now = new Date();
+  const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+};
+
+const fetchBudgets = async () => {
+  try {
+    const lastMonthStr = getMonthString(-1);
+    const thisMonthStr = getMonthString(0);
+
+    const response = await axios.get('http://localhost:3000/budgets');
+    
+    const lastData = response.data.find(item => item.month === lastMonthStr);
+    if (lastData) lastMonthLimit.value = lastData.limit;
+
+    const thisData = response.data.find(item => item.month === thisMonthStr);
+    if (thisData) currentMonthLimit.value = thisData.limit;
+  } catch (error) {
+    console.error('예산 로드 실패:', error);
+  }
+};
+
+const registerBudget = async () => {
+  if (!thisMonthLimit.value || thisMonthLimit.value <= 0) {
+    alert('올바른 금액을 입력해주세요.');
+    return;
+  }
+
+  try {
+    const thisMonthStr = getMonthString(0);
+    const checkResponse = await axios.get(`http://localhost:3000/budgets?month=${thisMonthStr}`);
+    const existingBudget = checkResponse.data[0];
+
+    if (existingBudget) {
+      await axios.patch(`http://localhost:3000/budgets/${existingBudget.id}`, {
+        limit: thisMonthLimit.value
+      });
+    } else {
+      await axios.post('http://localhost:3000/budgets', {
+        userId: "user-001",
+        month: thisMonthStr,
+        limit: thisMonthLimit.value
+      });
+    }
+
+    currentMonthLimit.value = thisMonthLimit.value;
+    thisMonthLimit.value = null; 
+  } catch (error) {
+    console.error('처리 실패:', error);
+    alert('오류가 발생했습니다.');
+  }
+};
+
+onMounted(() => {
+  fetchBudgets();
+});
+</script>
