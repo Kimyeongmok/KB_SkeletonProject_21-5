@@ -3,7 +3,7 @@
     {
       "id": "user-001",
       "name": "김가계",
-      "userId": "kbstudent",
+      "userEmail": "kbstudent",
       "pw": "kb1234",
       "balance": 2840000
     }
