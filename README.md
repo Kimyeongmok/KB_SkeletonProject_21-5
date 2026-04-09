@@ -37,7 +37,7 @@ npm run dev
 npm run build
 ```
 
-###서버에 올리기
+### 서버에 올리기
 ```sh
 git add .
 git commit -m "작업 내용 요약"
