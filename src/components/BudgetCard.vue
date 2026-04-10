@@ -15,19 +15,19 @@
       </div>
     </div>
 
-    <div class="space-y-3">
-      <p class="text-sm font-medium text-gray-600 ml-1">이번 달 예산 설정</p>
-      <div class="flex gap-2">
+    <div class="flex flex-col gap-1">
+      <p class="w-full text-sm font-medium text-gray-600">이번 달 예산 설정</p>
+      <div class="flex flex-col sm:flex-row gap-2">
         <input
           v-model.number="thisMonthLimit" 
           type="number"
           placeholder="금액 입력"
           @keyup.enter="registerBudget"
-          class="flex-1 bg-gray-50 p-3 rounded-xl border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all text-gray-700"
+          class="w-full sm:w-auto bg-gray-50 p-3 rounded-xl border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all text-gray-700"
         />
         <button 
           @click="registerBudget"
-          class="px-5 py-3 bg-gray-400 text-white font-bold rounded-xl hover:bg-gray-500 active:scale-95 transition-all text-sm"
+          class="w-full sm:w-auto px-5 py-3 bg-gray-400 text-white font-bold rounded-xl hover:bg-gray-500 active:scale-95 transition-all text-sm"
         >
           등록
         </button>
