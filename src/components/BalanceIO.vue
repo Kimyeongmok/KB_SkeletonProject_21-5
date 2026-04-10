@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="transaction-panel">
     <div class="section-head">
       <h1>거래 등록</h1>
@@ -245,7 +245,7 @@ async function submitTransaction() {
 }
 
 .field-chip--amount {
-  flex-basis: 200px;
+  flex: 1 0 100%;
 }
 
 .memo-field {
@@ -339,4 +339,3 @@ async function submitTransaction() {
   }
 }
 </style>
-
