@@ -8,44 +8,24 @@
     <div class="filter-toolbar">
       <div class="filter-row">
         <select v-model="typeFilter" class="filter-select">
-          <option
-            v-for="option in typeOptions"
-            :key="option.value"
-            :value="option.value"
-          >
+          <option v-for="option in typeOptions" :key="option.value" :value="option.value">
             {{ option.label }}
           </option>
         </select>
 
         <select v-model="categoryFilter" class="filter-select">
           <option value="all">전체 카테고리</option>
-          <option
-            v-for="category in categories"
-            :key="category"
-            :value="category"
-          >
+          <option v-for="category in categories" :key="category" :value="category">
             {{ category }}
           </option>
         </select>
 
         <div class="date-range-filter">
           <span class="date-range-filter__label">기간</span>
-          <input
-            v-model="startDateFilter"
-            type="date"
-            class="date-range-filter__input"
-          />
+          <input v-model="startDateFilter" type="date" class="date-range-filter__input" />
           <span class="date-range-filter__separator">~</span>
-          <input
-            v-model="endDateFilter"
-            type="date"
-            class="date-range-filter__input"
-          />
-          <button
-            type="button"
-            class="date-range-filter__reset"
-            @click="resetDateFilter"
-          >
+          <input v-model="endDateFilter" type="date" class="date-range-filter__input" />
+          <button type="button" class="date-range-filter__reset" @click="resetDateFilter">
             초기화
           </button>
         </div>
@@ -65,9 +45,7 @@
     <div v-if="errorMessage" class="status-message status-message--error">
       {{ errorMessage }}
     </div>
-    <div v-else-if="!isLoaded" class="status-message">
-      거래 내역을 불러오는 중입니다.
-    </div>
+    <div v-else-if="!isLoaded" class="status-message">거래 내역을 불러오는 중입니다.</div>
     <div v-else-if="filteredTransactions.length === 0" class="status-message">
       조건에 맞는 거래가 없습니다.
     </div>
@@ -92,12 +70,12 @@
                 : 'transaction-badge--expense'
             "
           >
-            {{ transaction.type === 'income' ? '수입' : '소비' }}
+            {{ transaction.type === "income" ? "수입" : "소비" }}
           </span>
 
           <div class="transaction-copy">
-            <strong>{{ transaction.category || '기타' }}</strong>
-            <p>{{ transaction.memo || '메모 없음' }}</p>
+            <strong>{{ transaction.category || "기타" }}</strong>
+            <p>{{ transaction.memo || "메모 없음" }}</p>
           </div>
         </div>
 
@@ -119,7 +97,7 @@
             :disabled="deletingIds.includes(transaction.id)"
             @click="deleteTransaction(transaction)"
           >
-            {{ deletingIds.includes(transaction.id) ? '삭제 중...' : '삭제' }}
+            {{ deletingIds.includes(transaction.id) ? "삭제 중..." : "삭제" }}
           </button>
         </div>
       </li>
@@ -128,10 +106,10 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { computed, onMounted, ref, watch } from 'vue';
+import axios from "axios";
+import { computed, onMounted, ref, watch } from "vue";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
 const props = defineProps({
   refreshKey: {
@@ -140,53 +118,41 @@ const props = defineProps({
   },
 });
 
-const apiBaseUrl = 'http://localhost:3000';
+const apiBaseUrl = "http://localhost:3000";
 const authStore = useAuthStore();
 
 const transactions = ref([]);
 const isLoaded = ref(false);
 const deletingIds = ref([]);
-const errorMessage = ref('');
+const errorMessage = ref("");
 const canPersist = ref(true);
-const typeFilter = ref('all');
-const categoryFilter = ref('all');
-const startDateFilter = ref('');
-const endDateFilter = ref('');
-const searchQuery = ref('');
+const typeFilter = ref("all");
+const categoryFilter = ref("all");
+const startDateFilter = ref("");
+const endDateFilter = ref("");
+const searchQuery = ref("");
 
 const typeOptions = [
-  { value: 'all', label: '전체 유형' },
-  { value: 'expense', label: '소비' },
-  { value: 'income', label: '수입' },
+  { value: "all", label: "전체 유형" },
+  { value: "expense", label: "소비" },
+  { value: "income", label: "수입" },
 ];
 
-const incomeCategories = [
-  '월급',
-  '부수입',
-  '용돈',
-  '상여',
-  '금융소득',
-  '기타(수입)',
-];
+const incomeCategories = ["월급", "부수입", "용돈", "상여", "금융소득", "기타(수입)"];
 
 const expenseCategories = [
-  '식비',
-  '교통/차량',
-  '문화생활',
-  '쇼핑',
-  '주거/통신',
-  '교육',
-  '경조사/회비',
-  '기타(지출)',
+  "식비",
+  "교통/차량",
+  "문화생활",
+  "쇼핑",
+  "주거/통신",
+  "교육",
+  "경조사/회비",
+  "기타(지출)",
 ];
 
 const currentUserId = computed(
-<<<<<<< HEAD
   () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
-=======
-  () =>
-    authStore.currentUser?.id ?? authStore.currentUser?.userId ?? 'user-001',
->>>>>>> fb643e5c6e9e354e1cebbfd5c6be5607c21f101e
 );
 
 const sortedTransactions = computed(() =>
@@ -194,11 +160,11 @@ const sortedTransactions = computed(() =>
 );
 
 const categories = computed(() => {
-  if (typeFilter.value === 'income') {
+  if (typeFilter.value === "income") {
     return incomeCategories;
   }
 
-  if (typeFilter.value === 'expense') {
+  if (typeFilter.value === "expense") {
     return expenseCategories;
   }
 
@@ -208,22 +174,19 @@ const categories = computed(() => {
 const filteredTransactions = computed(() => {
   const keyword = searchQuery.value.toLowerCase();
   const hasActiveFilter =
-    typeFilter.value !== 'all' ||
-    categoryFilter.value !== 'all' ||
+    typeFilter.value !== "all" ||
+    categoryFilter.value !== "all" ||
     Boolean(startDateFilter.value) ||
     Boolean(endDateFilter.value) ||
     Boolean(keyword);
 
   const matchedTransactions = sortedTransactions.value.filter((item) => {
-    const typeMatched =
-      typeFilter.value === 'all' || item.type === typeFilter.value;
+    const typeMatched = typeFilter.value === "all" || item.type === typeFilter.value;
     const categoryMatched =
-      categoryFilter.value === 'all' || item.category === categoryFilter.value;
+      categoryFilter.value === "all" || item.category === categoryFilter.value;
     const startMatched =
-      !startDateFilter.value ||
-      (item.date && item.date >= startDateFilter.value);
-    const endMatched =
-      !endDateFilter.value || (item.date && item.date <= endDateFilter.value);
+      !startDateFilter.value || (item.date && item.date >= startDateFilter.value);
+    const endMatched = !endDateFilter.value || (item.date && item.date <= endDateFilter.value);
 
     if (!typeMatched || !categoryMatched || !startMatched || !endMatched) {
       return false;
@@ -233,23 +196,14 @@ const filteredTransactions = computed(() => {
       return true;
     }
 
-    const target = [
-      item.memo,
-      item.category,
-      item.amount,
-      item.date,
-      item.time,
-      item.type,
-    ]
-      .join(' ')
+    const target = [item.memo, item.category, item.amount, item.date, item.time, item.type]
+      .join(" ")
       .toLowerCase();
 
     return target.includes(keyword);
   });
 
-  return hasActiveFilter
-    ? matchedTransactions
-    : matchedTransactions.slice(0, 5);
+  return hasActiveFilter ? matchedTransactions : matchedTransactions.slice(0, 5);
 });
 
 function formatCurrency(amount, type) {
@@ -258,29 +212,27 @@ function formatCurrency(amount, type) {
 }
 
 function formatDateTime(transaction) {
-  return `${transaction.date || '-'} ${transaction.time || '00:00'}`;
+  return `${transaction.date || "-"} ${transaction.time || "00:00"}`;
 }
 
 function resetDateFilter() {
-  startDateFilter.value = '';
-  endDateFilter.value = '';
+  startDateFilter.value = "";
+  endDateFilter.value = "";
 }
 
 function toTimestamp(item) {
-  const safeDate = item?.date || '1970-01-01';
-  const safeTime = item?.time || '00:00';
+  const safeDate = item?.date || "1970-01-01";
+  const safeTime = item?.time || "00:00";
   return new Date(`${safeDate}T${safeTime}:00`).getTime();
 }
 
 function getBalanceDelta(type, amount) {
   const numericAmount = Number(amount) || 0;
-  return type === 'income' ? numericAmount : -numericAmount;
+  return type === "income" ? numericAmount : -numericAmount;
 }
 
 async function fetchCurrentBalance() {
-  const { data } = await axios.get(
-    `${apiBaseUrl}/users/${currentUserId.value}`,
-  );
+  const { data } = await axios.get(`${apiBaseUrl}/users/${currentUserId.value}`);
   return Number(data?.balance) || 0;
 }
 
@@ -292,7 +244,7 @@ async function updateUserBalance(nextBalance) {
 
 async function fetchTransactions() {
   isLoaded.value = false;
-  errorMessage.value = '';
+  errorMessage.value = "";
 
   try {
     const { data } = await axios.get(`${apiBaseUrl}/finances`);
@@ -302,22 +254,15 @@ async function fetchTransactions() {
     canPersist.value = true;
   } catch (serverError) {
     try {
-      const { data } = await axios.get('/db.json');
+      const { data } = await axios.get("/db.json");
       const fallbackItems = Array.isArray(data?.finances) ? data.finances : [];
-      transactions.value = fallbackItems.filter(
-        (item) => item.userId === currentUserId.value,
-      );
+      transactions.value = fallbackItems.filter((item) => item.userId === currentUserId.value);
       canPersist.value = false;
-      errorMessage.value =
-        'json-server에 연결할 수 없어 로컬 데이터만 표시합니다.';
+      errorMessage.value = "json-server에 연결할 수 없어 로컬 데이터만 표시합니다.";
     } catch (fallbackError) {
-      console.error(
-        '거래 내역을 불러오지 못했습니다.',
-        serverError,
-        fallbackError,
-      );
+      console.error("거래 내역을 불러오지 못했습니다.", serverError, fallbackError);
       transactions.value = [];
-      errorMessage.value = '거래 내역을 불러오지 못했습니다.';
+      errorMessage.value = "거래 내역을 불러오지 못했습니다.";
     }
   } finally {
     isLoaded.value = true;
@@ -326,13 +271,12 @@ async function fetchTransactions() {
 
 async function deleteTransaction(transaction) {
   deletingIds.value = [...deletingIds.value, transaction.id];
-  errorMessage.value = '';
+  errorMessage.value = "";
 
   try {
     if (canPersist.value) {
       const currentBalance = await fetchCurrentBalance();
-      const nextBalance =
-        currentBalance - getBalanceDelta(transaction.type, transaction.amount);
+      const nextBalance = currentBalance - getBalanceDelta(transaction.type, transaction.amount);
 
       await axios.delete(`${apiBaseUrl}/finances/${transaction.id}`);
 
@@ -343,17 +287,14 @@ async function deleteTransaction(transaction) {
         throw balanceError;
       }
     }
-    transactions.value = transactions.value.filter(
-      (item) => item.id !== transaction.id,
-    );
+    transactions.value = transactions.value.filter((item) => item.id !== transaction.id);
 
     if (!canPersist.value) {
-      errorMessage.value =
-        'json-server 연결이 없어 현재 화면에서만 삭제했습니다.';
+      errorMessage.value = "json-server 연결이 없어 현재 화면에서만 삭제했습니다.";
     }
   } catch (error) {
-    console.error('거래 삭제에 실패했습니다.', error);
-    errorMessage.value = '거래 삭제에 실패했습니다.';
+    console.error("거래 삭제에 실패했습니다.", error);
+    errorMessage.value = "거래 삭제에 실패했습니다.";
   } finally {
     deletingIds.value = deletingIds.value.filter((id) => id !== transaction.id);
   }
@@ -371,7 +312,7 @@ watch(currentUserId, () => {
 });
 
 watch(typeFilter, () => {
-  categoryFilter.value = 'all';
+  categoryFilter.value = "all";
 });
 
 onMounted(() => {
