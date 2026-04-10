@@ -9,12 +9,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import Summary from '@/components/Summary.vue';
-import BalanceIO from '@/components/BalanceIO.vue';
-import BalanceList from '@/components/BalanceList.vue';
-import { useAuthStore } from '@/stores/auth';
+import Summary from "@/components/Summary.vue";
+import BalanceIO from "@/components/BalanceIO.vue";
+import BalanceList from "@/components/BalanceList.vue";
+import { useAuthStore } from "@/stores/auth";
 
 const refreshKey = ref(0);
 const authStore = useAuthStore();
@@ -25,7 +25,7 @@ async function handleCreated() {
   try {
     await authStore.refreshCurrentUser();
   } catch (error) {
-    console.error('사용자 정보 새로고침에 실패했습니다.', error);
+    console.error("사용자 정보 새로고침에 실패했습니다.", error);
   }
 }
 </script>
