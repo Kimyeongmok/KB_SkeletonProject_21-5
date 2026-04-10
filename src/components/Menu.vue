@@ -4,7 +4,11 @@
   <nav
     class="flex flex-col gap-3 p-6 bg-white rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)] w-full"
   >
-    <h2 class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2 small-title">메뉴</h2>
+    <h2
+      class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2 small-title"
+    >
+      메뉴
+    </h2>
 
     <router-link
       v-for="item in menuItems"
@@ -20,12 +24,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const menuItems = ref([
-  { icon: "🏠", label: "메인", to: "/home" },
-  { icon: "📅", label: "달력", to: "/calendar" },
-  { icon: "🤝", label: "관리", to: "/transactions" },
-  { icon: "💰", label: "목표", to: "/budget" },
+  { icon: '🏠', label: '메인', to: '/home' },
+  { icon: '📅', label: '달력', to: '/calendar' },
+  { icon: '🤝', label: '관리', to: '/transactions' },
+  { icon: '💰', label: '목표', to: '/budget' },
 ]);
 </script>

@@ -1,5 +1,9 @@
 <template>
   <section class="daily-card">
+    <div class="section-head section-head--list">
+      <h2>거래 내역</h2>
+    </div>
+
     <div class="toolbar">
       <div class="filter-row">
         <div class="type-filter">
@@ -296,6 +300,17 @@ function formatNumber(value) {
   background: #ffffff;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
+}
+
+.section-head {
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #121212;
 }
 
 .toolbar {
