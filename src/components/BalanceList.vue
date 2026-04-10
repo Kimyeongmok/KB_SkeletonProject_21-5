@@ -1,8 +1,58 @@
-<template>
+﻿<template>
   <section class="transaction-panel">
     <div class="section-head section-head--list">
-      <h2>최근 거래 내역</h2>
-      <p>{{ recentTransactions.length }}건</p>
+      <h2>거래 내역</h2>
+      <p>{{ filteredTransactions.length }}건</p>
+    </div>
+
+    <div class="filter-toolbar">
+      <div class="filter-row">
+        <select v-model="typeFilter" class="filter-select">
+          <option
+            v-for="option in typeOptions"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+
+        <select v-model="categoryFilter" class="filter-select">
+          <option value="all">전체 카테고리</option>
+          <option
+            v-for="category in categories"
+            :key="category"
+            :value="category"
+          >
+            {{ category }}
+          </option>
+        </select>
+
+        <div class="date-range-filter">
+          <span class="date-range-filter__label">기간</span>
+          <input
+            v-model="startDateFilter"
+            type="date"
+            class="date-range-filter__input"
+          />
+          <span class="date-range-filter__separator">~</span>
+          <input
+            v-model="endDateFilter"
+            type="date"
+            class="date-range-filter__input"
+          />
+        </div>
+      </div>
+
+      <label class="search-field">
+        <span class="search-field__label">검색</span>
+        <input
+          v-model.trim="searchQuery"
+          type="text"
+          class="search-field__input"
+          placeholder="메모, 카테고리, 금액으로 검색"
+        />
+      </label>
     </div>
 
     <div v-if="errorMessage" class="status-message status-message--error">
@@ -11,13 +61,13 @@
     <div v-else-if="!isLoaded" class="status-message">
       거래 내역을 불러오는 중입니다.
     </div>
-    <div v-else-if="recentTransactions.length === 0" class="status-message">
-      등록된 거래가 없습니다.
+    <div v-else-if="filteredTransactions.length === 0" class="status-message">
+      조건에 맞는 거래가 없습니다.
     </div>
 
     <ul v-else class="transaction-list">
       <li
-        v-for="transaction in recentTransactions"
+        v-for="transaction in filteredTransactions"
         :key="transaction.id"
         class="transaction-item"
       >
@@ -42,7 +92,7 @@
         <div class="transaction-item__right">
           <div class="transaction-meta">
             <strong>{{ formatCurrency(transaction.amount) }}</strong>
-            <span>{{ transaction.date }}</span>
+            <span>{{ formatDateTime(transaction) }}</span>
           </div>
 
           <button
@@ -80,24 +130,112 @@ const isLoaded = ref(false);
 const deletingIds = ref([]);
 const errorMessage = ref('');
 const canPersist = ref(true);
+const typeFilter = ref('all');
+const categoryFilter = ref('all');
+const startDateFilter = ref('');
+const endDateFilter = ref('');
+const searchQuery = ref('');
+
+const typeOptions = [
+  { value: 'all', label: '전체 유형' },
+  { value: 'expense', label: '소비' },
+  { value: 'income', label: '수입' },
+];
+
+const incomeCategories = [
+  '월급',
+  '부수입',
+  '용돈',
+  '상여',
+  '금융소득',
+  '기타(수입)',
+];
+
+const expenseCategories = [
+  '식비',
+  '교통/차량',
+  '문화생활',
+  '쇼핑',
+  '주거/통신',
+  '교육',
+  '경조사/회비',
+  '기타(지출)',
+];
 
 const currentUserId = computed(
   () =>
     authStore.currentUser?.id ?? authStore.currentUser?.userId ?? 'user-001',
 );
 
-const recentTransactions = computed(() =>
-  [...transactions.value]
-    .sort((a, b) => {
-      const left = `${b.date ?? ''} ${b.time ?? '00:00'}`;
-      const right = `${a.date ?? ''} ${a.time ?? '00:00'}`;
-      return left.localeCompare(right);
-    })
-    .slice(0, 5),
+const sortedTransactions = computed(() =>
+  [...transactions.value].sort((a, b) => toTimestamp(b) - toTimestamp(a)),
 );
+
+const categories = computed(() => {
+  if (typeFilter.value === 'income') {
+    return incomeCategories;
+  }
+
+  if (typeFilter.value === 'expense') {
+    return expenseCategories;
+  }
+
+  return [
+    ...new Set(
+      sortedTransactions.value.map((item) => item.category).filter(Boolean),
+    ),
+  ];
+});
+
+const filteredTransactions = computed(() => {
+  const keyword = searchQuery.value.toLowerCase();
+
+  return sortedTransactions.value.filter((item) => {
+    const typeMatched =
+      typeFilter.value === 'all' || item.type === typeFilter.value;
+    const categoryMatched =
+      categoryFilter.value === 'all' || item.category === categoryFilter.value;
+    const startMatched =
+      !startDateFilter.value ||
+      (item.date && item.date >= startDateFilter.value);
+    const endMatched =
+      !endDateFilter.value || (item.date && item.date <= endDateFilter.value);
+
+    if (!typeMatched || !categoryMatched || !startMatched || !endMatched) {
+      return false;
+    }
+
+    if (!keyword) {
+      return true;
+    }
+
+    const target = [
+      item.memo,
+      item.category,
+      item.amount,
+      item.date,
+      item.time,
+      item.type,
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    return target.includes(keyword);
+  });
+});
 
 function formatCurrency(amount) {
   return `${Number(amount || 0).toLocaleString('ko-KR')}원`;
+}
+
+function formatDateTime(transaction) {
+  return `${transaction.date || '-'} ${transaction.time || '00:00'}`;
+}
+
+function toTimestamp(item) {
+  const safeDate = item?.date || '1970-01-01';
+  const safeTime = item?.time || '00:00';
+  return new Date(`${safeDate}T${safeTime}:00`).getTime();
 }
 
 async function fetchTransactions() {
@@ -149,7 +287,7 @@ async function deleteTransaction(transaction) {
 
     if (!canPersist.value) {
       errorMessage.value =
-        'json-server 연결이 없어 현재 화면에서만 삭제되었습니다.';
+        'json-server 연결이 없어 현재 화면에서만 삭제했습니다.';
     }
   } catch (error) {
     console.error('거래 삭제에 실패했습니다.', error);
@@ -168,6 +306,10 @@ watch(
 
 watch(currentUserId, () => {
   fetchTransactions();
+});
+
+watch(typeFilter, () => {
+  categoryFilter.value = 'all';
 });
 
 onMounted(() => {
@@ -189,7 +331,7 @@ onMounted(() => {
 }
 
 .section-head h2 {
-  font-size: 1.75rem;
+  font-size: 20px;
   font-weight: 800;
   color: #121212;
 }
@@ -205,6 +347,77 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.filter-toolbar {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  min-width: 132px;
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.date-range-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.date-range-filter__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #364152;
+}
+
+.date-range-filter__input {
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.date-range-filter__separator {
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.search-field {
+  display: grid;
+  gap: 6px;
+}
+
+.search-field__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #161a22;
+}
+
+.search-field__input {
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  color: #161a22;
 }
 
 .status-message {
@@ -326,6 +539,15 @@ onMounted(() => {
     padding: 20px 16px;
   }
 
+  .filter-select,
+  .date-range-filter__input {
+    width: 100%;
+  }
+
+  .date-range-filter {
+    width: 100%;
+  }
+
   .transaction-item,
   .transaction-item__left,
   .transaction-item__right {
@@ -339,3 +561,4 @@ onMounted(() => {
   }
 }
 </style>
+

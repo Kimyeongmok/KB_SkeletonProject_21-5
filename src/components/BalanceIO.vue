@@ -187,7 +187,7 @@ async function submitTransaction() {
 }
 
 .section-head h1 {
-  font-size: 1.75rem;
+  font-size: 20px;
   font-weight: 800;
   color: #121212;
 }
@@ -339,3 +339,4 @@ async function submitTransaction() {
   }
 }
 </style>
+
