@@ -128,6 +128,21 @@ function resetForm() {
   form.memo = "";
 }
 
+function getBalanceDelta(type, amount) {
+  const numericAmount = Number(amount) || 0;
+  return type === "income" ? numericAmount : -numericAmount;
+}
+
+async function fetchCurrentBalance() {
+  const { data } = await axios.get(`${apiBaseUrl}/users/${currentUserId.value}`);
+  return Number(data?.balance) || 0;
+}
+
+async function updateUserBalance(nextBalance) {
+  await axios.patch(`${apiBaseUrl}/users/${currentUserId.value}`, {
+    balance: nextBalance,
+  });
+}
 async function submitTransaction() {
   if (!currentUserId.value) {
     errorMessage.value = "로그인 정보가 없습니다. 다시 로그인해 주세요.";
@@ -158,7 +173,18 @@ async function submitTransaction() {
   };
 
   try {
+    const currentBalance = await fetchCurrentBalance();
+    const nextBalance = currentBalance + getBalanceDelta(payload.type, payload.amount);
+
     await axios.post(`${apiBaseUrl}/finances`, payload);
+
+    try {
+      await updateUserBalance(nextBalance);
+    } catch (balanceError) {
+      await axios.delete(`${apiBaseUrl}/finances/${payload.id}`).catch(() => {});
+      throw balanceError;
+    }
+
     resetForm();
     emit("created");
   } catch (serverError) {
@@ -176,17 +202,23 @@ async function submitTransaction() {
   border: 1px solid #cfd7df;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
-  padding: 20px;
+  padding: 28px 20px;
 }
 
 .section-head {
   margin-bottom: 16px;
 }
 
+.section-head h1 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #121212;
+}
+
 .section-head p {
   margin-top: 4px;
   color: #6f7d89;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .transaction-form {
