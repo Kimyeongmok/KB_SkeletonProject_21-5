@@ -41,6 +41,13 @@
             type="date"
             class="date-range-filter__input"
           />
+          <button
+            type="button"
+            class="date-range-filter__reset"
+            @click="resetDateFilter"
+          >
+            초기화
+          </button>
         </div>
       </div>
 
@@ -180,17 +187,19 @@ const categories = computed(() => {
     return expenseCategories;
   }
 
-  return [
-    ...new Set(
-      sortedTransactions.value.map((item) => item.category).filter(Boolean),
-    ),
-  ];
+  return [];
 });
 
 const filteredTransactions = computed(() => {
   const keyword = searchQuery.value.toLowerCase();
+  const hasActiveFilter =
+    typeFilter.value !== 'all' ||
+    categoryFilter.value !== 'all' ||
+    Boolean(startDateFilter.value) ||
+    Boolean(endDateFilter.value) ||
+    Boolean(keyword);
 
-  return sortedTransactions.value.filter((item) => {
+  const matchedTransactions = sortedTransactions.value.filter((item) => {
     const typeMatched =
       typeFilter.value === 'all' || item.type === typeFilter.value;
     const categoryMatched =
@@ -222,6 +231,8 @@ const filteredTransactions = computed(() => {
 
     return target.includes(keyword);
   });
+
+  return hasActiveFilter ? matchedTransactions : matchedTransactions.slice(0, 5);
 });
 
 function formatCurrency(amount) {
@@ -230,6 +241,11 @@ function formatCurrency(amount) {
 
 function formatDateTime(transaction) {
   return `${transaction.date || '-'} ${transaction.time || '00:00'}`;
+}
+
+function resetDateFilter() {
+  startDateFilter.value = '';
+  endDateFilter.value = '';
 }
 
 function toTimestamp(item) {
@@ -401,6 +417,17 @@ onMounted(() => {
   font-weight: 700;
 }
 
+.date-range-filter__reset {
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .search-field {
   display: grid;
   gap: 6px;
@@ -438,8 +465,10 @@ onMounted(() => {
   flex-direction: column;
   gap: 12px;
   list-style: none;
-  padding: 0;
+  padding: 0 6px 0 0;
   margin: 0;
+  max-height: 480px;
+  overflow-y: auto;
 }
 
 .transaction-item {
@@ -540,7 +569,8 @@ onMounted(() => {
   }
 
   .filter-select,
-  .date-range-filter__input {
+  .date-range-filter__input,
+  .date-range-filter__reset {
     width: 100%;
   }
 

@@ -7,12 +7,14 @@
       </div>
       <form class="mt-6 space-y-4 flex flex-col gap-2" @submit.prevent="handleLogin">
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="userId">아이디</label>
+          <label class="mb-1 block text-sm font-medium text-slate-700" for="userEmail"
+            >이메일</label
+          >
           <input
-            id="userId"
-            v-model.trim="form.userId"
+            id="userEmail"
+            v-model.trim="form.userEmail"
             class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
-            type="text"
+            type="email"
             autocomplete="username"
             required
           />
@@ -55,7 +57,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const form = reactive({
-  userId: "kbstudent",
+  userEmail: "kbstudent@abc.com",
   pw: "kb1234",
 });
 

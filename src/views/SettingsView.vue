@@ -3,9 +3,16 @@ import { ref } from "vue";
 import ChangePWModal from "@/components/ChangePWModal.vue";
 import UserInfo from "@/components/UserInfo.vue";
 import { useAuthStore } from "@/stores/auth";
+import { useThemeStore } from "@/stores/theme";
 
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const isChangePWModalOpen = ref(false);
+
+const handleThemeChange = (event: Event) => {
+  const selectedTheme = (event.target as HTMLSelectElement).value;
+  themeStore.changeTheme(selectedTheme);
+};
 
 const clickPWhandler = () => {
   authStore.errorMessage = "";
@@ -44,11 +51,12 @@ const submitChangePassword = async (payload: {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container flex flex-col gap-4">
     <!-- 기본 정보 -->
     <UserInfo></UserInfo>
+
     <!-- 비밀번호 -->
-    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col mt-6">
+    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
       <h2>비밀번호 변경</h2>
       <button
         @click="clickPWhandler"
@@ -57,12 +65,25 @@ const submitChangePassword = async (payload: {
         비밀번호 변경
       </button>
     </div>
-
     <ChangePWModal
       v-if="isChangePWModalOpen"
       :is-loading="authStore.isLoading"
       @close="closeChangePWModal"
       @submit="submitChangePassword"
     />
+
+    <!-- 라이트/다크모드 -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2>테마 설정</h2>
+      <select
+        :value="themeStore.theme"
+        @change="handleThemeChange"
+        class="mt-4 w-50 rounded border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none"
+      >
+        <option value="system">시스템 설정 사용</option>
+        <option value="light">라이트 모드</option>
+        <option value="dark">다크 모드</option>
+      </select>
+    </div>
   </div>
 </template>

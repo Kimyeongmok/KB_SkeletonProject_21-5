@@ -16,9 +16,11 @@ export const useAuthStore = defineStore("auth", () => {
     errorMessage.value = "";
 
     try {
+      const userEmail = loginData.userEmail ?? loginData.userId;
+
       const { data } = await axios.get("/api/users", {
         params: {
-          userId: loginData.userId,
+          userEmail,
           pw: loginData.pw,
         },
       });
