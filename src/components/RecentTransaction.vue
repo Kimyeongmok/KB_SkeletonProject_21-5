@@ -10,11 +10,7 @@
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-<<<<<<< HEAD
     <h3 class="title">소비 금액</h3>
-=======
-    <h3 class="font-bold mb-4 text-xl text-[#343434] small-title">소비 금액</h3>
->>>>>>> a39a3eb3f9ad600f424261f87ed690228d58adcd
 
     <div class="text-sm text-gray-700 mb-6">
       <p>1년 평균 소비 금액</p>
