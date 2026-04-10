@@ -6,12 +6,12 @@
     </div>
     <div class="flex gap-5 items-center">
       <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
-        <span class="text-blue-500">{{ userName }}</span> 님
+        <span class="text-blue-700">{{ userName }}</span> 님
       </div>
       <button
         type="button"
         @click="handleLogout"
-        class="inline-flex h-8 items-center justify-center rounded-full px-3 text-sm leading-none text-gray-400 hover:cursor-pointer hover:text-cyan-700"
+        class="inline-flex h-8 items-center justify-center rounded-full pl-3 text-xs leading-none text-gray-400 hover:cursor-pointer hover:text-blue-700"
       >
         로그아웃
       </button>
@@ -19,7 +19,7 @@
         @click="goSettings"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full leading-none hover:cursor-pointer"
       >
-        <font-awesome-icon :icon="faSliders" class="text-blue-300 text-xl hover:text-blue-700" />
+        <font-awesome-icon :icon="faSliders" class="text-gray-400 hover:text-blue-700" />
       </button>
     </div>
   </div>
