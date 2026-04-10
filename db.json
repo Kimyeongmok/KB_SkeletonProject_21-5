@@ -6,6 +6,13 @@
       "userEmail": "kbstudent@abc.com",
       "pw": "kb1234",
       "balance": 2840000
+    },
+    {
+      "id": "user-002",
+      "name": "이소비",
+      "userEmail": "kbstudent1@abc.com",
+      "pw": "kb1234",
+      "balance": 100
     }
   ],
   "finances": [

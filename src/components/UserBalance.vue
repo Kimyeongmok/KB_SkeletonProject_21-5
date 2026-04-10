@@ -7,25 +7,13 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
 import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const balance = ref(0);
 
-const fetchBalance = async () => {
-  try {
-    const url = "http://localhost:3000/users";
-    const response = await axios.get(url);
-
-    if (response.data && response.data.length > 0) {
-      balance.value = response.data[0].balance;
-    }
-  } catch (error) {
-    console.error("오류 발생", error);
-  }
-};
-
 onMounted(() => {
-  fetchBalance();
+  const currentUser = useAuthStore().currentUser;
+  balance.value = currentUser?.balance || 0;
 });
 </script>
