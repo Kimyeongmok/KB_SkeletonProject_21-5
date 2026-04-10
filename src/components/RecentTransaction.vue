@@ -12,9 +12,9 @@
       </div>
     </div>
 
-    <div class="text-sm text-gray-700 mb-6">
+    <div class="w-full text-sm text-gray-700 mb-6">
       <p>지난 3달 소비 금액</p>
-    <div class="flex justify-start w-full p-4 gap-4">
+    <div class="flex flex-wrap justify-start w-full p-4 gap-3">
         <div v-for="(amount, month) in lastThreeMonths" :key="month" 
              class="flex-1 min-w-[120px] p-6 rounded-3xl bg-white border border-blue-50 shadow-sm text-center">
           <p class="text-xs text-gray-400 mb-2">{{ month }}</p>
