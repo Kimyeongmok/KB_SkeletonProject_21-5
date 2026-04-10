@@ -89,6 +89,7 @@ const saveUserInfo = async () => {
       name: editData.value.name,
       userEmail: editData.value.userEmail,
     });
+    alert("사용자 정보가 성공적으로 업데이트되었습니다.");
   } catch (error) {
     console.error("사용자 정보 수정 실패:", error);
     localErrorMessage.value = authStore.errorMessage || "사용자 정보 수정에 실패했습니다.";

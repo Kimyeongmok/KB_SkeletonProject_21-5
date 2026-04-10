@@ -4,11 +4,11 @@ import RecentTransaction from '@/components/RecentTransaction.vue';
 </script>
 
 <template>
-    <div class ="w-full">
-        <div class ="p-5 w-full">
+    <div class ="flex flex-col w-full gap-4">
+        <div class ="w-full">
             <BudgetCard/>
         </div>
-        <div class ="p-5 w-full">
+        <div class ="w-full">
             <RecentTransaction/>
         </div>
     </div>
