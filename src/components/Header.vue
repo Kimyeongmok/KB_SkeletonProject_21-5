@@ -2,16 +2,16 @@
 <template>
   <div class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200">
     <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
-      <div class="text-3xl font-bold">{{ currentUserBudget }} 원으로 한달살기</div>
+      <div class="text-3xl font-bold title">{{ currentUserBudget }} 원으로 한 달 살기</div>
     </div>
     <div class="flex gap-5 items-center">
       <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
-        <span class="text-cyan-600">{{ userName }}</span> 님
+        <span class="text-blue-500">{{ userName }}</span> 님
       </div>
       <button
         type="button"
         @click="handleLogout"
-        class="inline-flex h-8 items-center justify-center rounded-full px-3 text-sm leading-none text-cyan-500 hover:cursor-pointer hover:text-cyan-700"
+        class="inline-flex h-8 items-center justify-center rounded-full px-3 text-sm leading-none text-gray-400 hover:cursor-pointer hover:text-cyan-700"
       >
         로그아웃
       </button>
@@ -19,7 +19,7 @@
         @click="goSettings"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full leading-none hover:cursor-pointer"
       >
-        <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl hover:text-cyan-700" />
+        <font-awesome-icon :icon="faSliders" class="text-blue-300 text-xl hover:text-blue-700" />
       </button>
     </div>
   </div>
@@ -79,3 +79,9 @@ function goSettings() {
   router.push("/settings");
 }
 </script>
+
+<style scoped>
+.title {
+  font-family: "Gulim", sans-serif;
+}
+</style>
