@@ -272,6 +272,7 @@ async function fetchTransactions() {
 async function deleteTransaction(transaction) {
   deletingIds.value = [...deletingIds.value, transaction.id];
   errorMessage.value = "";
+  let shouldRefreshCurrentUser = false;
 
   try {
     if (canPersist.value) {
@@ -282,12 +283,21 @@ async function deleteTransaction(transaction) {
 
       try {
         await updateUserBalance(nextBalance);
+        shouldRefreshCurrentUser = true;
       } catch (balanceError) {
         await axios.post(`${apiBaseUrl}/finances`, transaction).catch(() => {});
         throw balanceError;
       }
     }
     transactions.value = transactions.value.filter((item) => item.id !== transaction.id);
+
+    if (shouldRefreshCurrentUser) {
+      try {
+        await authStore.refreshCurrentUser();
+      } catch (refreshError) {
+        console.error("사용자 정보 새로고침에 실패했습니다.", refreshError);
+      }
+    }
 
     if (!canPersist.value) {
       errorMessage.value = "json-server 연결이 없어 현재 화면에서만 삭제했습니다.";
