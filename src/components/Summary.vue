@@ -3,17 +3,17 @@
     <h2 class="summary-title">이번 달 수입 / 소비</h2>
 
     <div class="summary-grid">
-      <article class="amount-item">
+      <article class="amount-item amount-item-income">
         <p class="amount-label">수입 금액</p>
         <p class="amount-value income">{{ formatCurrency(totalIncome) }}</p>
       </article>
 
-      <article class="amount-item">
+      <article class="amount-item amount-item-expense">
         <p class="amount-label">소비 금액</p>
         <p class="amount-value expense">{{ formatCurrency(totalExpense) }}</p>
       </article>
 
-      <article class="amount-item">
+      <article class="amount-item" :class="netAmountItemClass">
         <p class="amount-label">순 이익</p>
         <p class="amount-value" :class="netProfitClass">
           {{ formatCurrency(netProfit) }}
@@ -73,6 +73,12 @@ const netProfitClass = computed(() => {
   return 'net-neutral';
 });
 
+const netAmountItemClass = computed(() => {
+  if (netProfit.value > 0) return 'amount-item-net-positive';
+  if (netProfit.value < 0) return 'amount-item-net-negative';
+  return 'amount-item-net-neutral';
+});
+
 const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 </script>
 
@@ -85,7 +91,7 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 }
 
 .summary-title {
-  font-size: 1.9rem;
+  font-size: 20px;
   font-weight: 800;
   color: #121212;
   margin-bottom: 18px;
@@ -103,6 +109,31 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
   border-radius: 14px;
   padding: 10px 16px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.amount-item-income {
+  background: #ffe8e8;
+  border-color: #f1c8c8;
+}
+
+.amount-item-expense {
+  background: #e9f1ff;
+  border-color: #c9daf8;
+}
+
+.amount-item-net-positive {
+  background: #ffe8e8;
+  border-color: #f1c8c8;
+}
+
+.amount-item-net-negative {
+  background: #e9f1ff;
+  border-color: #c9daf8;
+}
+
+.amount-item-net-neutral {
+  background: #f3ebed;
+  border-color: #d8cfd3;
 }
 
 .amount-label {

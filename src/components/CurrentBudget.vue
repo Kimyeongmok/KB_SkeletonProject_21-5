@@ -72,8 +72,7 @@ const monthlyBudget = computed(() => {
 
 const progressPercentage = computed(() => {
   if (monthlyBudget.value === 0) return 0;
-  const percentage = (totalExpense.value / monthlyBudget.value) * 100;
-  return Math.min(percentage, 100);
+  return (totalExpense.value / monthlyBudget.value) * 100;
 });
 
 const progressPercentLabel = computed(
