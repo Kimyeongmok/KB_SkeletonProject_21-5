@@ -2,6 +2,7 @@
 import CurrentBudget from '@/components/CurrentBudget.vue';
 import BudgetCard from '@/components/BudgetCard.vue';
 import RecentTransaction from '@/components/RecentTransaction.vue';
+import CurrentBudget from '@/components/CurrentBudget.vue';
 </script>
 
 <template>

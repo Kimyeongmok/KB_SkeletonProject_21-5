@@ -1,9 +1,16 @@
 <!-- 1년 평균 소비 금액 & 지난 3개월 소비 금액 -->
+<style>
+.title {
+  font-size: 20px;
+  font-weight: 800;
+}
+</style>
+
 <template>
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-    <h3 class="font-bold mb-4 text-xl text-[#343434] small-title">소비 금액</h3>
+    <h3 class="title">소비 금액</h3>
 
     <div class="text-sm text-gray-700 mb-6">
       <p>1년 평균 소비 금액</p>
