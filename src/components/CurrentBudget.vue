@@ -95,13 +95,13 @@ const formatNumber = (num) => num.toLocaleString();
 /* 디자인은 이전과 동일 (이미지 스타일 재현) */
 .card {
   background-color: white;
-  border-radius: 25px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
   padding: 30px;
   width: 100%;
   max-width: none;
   margin: 0;
-  border: 1px solid #eee;
+  border: 1px solid #cfd7df;
 }
 .title {
   font-size: 20px;

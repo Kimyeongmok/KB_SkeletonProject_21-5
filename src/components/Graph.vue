@@ -178,9 +178,14 @@ onMounted(() => {
         </div>
       </div>
 
-      <p v-if="isLoading" class="feedback">그래프 데이터를 불러오는 중입니다.</p>
+      <p v-if="isLoading" class="feedback">
+        그래프 데이터를 불러오는 중입니다.
+      </p>
       <p v-else-if="errorMessage" class="feedback">{{ errorMessage }}</p>
-      <div v-else-if="incomeChart.total || expenseChart.total" class="chart-grid">
+      <div
+        v-else-if="incomeChart.total || expenseChart.total"
+        class="chart-grid"
+      >
         <section class="chart-panel">
           <div class="chart-panel-header">
             <p class="panel-label">수입</p>
@@ -269,7 +274,8 @@ onMounted(() => {
 
 .chart-card {
   border: 1px solid #cfd7df;
-  border-radius: 20px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
   padding: 18px 20px 22px;
   background: #ffffff;
 }

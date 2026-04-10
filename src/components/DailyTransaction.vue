@@ -271,11 +271,11 @@ function formatNumber(value) {
 
 <style scoped>
 .daily-card {
-  border: 1px solid #d2d8df;
-  border-radius: 20px;
+  border: 1px solid #cfd7df;
+  border-radius: 24px;
   background: #ffffff;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
 }
 
 .toolbar {

@@ -1,8 +1,12 @@
 <!-- 우측 사이드 메뉴 바 -->
 
 <template>
-  <nav class="flex flex-col gap-3 p-6 bg-white rounded-3xl border border-gray-100 shadow-sm w-full">
-    <h2 class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2">메뉴</h2>
+  <nav
+    class="flex flex-col gap-3 p-6 bg-white rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)] w-full"
+  >
+    <h2 class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2">
+      메뉴
+    </h2>
 
     <router-link
       v-for="item in menuItems"

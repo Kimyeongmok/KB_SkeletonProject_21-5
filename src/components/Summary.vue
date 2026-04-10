@@ -86,7 +86,8 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 .summary-card {
   background: #ffffff;
   border: 1px solid #cfd7df;
-  border-radius: 20px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
   padding: 18px 20px 22px;
 }
 
