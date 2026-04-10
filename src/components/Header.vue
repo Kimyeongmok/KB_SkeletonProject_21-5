@@ -11,12 +11,15 @@
       <button
         type="button"
         @click="handleLogout"
-        class="text-sm text-cyan-500 px-3 py-1 rounded-full hover:shadow-sm hover:bg-blue-800 hover:cursor-pointer"
+        class="inline-flex h-8 items-center justify-center rounded-full px-3 text-sm leading-none text-cyan-500 hover:cursor-pointer hover:text-cyan-700"
       >
         로그아웃
       </button>
-      <button @click="goSettings" class="hover:cursor-pointer">
-        <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl" />
+      <button
+        @click="goSettings"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full leading-none hover:cursor-pointer"
+      >
+        <font-awesome-icon :icon="faSliders" class="text-cyan-500 text-xl hover:text-cyan-700" />
       </button>
     </div>
   </div>
