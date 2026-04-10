@@ -20,9 +20,23 @@ const emit = defineEmits<{
 const currentPassword = ref("");
 const newPassword = ref("");
 const confirmPassword = ref("");
+const backdropPressStarted = ref(false);
 
 const closeModal = () => {
   emit("close");
+};
+
+const onPointerDown = (event: PointerEvent) => {
+  backdropPressStarted.value = event.target === event.currentTarget;
+};
+
+const onBackdropClick = () => {
+  if (!backdropPressStarted.value) {
+    return;
+  }
+
+  backdropPressStarted.value = false;
+  closeModal();
 };
 
 const onSubmit = () => {
@@ -37,7 +51,8 @@ const onSubmit = () => {
 <template>
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
-    @click.self="closeModal"
+    @pointerdown="onPointerDown"
+    @click.self="onBackdropClick"
   >
     <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
       <div class="mb-4 flex items-center justify-between">
