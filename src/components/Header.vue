@@ -2,7 +2,7 @@
 <template>
   <div class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200">
     <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
-      <div class="text-3xl font-bold title">{{ currentUserBudget }} 원으로 한 달 살기</div>
+      <div class="text-3xl title">{{ currentUserBudget }} 원으로 한 달 살기</div>
     </div>
     <div class="flex gap-5 items-center">
       <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
