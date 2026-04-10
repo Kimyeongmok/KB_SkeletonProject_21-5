@@ -25,8 +25,6 @@ function handleCreated() {
 <style scoped>
 .transaction-page {
   min-height: 100vh;
-  background: #ffffff;
-  padding: 32px 20px;
 }
 
 .transaction-layout {
