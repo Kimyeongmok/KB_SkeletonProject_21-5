@@ -107,9 +107,9 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 .amount-item {
   background: #f3ebed;
   border: 1px solid #d8cfd3;
-  border-radius: 14px;
-  padding: 10px 16px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .amount-item-income {
