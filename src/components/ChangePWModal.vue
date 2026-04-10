@@ -54,7 +54,7 @@ const onSubmit = () => {
     @pointerdown="onPointerDown"
     @click.self="onBackdropClick"
   >
-    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl flex flex-col gap-3">
       <div class="mb-4 flex items-center justify-between">
         <h2 class="text-lg font-semibold">비밀번호 변경</h2>
         <button
@@ -66,7 +66,7 @@ const onSubmit = () => {
         </button>
       </div>
 
-      <form class="space-y-4" @submit.prevent="onSubmit">
+      <form class="space-y-4 flex flex-col gap-3" @submit.prevent="onSubmit">
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-700">현재 비밀번호</label>
           <input
