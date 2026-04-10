@@ -36,18 +36,28 @@
   --section-gap: 160px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+html.dark {
+  --color-background: #0f172a;
+  --color-background-soft: #111827;
+  --color-background-mute: #1f2937;
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+  --color-border: rgba(148, 163, 184, 0.28);
+  --color-border-hover: rgba(148, 163, 184, 0.45);
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
+  --color-heading: #f8fafc;
+  --color-text: #cbd5e1;
+}
+
+html:not(.dark) {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
 }
 
 *,
@@ -82,4 +92,48 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dark .bg-white {
+  background-color: #111827 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #0b1220 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #1f2937 !important;
+}
+
+.dark .bg-blue-50,
+.dark .bg-blue-100,
+.dark .bg-mist-50 {
+  background-color: #172554 !important;
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark [class*="border-[#cfd7df]"],
+.dark [class*="border-[#cfd5de]"],
+.dark [class*="border-[#cad3db]"],
+.dark [class*="border-[#d5dce3]"],
+.dark [class*="border-[#d5dee6]"],
+.dark [class*="border-[#d8cfd3]"] {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+.dark [class*="text-[#343434]"],
+.dark [class*="text-[#121212]"],
+.dark [class*="text-[#111111]"],
+.dark [class*="text-[#1f2937]"],
+.dark [class*="text-gray-400"],
+.dark [class*="text-gray-500"],
+.dark [class*="text-gray-600"],
+.dark [class*="text-gray-700"] {
+  color: #e5e7eb !important;
+}
+
+.dark .small-title {
+  color: var(--color-heading);
 }
