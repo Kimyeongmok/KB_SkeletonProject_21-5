@@ -25,6 +25,7 @@ const isAuthLayout = computed(() => route.meta.layout === "auth");
 
       <div class="col-span-4 space-y-6 md:col-start-9 md:col-span-3 lg:col-span-2">
         <div><UserBalance /></div>
+        <div class="p-4"></div>
         <div><Menu /></div>
       </div>
     </main>
