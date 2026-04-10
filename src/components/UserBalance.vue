@@ -7,13 +7,9 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
 
-const balance = ref(0);
-
-onMounted(() => {
-  const currentUser = useAuthStore().currentUser;
-  balance.value = currentUser?.balance || 0;
-});
+const authStore = useAuthStore();
+const balance = computed(() => Number(authStore.currentUser?.balance) || 0);
 </script>
