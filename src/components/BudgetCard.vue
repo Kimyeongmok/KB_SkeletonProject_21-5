@@ -10,22 +10,14 @@
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-<<<<<<< HEAD
     <h3 class="title">목표 설정</h3>
-=======
-    <h3 class="mb-2 text-xl text-[#343434] small-title">목표 설정</h3>
->>>>>>> a39a3eb3f9ad600f424261f87ed690228d58adcd
 
     <div class="grid grid-cols-2 gap-4 mb-4">
       <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
         <p class="text-xs text-gray-500 mb-1">지난 달 소비 예산</p>
-<<<<<<< HEAD
         <p class="font-[700] text-gray-700">
           {{ lastMonthLimit.toLocaleString() }}원
         </p>
-=======
-        <p class="font-bold text-gray-700">{{ lastMonthLimit.toLocaleString() }}원</p>
->>>>>>> a39a3eb3f9ad600f424261f87ed690228d58adcd
       </div>
       <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
         <p class="text-xs text-blue-500 mb-1">이번 달 목표 예산</p>
