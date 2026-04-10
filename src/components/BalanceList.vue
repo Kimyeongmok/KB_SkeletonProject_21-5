@@ -59,6 +59,9 @@
         <div class="transaction-item__left">
           <span
             class="transaction-badge"
+            :style="transaction.type === 'income'
+              ? { background: '#fee2e2', color: '#dc2626' }
+              : { background: '#dbeafe', color: '#2563eb' }"
             :class="
               transaction.type === 'income'
                 ? 'transaction-badge--income'
@@ -76,7 +79,13 @@
 
         <div class="transaction-item__right">
           <div class="transaction-meta">
-            <strong>{{ formatCurrency(transaction.amount) }}</strong>
+            <strong
+              :style="{
+                color: transaction.type === 'income' ? '#dc2626' : '#2563eb',
+              }"
+            >
+              {{ formatCurrency(transaction.amount, transaction.type) }}
+            </strong>
             <span>{{ formatDateTime(transaction) }}</span>
           </div>
 
@@ -195,8 +204,9 @@ const filteredTransactions = computed(() => {
   return hasActiveFilter ? matchedTransactions : matchedTransactions.slice(0, 5);
 });
 
-function formatCurrency(amount) {
-  return `${Number(amount || 0).toLocaleString("ko-KR")}원`;
+function formatCurrency(amount, type) {
+  const prefix = type === 'income' ? '+' : '-';
+  return prefix + Number(amount || 0).toLocaleString('ko-KR') + '원';
 }
 
 function formatDateTime(transaction) {
