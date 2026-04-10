@@ -1,7 +1,7 @@
 <!-- 페이지 상단 헤더 -->
 <template>
   <div class="flex items-center lg:px-60 md:px-30 py-2 bg-white border border-gray-200">
-    <div class="flex flex-1 space-x-4 items-end">
+    <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
       <div class="text-3xl font-bold">{{ currentUserBudget }} 원으로 한달살기</div>
     </div>
     <div class="flex gap-5 items-center">
