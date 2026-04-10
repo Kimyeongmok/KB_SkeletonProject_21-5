@@ -5,7 +5,11 @@
         <div class="type-filter">
           <label class="sr-only" for="typeSelect">유형 선택</label>
           <select id="typeSelect" v-model="typeFilter" class="category-select">
-            <option v-for="item in typeOptions" :key="item.value" :value="item.value">
+            <option
+              v-for="item in typeOptions"
+              :key="item.value"
+              :value="item.value"
+            >
               {{ item.label }}
             </option>
           </select>
@@ -13,9 +17,17 @@
 
         <div class="category-filter">
           <label class="sr-only" for="categorySelect">카테고리 선택</label>
-          <select id="categorySelect" v-model="categoryFilter" class="category-select">
+          <select
+            id="categorySelect"
+            v-model="categoryFilter"
+            class="category-select"
+          >
             <option value="all">카테고리 전체</option>
-            <option v-for="category in categories" :key="category" :value="category">
+            <option
+              v-for="category in categories"
+              :key="category"
+              :value="category"
+            >
               {{ category }}
             </option>
           </select>
@@ -50,21 +62,46 @@
             <span>{{ group.items.length }}건</span>
           </header>
 
-          <article v-for="item in group.items" :key="item.id" class="transaction-item">
-            <span class="type-badge" :class="item.type">
-              {{ item.type === "expense" ? "소비" : "수입" }}
-            </span>
+          <article
+            v-for="item in group.items"
+            :key="item.id"
+            class="transaction-item"
+          >
+            <div class="transaction-item__left">
+              <span
+                class="transaction-badge"
+                :style="
+                  item.type === 'income'
+                    ? { background: '#fee2e2', color: '#dc2626' }
+                    : { background: '#dbeafe', color: '#2563eb' }
+                "
+                :class="
+                  item.type === 'income'
+                    ? 'transaction-badge--income'
+                    : 'transaction-badge--expense'
+                "
+              >
+                {{ item.type === 'income' ? '수입' : '소비' }}
+              </span>
 
-            <div class="copy-block">
-              <strong>{{ item.category }}</strong>
-              <p>{{ item.memo || "메모 없음" }}</p>
+              <div class="transaction-copy">
+                <strong>{{ item.category || '기타' }}</strong>
+                <p>{{ item.memo || '메모 없음' }}</p>
+              </div>
             </div>
 
-            <div class="meta-block">
-              <strong :class="item.type">
-                {{ item.type === "expense" ? "-" : "+" }}{{ formatNumber(item.amount) }}
-              </strong>
-              <span>{{ item.date }} {{ item.time || "00:00" }}</span>
+            <div class="transaction-item__right">
+              <div class="transaction-meta">
+                <strong
+                  :style="{
+                    color: item.type === 'income' ? '#dc2626' : '#2563eb',
+                  }"
+                >
+                  {{ item.type === 'expense' ? '-' : '+'
+                  }}{{ formatNumber(item.amount) }}원
+                </strong>
+                <span>{{ item.date }} {{ item.time || '00:00' }}</span>
+              </div>
             </div>
           </article>
         </section>
@@ -76,7 +113,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from 'vue';
 
 const props = defineProps({
   transactions: {
@@ -93,34 +130,41 @@ const props = defineProps({
   },
 });
 
-const typeFilter = ref("all");
-const categoryFilter = ref("all");
-const searchQuery = ref("");
+const typeFilter = ref('all');
+const categoryFilter = ref('all');
+const searchQuery = ref('');
 const scrollContainer = ref(null);
 const pendingScroll = ref(false);
 
 const typeOptions = [
-  { value: "all", label: "유형 전체" },
-  { value: "expense", label: "소비" },
-  { value: "income", label: "수입" },
+  { value: 'all', label: '유형 전체' },
+  { value: 'expense', label: '소비' },
+  { value: 'income', label: '수입' },
 ];
 
-const incomeCategories = ["월급", "부수입", "용돈", "상여", "금융소득", "기타(수입)"];
+const incomeCategories = [
+  '월급',
+  '부수입',
+  '용돈',
+  '상여',
+  '금융소득',
+  '기타(수입)',
+];
 
 const expenseCategories = [
-  "식비",
-  "교통/차량",
-  "문화생활",
-  "쇼핑",
-  "주거/통신",
-  "교육",
-  "경조사/회비",
-  "기타(소비)",
+  '식비',
+  '교통/차량',
+  '문화생활',
+  '쇼핑',
+  '주거/통신',
+  '교육',
+  '경조사/회비',
+  '기타(소비)',
 ];
 
 const selectedMonthKey = computed(() => {
   const year = props.selectedMonth.getFullYear();
-  const month = String(props.selectedMonth.getMonth() + 1).padStart(2, "0");
+  const month = String(props.selectedMonth.getMonth() + 1).padStart(2, '0');
   return `${year}-${month}`;
 });
 
@@ -131,26 +175,34 @@ const monthTransactions = computed(() =>
 );
 
 const categories = computed(() => {
-  if (typeFilter.value === "all") {
+  if (typeFilter.value === 'all') {
     return [];
   }
 
-  return typeFilter.value === "income" ? incomeCategories : expenseCategories;
+  return typeFilter.value === 'income' ? incomeCategories : expenseCategories;
 });
 
 const filteredTransactions = computed(() => {
   const keyword = searchQuery.value.toLowerCase();
 
   return monthTransactions.value.filter((item) => {
-    const typeMatched = typeFilter.value === "all" || item.type === typeFilter.value;
+    const typeMatched =
+      typeFilter.value === 'all' || item.type === typeFilter.value;
     const categoryMatched =
-      categoryFilter.value === "all" || item.category === categoryFilter.value;
+      categoryFilter.value === 'all' || item.category === categoryFilter.value;
 
     if (!typeMatched || !categoryMatched) return false;
     if (!keyword) return true;
 
-    const target = [item.memo, item.category, item.amount, item.date, item.time, item.type]
-      .join(" ")
+    const target = [
+      item.memo,
+      item.category,
+      item.amount,
+      item.date,
+      item.time,
+      item.type,
+    ]
+      .join(' ')
       .toLowerCase();
 
     return target.includes(keyword);
@@ -177,18 +229,18 @@ const groupedTransactions = computed(() => {
 watch(
   () => props.selectedDate,
   async () => {
-    typeFilter.value = "all";
-    categoryFilter.value = "all";
-    searchQuery.value = "";
+    typeFilter.value = 'all';
+    categoryFilter.value = 'all';
+    searchQuery.value = '';
     pendingScroll.value = true;
     await nextTick();
     scrollToSelectedDate();
   },
-  { immediate: true, flush: "post" },
+  { immediate: true, flush: 'post' },
 );
 
 watch(typeFilter, () => {
-  categoryFilter.value = "all";
+  categoryFilter.value = 'all';
 });
 
 watch(groupedTransactions, async () => {
@@ -199,7 +251,9 @@ watch(groupedTransactions, async () => {
 
 function scrollToSelectedDate() {
   const container = scrollContainer.value;
-  const section = container?.querySelector(`[data-date="${props.selectedDate}"]`);
+  const section = container?.querySelector(
+    `[data-date="${props.selectedDate}"]`,
+  );
 
   if (!container || !section) {
     pendingScroll.value = false;
@@ -212,26 +266,26 @@ function scrollToSelectedDate() {
 
   container.scrollTo({
     top: Math.max(nextTop, 0),
-    behavior: "smooth",
+    behavior: 'smooth',
   });
 
   pendingScroll.value = false;
 }
 
 function toTimestamp(item) {
-  const safeDate = item?.date || "1970-01-01";
-  const safeTime = item?.time || "00:00";
+  const safeDate = item?.date || '1970-01-01';
+  const safeTime = item?.time || '00:00';
   return new Date(`${safeDate}T${safeTime}:00`).getTime();
 }
 
 function formatDateLabel(dateString) {
   const date = new Date(`${dateString}T00:00:00`);
-  const weekday = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
+  const weekday = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()];
   return `${dateString} (${weekday})`;
 }
 
 function formatNumber(value) {
-  return Number(value || 0).toLocaleString("ko-KR");
+  return Number(value || 0).toLocaleString('ko-KR');
 }
 </script>
 
@@ -330,65 +384,70 @@ function formatNumber(value) {
 }
 
 .transaction-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 10px;
+  display: flex;
   align-items: center;
-  border: 1px solid #d5dbe4;
-  border-radius: 14px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #d5dee6;
+  border-radius: 16px;
+  background: #ffffff;
 }
 
-.type-badge {
+.transaction-item__left,
+.transaction-item__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.transaction-item__right {
+  justify-content: flex-end;
+}
+
+.transaction-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+
+.transaction-meta strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+.transaction-meta span,
+.transaction-copy p {
+  color: #7b8794;
+  font-size: 0.92rem;
+}
+
+.transaction-copy strong {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+.transaction-badge {
+  min-width: 58px;
+  text-align: center;
+  padding: 7px 12px;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 0.77rem;
+  font-size: 0.86rem;
   font-weight: 800;
 }
 
-.type-badge.expense {
-  background: #dbe8ff;
-  color: #1d4ed8;
+.transaction-badge--income {
+  background: #d9e3ff;
+  color: #274bdb;
 }
 
-.type-badge.income {
-  background: #ffd7d7;
-  color: #dc2626;
-}
-
-.copy-block strong {
-  display: block;
-  color: #161a22;
-  font-size: 0.98rem;
-}
-
-.copy-block p {
-  margin: 2px 0 0;
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.meta-block {
-  text-align: right;
-}
-
-.meta-block strong {
-  display: block;
-  font-size: 1.08rem;
-}
-
-.meta-block strong.expense {
-  color: #1d4ed8;
-}
-
-.meta-block strong.income {
-  color: #dc2626;
-}
-
-.meta-block span {
-  color: #6b7280;
-  font-size: 0.78rem;
+.transaction-badge--expense {
+  background: #ffd9d9;
+  color: #f53f3f;
 }
 
 .empty-state {
@@ -415,14 +474,16 @@ function formatNumber(value) {
     margin-left: 0;
   }
 
-  .transaction-item {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    align-items: start;
+  .transaction-item,
+  .transaction-item__left,
+  .transaction-item__right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
 
-  .meta-block {
-    text-align: left;
+  .transaction-meta {
+    align-items: flex-start;
   }
 }
 </style>

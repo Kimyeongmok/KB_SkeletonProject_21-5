@@ -23,7 +23,7 @@
 import { ref } from "vue";
 
 const menuItems = ref([
-  { icon: "🏠", label: "메인", to: "/" },
+  { icon: "🏠", label: "메인", to: "/home" },
   { icon: "📅", label: "달력", to: "/calendar" },
   { icon: "🤝", label: "관리", to: "/transactions" },
   { icon: "💰", label: "목표", to: "/budget" },
