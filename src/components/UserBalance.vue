@@ -1,7 +1,8 @@
 <template>
-    <!--<div class ="totalBudget text-[20px] font-bold text-[#343434]">총 자산</div>-->
-    <h3>총 자산</h3>
-    <div class ="userTotalBudget">{{ balance.toLocaleString() }}원</div>
+    <div class="flex items-start bg-blue-50 rounded-3xl flex-col p-6 gap-3">
+     <div class="font-bold mb-4 text-md text-[#343434]">총 자산</div>
+     <div class ="font-bold mb-4 text-2xl">{{ balance.toLocaleString() }}원</div>
+    </div>
 </template>
 <script setup>
 import axios from 'axios';
