@@ -1,13 +1,9 @@
 <template>
   <section class="calendar-card">
     <header class="calendar-header">
-      <button type="button" class="month-btn" @click="emit('change-month', -1)">
-        이전
-      </button>
-      <h2 class="month-title">{{ monthLabel }}</h2>
-      <button type="button" class="month-btn" @click="emit('change-month', 1)">
-        다음
-      </button>
+      <button type="button" class="month-btn" @click="emit('change-month', -1)">이전</button>
+      <h2 class="small-title">{{ monthLabel }}</h2>
+      <button type="button" class="month-btn" @click="emit('change-month', 1)">다음</button>
     </header>
 
     <div class="weekdays">
@@ -30,9 +26,7 @@
         <span class="day-number">{{ cell.date.getDate() }}</span>
         <div class="day-amounts">
           <span class="income">{{ formatIncomeAmount(cell.incomeTotal) }}</span>
-          <span class="expense">{{
-            formatExpenseAmount(cell.expenseTotal)
-          }}</span>
+          <span class="expense">{{ formatExpenseAmount(cell.expenseTotal) }}</span>
         </div>
       </button>
     </div>
@@ -40,7 +34,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps({
   selectedMonth: {
@@ -57,14 +51,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select-date', 'change-month']);
+const emit = defineEmits(["select-date", "change-month"]);
 
-const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const todayString = toDateString(new Date());
 
 const monthLabel = computed(() => {
   const year = props.selectedMonth.getFullYear();
-  const month = String(props.selectedMonth.getMonth() + 1).padStart(2, '0');
+  const month = String(props.selectedMonth.getMonth() + 1).padStart(2, "0");
   return `${year}-${month}`;
 });
 
@@ -77,9 +71,9 @@ const totalsByDate = computed(() => {
     const current = map.get(item.date) || { income: 0, expense: 0 };
     const amount = Number(item.amount) || 0;
 
-    if (item.type === 'income') {
+    if (item.type === "income") {
       current.income += amount;
-    } else if (item.type === 'expense') {
+    } else if (item.type === "expense") {
       current.expense += amount;
     }
 
@@ -90,11 +84,7 @@ const totalsByDate = computed(() => {
 });
 
 const calendarCells = computed(() => {
-  const firstDay = new Date(
-    props.selectedMonth.getFullYear(),
-    props.selectedMonth.getMonth(),
-    1,
-  );
+  const firstDay = new Date(props.selectedMonth.getFullYear(), props.selectedMonth.getMonth(), 1);
   const startOffset = firstDay.getDay();
   const startDate = new Date(firstDay);
   startDate.setDate(firstDay.getDate() - startOffset);
@@ -122,28 +112,28 @@ const calendarCells = computed(() => {
 
 function handleSelectDate(cell) {
   if (!cell.isCurrentMonth) return;
-  emit('select-date', cell.dateString);
+  emit("select-date", cell.dateString);
 }
 
 function toDateString(date) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
 function formatTinyAmount(amount) {
-  if (!amount) return '-';
+  if (!amount) return "-";
   return `${Math.round(amount).toLocaleString()}`;
 }
 
 function formatIncomeAmount(amount) {
-  if (!amount) return '-';
+  if (!amount) return "-";
   return `+${formatTinyAmount(amount)}`;
 }
 
 function formatExpenseAmount(amount) {
-  if (!amount) return '-';
+  if (!amount) return "-";
   return `-${formatTinyAmount(amount)}`;
 }
 </script>
@@ -162,13 +152,6 @@ function formatExpenseAmount(amount) {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
-}
-
-.month-title {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #1f2937;
 }
 
 .month-btn {

@@ -2,29 +2,23 @@
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-    <h3 class="mb-2 text-xl text-[#343434]">목표 설정</h3>
+    <h3 class="mb-2 text-xl text-[#343434] small-title">목표 설정</h3>
 
     <div class="grid grid-cols-2 gap-4 mb-4">
       <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
         <p class="text-xs text-gray-500 mb-1">지난 달 소비 예산</p>
-        <p class="font-bold text-gray-700">
-          {{ lastMonthLimit.toLocaleString() }}원
-        </p>
+        <p class="font-bold text-gray-700">{{ lastMonthLimit.toLocaleString() }}원</p>
       </div>
       <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
         <p class="text-xs text-blue-500 mb-1">이번 달 목표 예산</p>
         <p class="font-bold text-blue-700">
-          {{
-            currentMonthLimit > 0
-              ? currentMonthLimit.toLocaleString() + '원'
-              : '미설정'
-          }}
+          {{ currentMonthLimit > 0 ? currentMonthLimit.toLocaleString() + "원" : "미설정" }}
         </p>
       </div>
     </div>
 
     <div class="flex flex-col gap-1">
-      <p class="w-full text-sm font-medium text-gray-600">이번 달 예산 설정</p>
+      <p class="w-full text-md font-medium text-gray-600">이번 달 예산 설정</p>
       <div class="flex flex-col sm:flex-row gap-2">
         <input
           v-model.number="thisMonthLimit"
@@ -45,8 +39,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
 const lastMonthLimit = ref(0);
 const currentMonthLimit = ref(0);
@@ -55,7 +49,7 @@ const thisMonthLimit = ref(null);
 const getMonthString = (offset = 0) => {
   const now = new Date();
   const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 };
 
 const fetchBudgets = async () => {
@@ -63,7 +57,7 @@ const fetchBudgets = async () => {
     const lastMonthStr = getMonthString(-1);
     const thisMonthStr = getMonthString(0);
 
-    const response = await axios.get('http://localhost:3000/budgets');
+    const response = await axios.get("http://localhost:3000/budgets");
 
     const lastData = response.data.find((item) => item.month === lastMonthStr);
     if (lastData) lastMonthLimit.value = lastData.limit;
@@ -71,21 +65,19 @@ const fetchBudgets = async () => {
     const thisData = response.data.find((item) => item.month === thisMonthStr);
     if (thisData) currentMonthLimit.value = thisData.limit;
   } catch (error) {
-    console.error('예산 로드 실패:', error);
+    console.error("예산 로드 실패:", error);
   }
 };
 
 const registerBudget = async () => {
   if (!thisMonthLimit.value || thisMonthLimit.value <= 0) {
-    alert('올바른 금액을 입력해주세요.');
+    alert("올바른 금액을 입력해주세요.");
     return;
   }
 
   try {
     const thisMonthStr = getMonthString(0);
-    const checkResponse = await axios.get(
-      `http://localhost:3000/budgets?month=${thisMonthStr}`,
-    );
+    const checkResponse = await axios.get(`http://localhost:3000/budgets?month=${thisMonthStr}`);
     const existingBudget = checkResponse.data[0];
 
     if (existingBudget) {
@@ -93,8 +85,8 @@ const registerBudget = async () => {
         limit: thisMonthLimit.value,
       });
     } else {
-      await axios.post('http://localhost:3000/budgets', {
-        userId: 'user-001',
+      await axios.post("http://localhost:3000/budgets", {
+        userId: "user-001",
         month: thisMonthStr,
         limit: thisMonthLimit.value,
       });
@@ -103,8 +95,8 @@ const registerBudget = async () => {
     currentMonthLimit.value = thisMonthLimit.value;
     thisMonthLimit.value = null;
   } catch (error) {
-    console.error('처리 실패:', error);
-    alert('오류가 발생했습니다.');
+    console.error("처리 실패:", error);
+    alert("오류가 발생했습니다.");
   }
 };
 
