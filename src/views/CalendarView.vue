@@ -126,8 +126,6 @@ function isSameMonth(left, right) {
 <style scoped>
 .calendar-view {
   min-height: 100vh;
-  background: #f3f6fa;
-  padding: 22px 14px;
 }
 
 .calendar-layout {
