@@ -264,14 +264,14 @@ onMounted(() => {
 
 <style scoped>
 .chart-board {
-  padding: 1.5rem;
+  padding: 0;
 }
 
 .chart-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #cfd7df;
+  border-radius: 20px;
+  padding: 18px 20px 22px;
+  background: #ffffff;
 }
 
 .chart-header {
