@@ -173,7 +173,7 @@ onMounted(() => {
     <article class="chart-card">
       <div class="chart-header">
         <div>
-          <p class="section-label">이번 달 수입 / 소비</p>
+          <p class="section-label">이번 달 수입 / 소비 통계</p>
           <h3>{{ selectedMonth }}</h3>
         </div>
       </div>
