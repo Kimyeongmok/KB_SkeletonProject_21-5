@@ -1,6 +1,6 @@
 <template>
   <section class="summary-card" v-if="isLoaded">
-    <h2 class="summary-title">이번 달 수입 / 소비</h2>
+    <h2 class="summary-title small-title">이번 달 수입 / 소비</h2>
 
     <div class="summary-grid">
       <article class="amount-item amount-item-income">
@@ -26,12 +26,16 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const dbData = ref(null);
 const isLoaded = ref(false);
-const apiBaseUrl = 'http://localhost:3000';
-const currentUserId = 'user-001';
+const apiBaseUrl = "http://localhost:3000";
+const authStore = useAuthStore();
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 const currentMonth = new Date().toISOString().slice(0, 7);
 
 onMounted(async () => {
@@ -40,43 +44,42 @@ onMounted(async () => {
     dbData.value = { finances: await response.json() };
     isLoaded.value = true;
   } catch (error) {
-    console.error('요약 데이터를 불러오지 못했습니다:', error);
+    console.error("요약 데이터를 불러오지 못했습니다:", error);
   }
 });
 
 const currentMonthFinances = computed(() => {
-  if (!dbData.value?.finances) return [];
+  if (!dbData.value?.finances || !currentUserId.value) return [];
 
   return dbData.value.finances.filter(
-    (item) =>
-      item.userId === currentUserId && item.date.startsWith(currentMonth),
+    (item) => item.userId === currentUserId.value && item.date.startsWith(currentMonth),
   );
 });
 
 const totalIncome = computed(() => {
   return currentMonthFinances.value
-    .filter((item) => item.type === 'income')
+    .filter((item) => item.type === "income")
     .reduce((sum, item) => sum + item.amount, 0);
 });
 
 const totalExpense = computed(() => {
   return currentMonthFinances.value
-    .filter((item) => item.type === 'expense')
+    .filter((item) => item.type === "expense")
     .reduce((sum, item) => sum + item.amount, 0);
 });
 
 const netProfit = computed(() => totalIncome.value - totalExpense.value);
 
 const netProfitClass = computed(() => {
-  if (netProfit.value > 0) return 'net-positive';
-  if (netProfit.value < 0) return 'net-negative';
-  return 'net-neutral';
+  if (netProfit.value > 0) return "net-positive";
+  if (netProfit.value < 0) return "net-negative";
+  return "net-neutral";
 });
 
 const netAmountItemClass = computed(() => {
-  if (netProfit.value > 0) return 'amount-item-net-positive';
-  if (netProfit.value < 0) return 'amount-item-net-negative';
-  return 'amount-item-net-neutral';
+  if (netProfit.value > 0) return "amount-item-net-positive";
+  if (netProfit.value < 0) return "amount-item-net-negative";
+  return "amount-item-net-neutral";
 });
 
 const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
@@ -92,9 +95,6 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 }
 
 .summary-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #121212;
   margin-bottom: 18px;
 }
 
@@ -107,9 +107,9 @@ const formatCurrency = (amount) => `₩ ${amount.toLocaleString()}`;
 .amount-item {
   background: #f3ebed;
   border: 1px solid #d8cfd3;
-  border-radius: 14px;
-  padding: 10px 16px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .amount-item-income {

@@ -9,8 +9,7 @@
 </template>
 
 <script setup>
-import CurrentBudget from '@/components/CurrentBudget.vue';
-import UserBalance from '@/components/UserBalance.vue';
-import Summary from '@/components/Summary.vue';
-import Graph from '@/components/Graph.vue';
+import CurrentBudget from "@/components/CurrentBudget.vue";
+import Summary from "@/components/Summary.vue";
+import Graph from "@/components/Graph.vue";
 </script>

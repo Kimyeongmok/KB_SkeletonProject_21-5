@@ -10,14 +10,16 @@
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
+<<<<<<< HEAD
     <h3 class="title">소비 금액</h3>
+=======
+    <h3 class="font-bold mb-4 text-xl text-[#343434] small-title">소비 금액</h3>
+>>>>>>> a39a3eb3f9ad600f424261f87ed690228d58adcd
 
     <div class="text-sm text-gray-700 mb-6">
       <p>1년 평균 소비 금액</p>
       <div class="flex justify-left w-full p-4 gap-4">
-        <div
-          class="bg-blue-50 text-lg p-7 rounded-3xl border border-gray-100 shadow-md"
-        >
+        <div class="bg-blue-50 text-lg p-7 rounded-3xl border border-gray-100">
           ₩ {{ yearAverage.toLocaleString() }}
         </div>
       </div>
@@ -32,9 +34,7 @@
           class="flex-1 min-w-[120px] p-6 rounded-3xl bg-white border border-blue-50 shadow-sm text-center"
         >
           <p class="text-xs text-gray-400 mb-2">{{ month }}</p>
-          <p class="text-lg font-bold text-gray-700">
-            ₩ {{ amount.toLocaleString() }}
-          </p>
+          <p class="text-lg font-bold text-gray-700">₩ {{ amount.toLocaleString() }}</p>
         </div>
       </div>
     </div>
@@ -42,16 +42,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { computed, onMounted, ref } from "vue";
+import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 
 const yearAverage = ref(0);
 const lastThreeMonths = ref({});
+const authStore = useAuthStore();
+
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 
 const fetchData = async () => {
+  if (!currentUserId.value) {
+    yearAverage.value = 0;
+    lastThreeMonths.value = {};
+    return;
+  }
+
   try {
-    const response = await axios.get('http://localhost:3000/finances');
-    const expenses = response.data.filter((item) => item.type === 'expense');
+    const response = await axios.get("http://localhost:3000/finances", {
+      params: { userId: currentUserId.value },
+    });
+    const expenses = response.data.filter((item) => item.type === "expense");
 
     const monthlyTotals = expenses.reduce((acc, curr) => {
       const monthStr = curr.date.substring(0, 7); // "2026-04" 추출
@@ -64,7 +78,7 @@ const fetchData = async () => {
     const threeMonthsData = {};
     for (let i = 1; i <= 3; i++) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
       threeMonthsData[mStr] = monthlyTotals[mStr] || 0;
     }
     lastThreeMonths.value = threeMonthsData;
@@ -72,12 +86,12 @@ const fetchData = async () => {
     let totalYearExpense = 0;
     for (let i = 1; i <= 12; i++) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
       totalYearExpense += monthlyTotals[mStr] || 0;
     }
     yearAverage.value = Math.floor(totalYearExpense / 12);
   } catch (error) {
-    console.error('데이터 로드 실패:', error);
+    console.error("데이터 로드 실패:", error);
   }
 };
 

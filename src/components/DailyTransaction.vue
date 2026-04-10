@@ -1,5 +1,9 @@
 <template>
   <section class="daily-card">
+    <div class="section-head section-head--list">
+      <h2>거래 내역</h2>
+    </div>
+
     <div class="toolbar">
       <div class="filter-row">
         <div class="type-filter">
@@ -67,21 +71,41 @@
             :key="item.id"
             class="transaction-item"
           >
-            <span class="type-badge" :class="item.type">
-              {{ item.type === 'expense' ? '소비' : '수입' }}
-            </span>
+            <div class="transaction-item__left">
+              <span
+                class="transaction-badge"
+                :style="
+                  item.type === 'income'
+                    ? { background: '#fee2e2', color: '#dc2626' }
+                    : { background: '#dbeafe', color: '#2563eb' }
+                "
+                :class="
+                  item.type === 'income'
+                    ? 'transaction-badge--income'
+                    : 'transaction-badge--expense'
+                "
+              >
+                {{ item.type === 'income' ? '수입' : '소비' }}
+              </span>
 
-            <div class="copy-block">
-              <strong>{{ item.category }}</strong>
-              <p>{{ item.memo || '메모 없음' }}</p>
+              <div class="transaction-copy">
+                <strong>{{ item.category || '기타' }}</strong>
+                <p>{{ item.memo || '메모 없음' }}</p>
+              </div>
             </div>
 
-            <div class="meta-block">
-              <strong :class="item.type">
-                {{ item.type === 'expense' ? '-' : '+'
-                }}{{ formatNumber(item.amount) }}
-              </strong>
-              <span>{{ item.date }} {{ item.time || '00:00' }}</span>
+            <div class="transaction-item__right">
+              <div class="transaction-meta">
+                <strong
+                  :style="{
+                    color: item.type === 'income' ? '#dc2626' : '#2563eb',
+                  }"
+                >
+                  {{ item.type === 'expense' ? '-' : '+'
+                  }}{{ formatNumber(item.amount) }}원
+                </strong>
+                <span>{{ item.date }} {{ item.time || '00:00' }}</span>
+              </div>
             </div>
           </article>
         </section>
@@ -274,8 +298,19 @@ function formatNumber(value) {
   border: 1px solid #cfd7df;
   border-radius: 24px;
   background: #ffffff;
-  padding: 16px;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
+}
+
+.section-head {
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #121212;
 }
 
 .toolbar {
@@ -364,65 +399,70 @@ function formatNumber(value) {
 }
 
 .transaction-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 10px;
+  display: flex;
   align-items: center;
-  border: 1px solid #d5dbe4;
-  border-radius: 14px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #d5dee6;
+  border-radius: 16px;
+  background: #ffffff;
 }
 
-.type-badge {
+.transaction-item__left,
+.transaction-item__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.transaction-item__right {
+  justify-content: flex-end;
+}
+
+.transaction-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+
+.transaction-meta strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+.transaction-meta span,
+.transaction-copy p {
+  color: #7b8794;
+  font-size: 0.92rem;
+}
+
+.transaction-copy strong {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+.transaction-badge {
+  min-width: 58px;
+  text-align: center;
+  padding: 7px 12px;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 0.77rem;
+  font-size: 0.86rem;
   font-weight: 800;
 }
 
-.type-badge.expense {
-  background: #dbe8ff;
-  color: #1d4ed8;
+.transaction-badge--income {
+  background: #d9e3ff;
+  color: #274bdb;
 }
 
-.type-badge.income {
-  background: #ffd7d7;
-  color: #dc2626;
-}
-
-.copy-block strong {
-  display: block;
-  color: #161a22;
-  font-size: 0.98rem;
-}
-
-.copy-block p {
-  margin: 2px 0 0;
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.meta-block {
-  text-align: right;
-}
-
-.meta-block strong {
-  display: block;
-  font-size: 1.08rem;
-}
-
-.meta-block strong.expense {
-  color: #1d4ed8;
-}
-
-.meta-block strong.income {
-  color: #dc2626;
-}
-
-.meta-block span {
-  color: #6b7280;
-  font-size: 0.78rem;
+.transaction-badge--expense {
+  background: #ffd9d9;
+  color: #f53f3f;
 }
 
 .empty-state {
@@ -449,14 +489,16 @@ function formatNumber(value) {
     margin-left: 0;
   }
 
-  .transaction-item {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    align-items: start;
+  .transaction-item,
+  .transaction-item__left,
+  .transaction-item__right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
 
-  .meta-block {
-    text-align: left;
+  .transaction-meta {
+    align-items: flex-start;
   }
 }
 </style>

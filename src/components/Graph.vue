@@ -1,31 +1,30 @@
 <script setup>
-import axios from 'axios';
-import { computed, onMounted, ref } from 'vue';
+import axios from "axios";
+import { computed, onMounted, ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
-const palette = [
-  '#f4c542',
-  '#4f8cff',
-  '#28c76f',
-  '#ff7a59',
-  '#8b5cf6',
-  '#14b8a6',
-];
+const palette = ["#f4c542", "#4f8cff", "#28c76f", "#ff7a59", "#8b5cf6", "#14b8a6"];
 
 const finances = ref([]);
 const isLoading = ref(true);
-const errorMessage = ref('');
+const errorMessage = ref("");
+const authStore = useAuthStore();
+
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 
 function formatCurrency(value) {
-  return new Intl.NumberFormat('ko-KR', {
-    style: 'currency',
-    currency: 'KRW',
+  return new Intl.NumberFormat("ko-KR", {
+    style: "currency",
+    currency: "KRW",
     maximumFractionDigits: 0,
   }).format(Number(value) || 0);
 }
 
 function groupByCategory(items) {
   const grouped = items.reduce((acc, item) => {
-    const category = item.category || '기타';
+    const category = item.category || "기타";
     const amount = Number(item.amount) || 0;
 
     acc[category] = (acc[category] || 0) + amount;
@@ -45,7 +44,7 @@ function buildChartSegments(items) {
     return {
       total: 0,
       segments: [],
-      gradient: 'conic-gradient(#e5e7eb 0deg 360deg)',
+      gradient: "conic-gradient(#e5e7eb 0deg 360deg)",
     };
   }
 
@@ -70,11 +69,8 @@ function buildChartSegments(items) {
     total,
     segments,
     gradient: `conic-gradient(${segments
-      .map(
-        (segment) =>
-          `${segment.color} ${segment.startAngle}deg ${segment.endAngle}deg`,
-      )
-      .join(', ')})`,
+      .map((segment) => `${segment.color} ${segment.startAngle}deg ${segment.endAngle}deg`)
+      .join(", ")})`,
   };
 }
 
@@ -89,45 +85,46 @@ function getTopSegments(chart) {
     return topSegments;
   }
 
-  const otherAmount = remainingSegments.reduce(
-    (sum, segment) => sum + segment.amount,
-    0,
-  );
-  const otherPercent = remainingSegments.reduce(
-    (sum, segment) => sum + segment.percent,
-    0,
-  );
+  const otherAmount = remainingSegments.reduce((sum, segment) => sum + segment.amount, 0);
+  const otherPercent = remainingSegments.reduce((sum, segment) => sum + segment.percent, 0);
 
   return [
     ...topSegments,
     {
-      category: '기타',
+      category: "기타",
       amount: otherAmount,
       percent: otherPercent,
-      color: '#9ca3af',
+      color: "#9ca3af",
     },
   ];
 }
 
 async function loadFinances() {
+  if (!currentUserId.value) {
+    finances.value = [];
+    errorMessage.value = "";
+    isLoading.value = false;
+    return;
+  }
+
+  isLoading.value = true;
+
   try {
-    const { data } = await axios.get('http://localhost:3000/finances');
+    const { data } = await axios.get("http://localhost:3000/finances", {
+      params: { userId: currentUserId.value },
+    });
     finances.value = Array.isArray(data) ? data : [];
-    errorMessage.value = '';
+    errorMessage.value = "";
   } catch (error) {
     finances.value = [];
-    errorMessage.value = '서버에서 그래프 데이터를 불러오지 못했습니다.';
+    errorMessage.value = "서버에서 그래프 데이터를 불러오지 못했습니다.";
   } finally {
     isLoading.value = false;
   }
 }
 
 const availableMonths = computed(() =>
-  [
-    ...new Set(
-      finances.value.map((item) => item.date?.slice(0, 7)).filter(Boolean),
-    ),
-  ].sort(),
+  [...new Set(finances.value.map((item) => item.date?.slice(0, 7)).filter(Boolean))].sort(),
 );
 
 const currentMonth = new Date().toISOString().slice(0, 7);
@@ -145,19 +142,11 @@ const monthlyItems = computed(() =>
 );
 
 const incomeChart = computed(() =>
-  buildChartSegments(
-    groupByCategory(
-      monthlyItems.value.filter((item) => item.type === 'income'),
-    ),
-  ),
+  buildChartSegments(groupByCategory(monthlyItems.value.filter((item) => item.type === "income"))),
 );
 
 const expenseChart = computed(() =>
-  buildChartSegments(
-    groupByCategory(
-      monthlyItems.value.filter((item) => item.type === 'expense'),
-    ),
-  ),
+  buildChartSegments(groupByCategory(monthlyItems.value.filter((item) => item.type === "expense"))),
 );
 
 const incomeTopSegments = computed(() => getTopSegments(incomeChart.value));
@@ -173,19 +162,14 @@ onMounted(() => {
     <article class="chart-card">
       <div class="chart-header">
         <div>
-          <p class="section-label">이번 달 수입 / 소비</p>
+          <p class="small-title">이번 달 수입 / 소비 통계</p>
           <h3>{{ selectedMonth }}</h3>
         </div>
       </div>
 
-      <p v-if="isLoading" class="feedback">
-        그래프 데이터를 불러오는 중입니다.
-      </p>
+      <p v-if="isLoading" class="feedback">그래프 데이터를 불러오는 중입니다.</p>
       <p v-else-if="errorMessage" class="feedback">{{ errorMessage }}</p>
-      <div
-        v-else-if="incomeChart.total || expenseChart.total"
-        class="chart-grid"
-      >
+      <div v-else-if="incomeChart.total || expenseChart.total" class="chart-grid">
         <section class="chart-panel">
           <div class="chart-panel-header">
             <p class="panel-label">수입</p>
@@ -193,10 +177,7 @@ onMounted(() => {
 
           <div v-if="incomeChart.total" class="chart-body">
             <div class="donut-wrap">
-              <div
-                class="donut-chart"
-                :style="{ background: incomeChart.gradient }"
-              >
+              <div class="donut-chart" :style="{ background: incomeChart.gradient }">
                 <div class="donut-hole">
                   <span>수입</span>
                   <strong>{{ formatCurrency(incomeChart.total) }}</strong>
@@ -205,15 +186,8 @@ onMounted(() => {
             </div>
 
             <div class="chart-legend">
-              <div
-                v-for="segment in incomeTopSegments"
-                :key="segment.category"
-                class="legend-item"
-              >
-                <span
-                  class="legend-dot"
-                  :style="{ backgroundColor: segment.color }"
-                ></span>
+              <div v-for="segment in incomeTopSegments" :key="segment.category" class="legend-item">
+                <span class="legend-dot" :style="{ backgroundColor: segment.color }"></span>
                 <div class="legend-copy">
                   <strong>{{ segment.category }} {{ segment.percent }}%</strong>
                   <span>{{ formatCurrency(segment.amount) }}</span>
@@ -231,10 +205,7 @@ onMounted(() => {
 
           <div v-if="expenseChart.total" class="chart-body">
             <div class="donut-wrap">
-              <div
-                class="donut-chart"
-                :style="{ background: expenseChart.gradient }"
-              >
+              <div class="donut-chart" :style="{ background: expenseChart.gradient }">
                 <div class="donut-hole">
                   <span>소비</span>
                   <strong>{{ formatCurrency(expenseChart.total) }}</strong>
@@ -248,10 +219,7 @@ onMounted(() => {
                 :key="segment.category"
                 class="legend-item"
               >
-                <span
-                  class="legend-dot"
-                  :style="{ backgroundColor: segment.color }"
-                ></span>
+                <span class="legend-dot" :style="{ backgroundColor: segment.color }"></span>
                 <div class="legend-copy">
                   <strong>{{ segment.category }} {{ segment.percent }}%</strong>
                   <span>{{ formatCurrency(segment.amount) }}</span>
@@ -276,7 +244,7 @@ onMounted(() => {
   border: 1px solid #cfd7df;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
-  padding: 18px 20px 22px;
+  padding: 20px;
   background: #ffffff;
 }
 
@@ -290,16 +258,9 @@ onMounted(() => {
 
 .chart-header h3 {
   margin: 0.25rem 0 0;
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: bold;
   color: #111827;
-}
-
-.section-label {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #6b7280;
 }
 
 .chart-grid {
