@@ -101,7 +101,7 @@ const form = reactive({
 });
 
 const currentUserId = computed(
-  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "user-001",
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
 );
 
 const categoryOptions = computed(() => categoryMap[form.type]);
@@ -129,6 +129,12 @@ function resetForm() {
 }
 
 async function submitTransaction() {
+  if (!currentUserId.value) {
+    errorMessage.value = "로그인 정보가 없습니다. 다시 로그인해 주세요.";
+    infoMessage.value = "";
+    return;
+  }
+
   if (!form.amount || form.amount <= 0) {
     errorMessage.value = "금액은 0보다 크게 입력해주세요.";
     infoMessage.value = "";

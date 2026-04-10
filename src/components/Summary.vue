@@ -27,11 +27,15 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const dbData = ref(null);
 const isLoaded = ref(false);
 const apiBaseUrl = "http://localhost:3000";
-const currentUserId = "user-001";
+const authStore = useAuthStore();
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 const currentMonth = new Date().toISOString().slice(0, 7);
 
 onMounted(async () => {
@@ -45,10 +49,10 @@ onMounted(async () => {
 });
 
 const currentMonthFinances = computed(() => {
-  if (!dbData.value?.finances) return [];
+  if (!dbData.value?.finances || !currentUserId.value) return [];
 
   return dbData.value.finances.filter(
-    (item) => item.userId === currentUserId && item.date.startsWith(currentMonth),
+    (item) => item.userId === currentUserId.value && item.date.startsWith(currentMonth),
   );
 });
 

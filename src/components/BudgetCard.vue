@@ -39,12 +39,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 
 const lastMonthLimit = ref(0);
 const currentMonthLimit = ref(0);
 const thisMonthLimit = ref(null);
+const authStore = useAuthStore();
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 
 const getMonthString = (offset = 0) => {
   const now = new Date();
@@ -54,22 +59,39 @@ const getMonthString = (offset = 0) => {
 
 const fetchBudgets = async () => {
   try {
+    if (!currentUserId.value) {
+      lastMonthLimit.value = 0;
+      currentMonthLimit.value = 0;
+      return;
+    }
+
     const lastMonthStr = getMonthString(-1);
     const thisMonthStr = getMonthString(0);
 
     const response = await axios.get("http://localhost:3000/budgets");
 
-    const lastData = response.data.find((item) => item.month === lastMonthStr);
+    const lastData = response.data.find(
+      (item) => item.userId === currentUserId.value && item.month === lastMonthStr,
+    );
     if (lastData) lastMonthLimit.value = lastData.limit;
+    else lastMonthLimit.value = 0;
 
-    const thisData = response.data.find((item) => item.month === thisMonthStr);
+    const thisData = response.data.find(
+      (item) => item.userId === currentUserId.value && item.month === thisMonthStr,
+    );
     if (thisData) currentMonthLimit.value = thisData.limit;
+    else currentMonthLimit.value = 0;
   } catch (error) {
     console.error("예산 로드 실패:", error);
   }
 };
 
 const registerBudget = async () => {
+  if (!currentUserId.value) {
+    alert("로그인 후 이용해주세요.");
+    return;
+  }
+
   if (!thisMonthLimit.value || thisMonthLimit.value <= 0) {
     alert("올바른 금액을 입력해주세요.");
     return;
@@ -77,7 +99,9 @@ const registerBudget = async () => {
 
   try {
     const thisMonthStr = getMonthString(0);
-    const checkResponse = await axios.get(`http://localhost:3000/budgets?month=${thisMonthStr}`);
+    const checkResponse = await axios.get(
+      `http://localhost:3000/budgets?userId=${currentUserId.value}&month=${thisMonthStr}`,
+    );
     const existingBudget = checkResponse.data[0];
 
     if (existingBudget) {
@@ -86,7 +110,7 @@ const registerBudget = async () => {
       });
     } else {
       await axios.post("http://localhost:3000/budgets", {
-        userId: "user-001",
+        userId: currentUserId.value,
         month: thisMonthStr,
         limit: thisMonthLimit.value,
       });

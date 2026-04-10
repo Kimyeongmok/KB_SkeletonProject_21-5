@@ -1,12 +1,18 @@
 <script setup>
 import axios from "axios";
 import { computed, onMounted, ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const palette = ["#f4c542", "#4f8cff", "#28c76f", "#ff7a59", "#8b5cf6", "#14b8a6"];
 
 const finances = ref([]);
 const isLoading = ref(true);
 const errorMessage = ref("");
+const authStore = useAuthStore();
+
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("ko-KR", {
@@ -94,8 +100,19 @@ function getTopSegments(chart) {
 }
 
 async function loadFinances() {
+  if (!currentUserId.value) {
+    finances.value = [];
+    errorMessage.value = "";
+    isLoading.value = false;
+    return;
+  }
+
+  isLoading.value = true;
+
   try {
-    const { data } = await axios.get("http://localhost:3000/finances");
+    const { data } = await axios.get("http://localhost:3000/finances", {
+      params: { userId: currentUserId.value },
+    });
     finances.value = Array.isArray(data) ? data : [];
     errorMessage.value = "";
   } catch (error) {

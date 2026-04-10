@@ -22,24 +22,26 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import Calendar from '@/components/Calendar.vue';
-import DailyTransaction from '@/components/DailyTransaction.vue';
+import { computed, onMounted, ref } from "vue";
+import Calendar from "@/components/Calendar.vue";
+import DailyTransaction from "@/components/DailyTransaction.vue";
+import { useAuthStore } from "@/stores/auth";
 
-const apiBaseUrl = 'http://localhost:3000';
-const currentUserId = 'user-001';
-
-const selectedMonth = ref(
-  new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+const apiBaseUrl = "http://localhost:3000";
+const authStore = useAuthStore();
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
 );
+
+const selectedMonth = ref(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
 const selectedDate = ref(toDateString(new Date()));
 const transactions = ref([]);
 const isLoading = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
 
 const selectedMonthKey = computed(() => {
   const year = selectedMonth.value.getFullYear();
-  const month = String(selectedMonth.value.getMonth() + 1).padStart(2, '0');
+  const month = String(selectedMonth.value.getMonth() + 1).padStart(2, "0");
   return `${year}-${month}`;
 });
 
@@ -48,28 +50,29 @@ onMounted(() => {
 });
 
 async function loadTransactions() {
+  if (!currentUserId.value) {
+    transactions.value = [];
+    errorMessage.value = "";
+    return;
+  }
+
   isLoading.value = true;
 
   try {
-    const response = await fetch(
-      `${apiBaseUrl}/finances?userId=${currentUserId}`,
-    );
+    const response = await fetch(`${apiBaseUrl}/finances?userId=${currentUserId.value}`);
     const data = await response.json();
     transactions.value = Array.isArray(data) ? data : [];
-    errorMessage.value = '';
+    errorMessage.value = "";
 
     const today = new Date();
     if (isSameMonth(selectedMonth.value, today)) {
       selectedDate.value = toDateString(today);
     } else {
-      selectedDate.value = getDefaultDateForMonth(
-        selectedMonth.value,
-        transactions.value,
-      );
+      selectedDate.value = getDefaultDateForMonth(selectedMonth.value, transactions.value);
     }
   } catch (error) {
     transactions.value = [];
-    errorMessage.value = '거래 데이터를 불러오지 못했습니다.';
+    errorMessage.value = "거래 데이터를 불러오지 못했습니다.";
   } finally {
     isLoading.value = false;
   }
@@ -89,7 +92,7 @@ function handleChangeMonth(delta) {
 }
 
 function getDefaultDateForMonth(monthDate, items) {
-  const monthKey = `${monthDate.getFullYear()}-${String(monthDate.getMonth() + 1).padStart(2, '0')}`;
+  const monthKey = `${monthDate.getFullYear()}-${String(monthDate.getMonth() + 1).padStart(2, "0")}`;
 
   const matched = items
     .filter((item) => item?.date?.startsWith(monthKey))
@@ -103,23 +106,20 @@ function getDefaultDateForMonth(monthDate, items) {
 }
 
 function toTimestamp(item) {
-  const safeDate = item?.date || '1970-01-01';
-  const safeTime = item?.time || '00:00';
+  const safeDate = item?.date || "1970-01-01";
+  const safeTime = item?.time || "00:00";
   return new Date(`${safeDate}T${safeTime}:00`).getTime();
 }
 
 function toDateString(date) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
 function isSameMonth(left, right) {
-  return (
-    left.getFullYear() === right.getFullYear() &&
-    left.getMonth() === right.getMonth()
-  );
+  return left.getFullYear() === right.getFullYear() && left.getMonth() === right.getMonth();
 }
 </script>
 

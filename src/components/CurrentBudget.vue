@@ -21,11 +21,15 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const apiBaseUrl = "http://localhost:3000";
 const dbData = ref(null);
 const isLoaded = ref(false);
-const currentUserId = "user-001";
+const authStore = useAuthStore();
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 const currentMonth = new Date().toISOString().slice(0, 7);
 
 onMounted(async () => {
@@ -48,11 +52,11 @@ onMounted(async () => {
 });
 
 const totalExpense = computed(() => {
-  if (!dbData.value) return 0;
+  if (!dbData.value || !currentUserId.value) return 0;
   return dbData.value.finances
     .filter(
       (item) =>
-        item.userId === currentUserId &&
+        item.userId === currentUserId.value &&
         item.type === "expense" &&
         item.date.startsWith(currentMonth),
     )
@@ -60,9 +64,9 @@ const totalExpense = computed(() => {
 });
 
 const monthlyBudget = computed(() => {
-  if (!dbData.value) return 0;
+  if (!dbData.value || !currentUserId.value) return 0;
   const budget = dbData.value.budgets.find(
-    (item) => item.userId === currentUserId && item.month === currentMonth,
+    (item) => item.userId === currentUserId.value && item.month === currentMonth,
   );
   return budget ? budget.limit : 0;
 });

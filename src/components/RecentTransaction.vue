@@ -31,15 +31,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 
 const yearAverage = ref(0);
 const lastThreeMonths = ref({});
+const authStore = useAuthStore();
+
+const currentUserId = computed(
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+);
 
 const fetchData = async () => {
+  if (!currentUserId.value) {
+    yearAverage.value = 0;
+    lastThreeMonths.value = {};
+    return;
+  }
+
   try {
-    const response = await axios.get("http://localhost:3000/finances");
+    const response = await axios.get("http://localhost:3000/finances", {
+      params: { userId: currentUserId.value },
+    });
     const expenses = response.data.filter((item) => item.type === "expense");
 
     const monthlyTotals = expenses.reduce((acc, curr) => {

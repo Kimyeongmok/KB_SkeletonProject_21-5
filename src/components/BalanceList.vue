@@ -59,9 +59,11 @@
         <div class="transaction-item__left">
           <span
             class="transaction-badge"
-            :style="transaction.type === 'income'
-              ? { background: '#fee2e2', color: '#dc2626' }
-              : { background: '#dbeafe', color: '#2563eb' }"
+            :style="
+              transaction.type === 'income'
+                ? { background: '#fee2e2', color: '#dc2626' }
+                : { background: '#dbeafe', color: '#2563eb' }
+            "
             :class="
               transaction.type === 'income'
                 ? 'transaction-badge--income'
@@ -150,7 +152,7 @@ const expenseCategories = [
 ];
 
 const currentUserId = computed(
-  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "user-001",
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
 );
 
 const sortedTransactions = computed(() =>
@@ -205,8 +207,8 @@ const filteredTransactions = computed(() => {
 });
 
 function formatCurrency(amount, type) {
-  const prefix = type === 'income' ? '+' : '-';
-  return prefix + Number(amount || 0).toLocaleString('ko-KR') + '원';
+  const prefix = type === "income" ? "+" : "-";
+  return prefix + Number(amount || 0).toLocaleString("ko-KR") + "원";
 }
 
 function formatDateTime(transaction) {
