@@ -1,7 +1,7 @@
 <template>
   <section class="transaction-panel">
     <div class="section-head">
-      <h1>거래 등록</h1>
+      <h1 class="small-title">거래 등록</h1>
       <p>수입과 소비 내역을 입력합니다.</p>
     </div>
 
@@ -18,11 +18,7 @@
         <label class="field-chip">
           <span>카테고리</span>
           <select v-model="form.category">
-            <option
-              v-for="category in categoryOptions"
-              :key="category"
-              :value="category"
-            >
+            <option v-for="category in categoryOptions" :key="category" :value="category">
               {{ category }}
             </option>
           </select>
@@ -48,15 +44,11 @@
       <div class="transaction-form__row">
         <label class="memo-field">
           <span>메모</span>
-          <textarea
-            v-model.trim="form.memo"
-            rows="2"
-            placeholder="거래 내용을 간단히 입력하세요"
-          />
+          <textarea v-model.trim="form.memo" rows="2" placeholder="거래 내용을 간단히 입력하세요" />
         </label>
 
         <button class="submit-button" type="submit" :disabled="isSubmitting">
-          {{ isSubmitting ? '등록 중...' : '등록' }}
+          {{ isSubmitting ? "등록 중..." : "등록" }}
         </button>
       </div>
 
@@ -71,46 +63,45 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { computed, reactive, ref, watch } from 'vue';
+import axios from "axios";
+import { computed, reactive, ref, watch } from "vue";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
-const emit = defineEmits(['created']);
+const emit = defineEmits(["created"]);
 
-const apiBaseUrl = 'http://localhost:3000';
+const apiBaseUrl = "http://localhost:3000";
 const authStore = useAuthStore();
 const today = new Date().toISOString().slice(0, 10);
 
 const isSubmitting = ref(false);
-const errorMessage = ref('');
-const infoMessage = ref('');
+const errorMessage = ref("");
+const infoMessage = ref("");
 
 const categoryMap = {
-  income: ['월급', '부수입', '용돈', '상여', '금융소득', '기타(수입)'],
+  income: ["월급", "부수입", "용돈", "상여", "금융소득", "기타(수입)"],
   expense: [
-    '식비',
-    '교통/차량',
-    '문화생활',
-    '쇼핑',
-    '주거/통신',
-    '교육',
-    '경조사/회비',
-    '기타(소비)',
+    "식비",
+    "교통/차량",
+    "문화생활",
+    "쇼핑",
+    "주거/통신",
+    "교육",
+    "경조사/회비",
+    "기타(소비)",
   ],
 };
 
 const form = reactive({
-  type: 'expense',
+  type: "expense",
   category: categoryMap.expense[0],
   date: today,
   amount: null,
-  memo: '',
+  memo: "",
 });
 
 const currentUserId = computed(
-  () =>
-    authStore.currentUser?.id ?? authStore.currentUser?.userId ?? 'user-001',
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "user-001",
 );
 
 const categoryOptions = computed(() => categoryMap[form.type]);
@@ -123,29 +114,30 @@ watch(
 );
 
 function buildTimeLabel(date = new Date()) {
-  return `${String(date.getHours()).padStart(2, '0')}:${String(
-    date.getMinutes(),
-  ).padStart(2, '0')}`;
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(
+    2,
+    "0",
+  )}`;
 }
 
 function resetForm() {
-  form.type = 'expense';
+  form.type = "expense";
   form.category = categoryMap.expense[0];
   form.date = today;
   form.amount = null;
-  form.memo = '';
+  form.memo = "";
 }
 
 async function submitTransaction() {
   if (!form.amount || form.amount <= 0) {
-    errorMessage.value = '금액은 0보다 크게 입력해주세요.';
-    infoMessage.value = '';
+    errorMessage.value = "금액은 0보다 크게 입력해주세요.";
+    infoMessage.value = "";
     return;
   }
 
   isSubmitting.value = true;
-  errorMessage.value = '';
-  infoMessage.value = '';
+  errorMessage.value = "";
+  infoMessage.value = "";
 
   const createdAt = new Date();
   const payload = {
@@ -162,11 +154,10 @@ async function submitTransaction() {
   try {
     await axios.post(`${apiBaseUrl}/finances`, payload);
     resetForm();
-    emit('created');
+    emit("created");
   } catch (serverError) {
-    console.error('거래 등록에 실패했습니다.', serverError);
-    errorMessage.value =
-      'json-server 연결이 필요합니다. 서버 실행 상태를 확인해주세요.';
+    console.error("거래 등록에 실패했습니다.", serverError);
+    errorMessage.value = "json-server 연결이 필요합니다. 서버 실행 상태를 확인해주세요.";
   } finally {
     isSubmitting.value = false;
   }
@@ -179,23 +170,17 @@ async function submitTransaction() {
   border: 1px solid #cfd7df;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
-  padding: 28px 20px;
+  padding: 20px;
 }
 
 .section-head {
   margin-bottom: 16px;
 }
 
-.section-head h1 {
-  font-size: 20px;
-  font-weight: 800;
-  color: #121212;
-}
-
 .section-head p {
   margin-top: 4px;
   color: #6f7d89;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .transaction-form {

@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-if="isLoaded">
     <div class="card-header">
-      <h2 class="title">이번 달 설정 금액</h2>
+      <h2 class="title small-title">이번 달 설정 금액</h2>
       <span class="progress-percent" :class="progressPercentClass">
         {{ progressPercentLabel }}
       </span>
@@ -9,10 +9,7 @@
 
     <div class="progress-container">
       <div class="progress-background">
-        <div
-          class="progress-bar"
-          :style="{ width: progressPercentage + '%' }"
-        ></div>
+        <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
         <span class="progress-text">
           {{ formatNumber(totalExpense) }} / {{ formatNumber(monthlyBudget) }}
         </span>
@@ -23,12 +20,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
 
-const apiBaseUrl = 'http://localhost:3000';
+const apiBaseUrl = "http://localhost:3000";
 const dbData = ref(null);
 const isLoaded = ref(false);
-const currentUserId = 'user-001';
+const currentUserId = "user-001";
 const currentMonth = new Date().toISOString().slice(0, 7);
 
 onMounted(async () => {
@@ -46,7 +43,7 @@ onMounted(async () => {
     dbData.value = { finances, budgets };
     isLoaded.value = true;
   } catch (error) {
-    console.error('데이터를 불러오는데 실패했습니다:', error);
+    console.error("데이터를 불러오는데 실패했습니다:", error);
   }
 });
 
@@ -56,7 +53,7 @@ const totalExpense = computed(() => {
     .filter(
       (item) =>
         item.userId === currentUserId &&
-        item.type === 'expense' &&
+        item.type === "expense" &&
         item.date.startsWith(currentMonth),
     )
     .reduce((sum, item) => sum + item.amount, 0);
@@ -75,17 +72,15 @@ const progressPercentage = computed(() => {
   return (totalExpense.value / monthlyBudget.value) * 100;
 });
 
-const progressPercentLabel = computed(
-  () => `${Math.round(progressPercentage.value)}%`,
-);
+const progressPercentLabel = computed(() => `${Math.round(progressPercentage.value)}%`);
 
 const progressPercentClass = computed(() => {
   const percentage = progressPercentage.value;
 
-  if (percentage < 70) return 'percent-black';
-  if (percentage < 80) return 'percent-yellow';
-  if (percentage < 90) return 'percent-orange';
-  return 'percent-red';
+  if (percentage < 70) return "percent-black";
+  if (percentage < 80) return "percent-yellow";
+  if (percentage < 90) return "percent-orange";
+  return "percent-red";
 });
 
 const formatNumber = (num) => num.toLocaleString();
@@ -97,15 +92,11 @@ const formatNumber = (num) => num.toLocaleString();
   background-color: white;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
-  padding: 30px;
+  padding: 20px;
   width: 100%;
   max-width: none;
   margin: 0;
   border: 1px solid #cfd7df;
-}
-.title {
-  font-size: 20px;
-  font-weight: 800;
 }
 
 .card-header {

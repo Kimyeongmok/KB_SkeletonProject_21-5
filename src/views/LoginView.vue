@@ -2,7 +2,7 @@
   <section class="flex min-h-screen items-center justify-center px-4 py-10 bg-gray-50">
     <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg flex flex-col gap-8">
       <div>
-        <h1 class="text-2xl font-bold text-slate-800">가계부 로그인</h1>
+        <h1 class="text-2xl font-bold text-slate-800 small-title">가계부 로그인</h1>
         <p class="mt-2 text-sm text-slate-500">json-server 사용자 정보로 로그인하세요.</p>
       </div>
       <form class="mt-6 space-y-4 flex flex-col gap-2" @submit.prevent="handleLogin">

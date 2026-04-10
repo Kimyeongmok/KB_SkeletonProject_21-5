@@ -1,39 +1,43 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
-    <h2 class="text-2xl font-bold mb-4">사용자 정보</h2>
-    <div v-if="userInfo" class="flex flex-col w-full">
-      <img
-        src="https://placehold.co/500x500"
-        alt="프로필"
-        class="w-16 h-16 rounded-full mb-4 mx-auto"
-      />
+  <div
+    class="flex flex-col gap-5 bg-white p-5 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
+  >
+    <h2 class="text-xl font-bold mb-4 text-[#343434] small-title">사용자 정보</h2>
+    <div v-if="userInfo" class="flex flex-col gap-5 w-full">
+      <div class="flex justify-center w-full mb-10">
+        <img
+          src="https://placehold.co/700x700"
+          alt="프로필"
+          class="w-20 h-20 rounded-full mb-5 mx-auto border border-blue-100"
+        />
+      </div>
 
-      <form @submit.prevent="saveUserInfo" class="w-full">
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2"> 이름 </label>
+      <form @submit.prevent="saveUserInfo" class="w-full flex flex-col gap-6">
+        <div class="flex flex-col gap-2">
+          <label class="block font-bold text-[#343434]"> 이름 </label>
           <input
             type="text"
             v-model="editData.name"
-            class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full rounded-2xl border border-[#cfd7df] bg-white px-4 py-3 text-[#343434] outline-none transition focus:border-blue-300 focus:ring-2 focus:ring-blue-100"
             placeholder="이름을 입력하세요"
           />
         </div>
 
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2"> 이메일 </label>
+        <div class="flex flex-col gap-2">
+          <label class="block font-bold text-[#343434]"> 이메일 </label>
           <input
             type="text"
             v-model="editData.userEmail"
-            class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full rounded-2xl border border-[#cfd7df] bg-white px-4 py-3 text-[#343434] outline-none transition focus:border-blue-300 focus:ring-2 focus:ring-blue-100"
             placeholder="이메일을 입력하세요"
           />
         </div>
 
-        <div class="flex gap-2 justify-center">
+        <div class="flex flex-wrap gap-2 justify-center">
           <button
             type="submit"
             :disabled="isLoading"
-            class="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+            class="rounded-2xl border border-[#cfd7df] bg-blue-50 px-4 py-2.5 text-sm font-bold text-[#2f4f6a] transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-500"
           >
             {{ isLoading ? "저장 중..." : "저장" }}
           </button>
@@ -41,18 +45,21 @@
             type="button"
             @click="resetForm"
             :disabled="isLoading"
-            class="bg-gray-500 hover:bg-gray-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+            class="rounded-2xl border border-[#d5dce3] bg-white px-4 py-2.5 text-sm font-bold text-[#5d6875] transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
           >
             취소
           </button>
         </div>
       </form>
 
-      <p v-if="localErrorMessage" class="mt-4 text-red-500 text-sm">
+      <p
+        v-if="localErrorMessage"
+        class="mt-4 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-600"
+      >
         {{ localErrorMessage }}
       </p>
     </div>
-    <div v-else class="text-center">
+    <div v-else class="text-center text-sm text-gray-500">
       <p>사용자 정보를 불러오는 중...</p>
     </div>
   </div>

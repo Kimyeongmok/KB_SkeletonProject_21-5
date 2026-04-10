@@ -4,7 +4,7 @@
   <nav
     class="flex flex-col gap-3 p-6 bg-white rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)] w-full"
   >
-    <h2 class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2">메뉴</h2>
+    <h2 class="text-center font-bold text-[#343434] mb-4 text- border-b pb-2 small-title">메뉴</h2>
 
     <router-link
       v-for="item in menuItems"

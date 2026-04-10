@@ -56,11 +56,13 @@ const submitChangePassword = async (payload: {
     <UserInfo></UserInfo>
 
     <!-- 비밀번호 -->
-    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
-      <h2>비밀번호 변경</h2>
+    <div
+      class="flex flex-col gap-3 bg-white p-5 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
+    >
+      <h2 class="small-title font-bold text-xl text-[#343434]">비밀번호 변경</h2>
       <button
         @click="clickPWhandler"
-        class="border border-mist-200 bg-mist-50 hover:bg-mist-200 font-bold py-2 px-4 rounded mt-4 w-50"
+        class="mt-4 w-50 rounded-full border border-[#cfd7df] bg-blue-50 px-4 py-2.5 text-sm font-bold text-[#2f4f6a] transition hover:bg-blue-100"
       >
         비밀번호 변경
       </button>
@@ -73,12 +75,14 @@ const submitChangePassword = async (payload: {
     />
 
     <!-- 라이트/다크모드 -->
-    <div class="bg-white p-6 rounded-lg shadow-md">
-      <h2>테마 설정</h2>
+    <div
+      class="flex flex-col gap-3 bg-white p-5 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
+    >
+      <h2 class="small-title font-bold text-xl text-[#343434]">테마 설정</h2>
       <select
         :value="themeStore.theme"
         @change="handleThemeChange"
-        class="mt-4 w-50 rounded border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none"
+        class="mt-4 w-50 rounded-full border border-[#cfd7df] bg-white px-3.5 py-2.5 text-sm text-[#343434] outline-none transition focus:border-blue-300 focus:ring-2 focus:ring-blue-100"
       >
         <option value="system">시스템 설정 사용</option>
         <option value="light">라이트 모드</option>
