@@ -33,13 +33,9 @@ const isAuthLayout = computed(() => route.meta.layout === 'auth');
 
     <div class="p-4"></div>
 
-    <footer
-      class="mt-16 p-6 bg-pink-50 rounded-lg border border-pink-100 text-center text-sm text-gray-500 space-y-1"
-    >
-      <p>
-        이벤트 진행 현황: 1. 예산 진행률(차오르는 bar) 2. 수입 지출 각자 합 3.
-      </p>
-      <p>진행현황 퍼센트별 색상 변경</p>
+    <footer class="mt-16 p-6 text-center text-sm text-gray-500 space-y-1">
+      <p>© 2026 Project: Living on n Won. All rights reserved.</p>
+      <p>Made by KO, KIM, O, Hwang</p>
     </footer>
   </div>
 </template>
