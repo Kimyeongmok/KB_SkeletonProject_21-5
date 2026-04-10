@@ -87,8 +87,17 @@ const errorMessage = ref('');
 const infoMessage = ref('');
 
 const categoryMap = {
-  income: ['급여', '보너스', '용돈', '투자수익', '기타 수입'],
-  expense: ['식비', '교통', '쇼핑', '주거', '교육', '여가', '기타 지출'],
+  income: ['월급', '부수입', '용돈', '상여', '금융소득', '기타(수입)'],
+  expense: [
+    '식비',
+    '교통/차량',
+    '문화생활',
+    '쇼핑',
+    '주거/통신',
+    '교육',
+    '경조사/회비',
+    '기타(소비)',
+  ],
 };
 
 const form = reactive({
