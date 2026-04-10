@@ -211,12 +211,14 @@ async function submitTransaction() {
 }
 
 .transaction-form__row--compact {
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .field-chip {
   min-width: 0;
-  flex: 1 1 150px;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -236,7 +238,9 @@ async function submitTransaction() {
 
 .field-chip select,
 .field-chip input {
+  flex: 1 1 auto;
   width: 100%;
+  min-width: 0;
   border: 0;
   outline: 0;
   background: transparent;
@@ -322,6 +326,10 @@ async function submitTransaction() {
 
   .transaction-form__row {
     flex-direction: column;
+  }
+
+  .transaction-form__row--compact {
+    grid-template-columns: 1fr;
   }
 
   .field-chip {

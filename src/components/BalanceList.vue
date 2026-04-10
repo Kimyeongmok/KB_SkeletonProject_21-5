@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="transaction-panel">
     <div class="section-head section-head--list">
       <h2>거래 내역</h2>
@@ -372,14 +372,15 @@ onMounted(() => {
 }
 
 .filter-row {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 2.2fr);
   gap: 8px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .filter-select {
-  min-width: 132px;
+  width: 100%;
+  min-width: 0;
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 8px 12px;
@@ -390,10 +391,11 @@ onMounted(() => {
 }
 
 .date-range-filter {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .date-range-filter__label {
@@ -403,6 +405,8 @@ onMounted(() => {
 }
 
 .date-range-filter__input {
+  width: 100%;
+  min-width: 0;
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 8px 12px;
@@ -418,6 +422,8 @@ onMounted(() => {
 }
 
 .date-range-filter__reset {
+  width: 100%;
+  min-width: 0;
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 8px 12px;
@@ -440,6 +446,8 @@ onMounted(() => {
 }
 
 .search-field__input {
+  width: 100%;
+  min-width: 0;
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 10px 14px;
@@ -563,19 +571,23 @@ onMounted(() => {
   opacity: 0.7;
 }
 
-@media (max-width: 720px) {
-  .transaction-panel {
-    padding: 20px 16px;
-  }
-
-  .filter-select,
-  .date-range-filter__input,
-  .date-range-filter__reset {
-    width: 100%;
+@media (max-width: 900px) {
+  .filter-row {
+    grid-template-columns: 1fr;
   }
 
   .date-range-filter {
-    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .date-range-filter__separator {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .transaction-panel {
+    padding: 20px 16px;
   }
 
   .transaction-item,
@@ -591,4 +603,3 @@ onMounted(() => {
   }
 }
 </style>
-
