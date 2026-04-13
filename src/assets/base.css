@@ -137,3 +137,181 @@ body {
 .dark .small-title {
   color: var(--color-heading);
 }
+
+.dark .border-gray-300 {
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+.dark .text-\[\#2f4f6a\],
+.dark .text-\[\#5d6875\] {
+  color: #cbd5e1 !important;
+}
+
+.dark .hover\:bg-gray-50:hover,
+.dark .hover\:bg-blue-100:hover {
+  background-color: #1f2937 !important;
+}
+
+/* Scoped component dark mode overrides */
+.dark .transaction-panel,
+.dark .daily-card,
+.dark .summary-card,
+.dark .chart-card,
+.dark .calendar-card,
+.dark .card {
+  background: #111827 !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.55) !important;
+}
+
+.dark .section-head h1,
+.dark .section-head h2,
+.dark .chart-header h3,
+.dark .panel-label,
+.dark .legend-copy strong,
+.dark .transaction-copy strong,
+.dark .transaction-meta strong,
+.dark .search-field__label,
+.dark .search-label,
+.dark .amount-label,
+.dark .amount-value,
+.dark .progress-text,
+.dark .month-btn,
+.dark .day-cell,
+.dark .date-header,
+.dark .result-count,
+.dark .percent-black {
+  color: #e5e7eb !important;
+}
+
+.dark .section-head p,
+.dark .transaction-meta span,
+.dark .transaction-copy p,
+.dark .legend-copy span,
+.dark .feedback,
+.dark .empty-state,
+.dark .search-field__input,
+.dark .date-range-filter__label,
+.dark .date-range-filter__separator,
+.dark .loading-state,
+.dark .calendar-layout .feedback {
+  color: #94a3b8 !important;
+}
+
+.dark .calendar-layout .feedback.error {
+  color: #fca5a5 !important;
+}
+
+.dark .field-chip,
+.dark .memo-field,
+.dark .memo-field span,
+.dark .filter-select,
+.dark .date-range-filter__input,
+.dark .date-range-filter__reset,
+.dark .search-field__input,
+.dark .search-input,
+.dark .category-select,
+.dark .transaction-item,
+.dark .chart-panel,
+.dark .donut-hole,
+.dark .month-btn,
+.dark .progress-background {
+  background: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+.dark .field-chip span,
+.dark .memo-field span,
+.dark .field-chip select,
+.dark .field-chip input,
+.dark .memo-field textarea,
+.dark .filter-select,
+.dark .date-range-filter__input,
+.dark .date-range-filter__reset,
+.dark .search-field__input,
+.dark .search-input,
+.dark .category-select {
+  color: #e2e8f0 !important;
+}
+
+.dark .status-message {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+.dark .status-message--error {
+  background: #3f1d27 !important;
+  color: #fda4af !important;
+}
+
+.dark .result-count {
+  background: #3a3417 !important;
+}
+
+.dark .date-group {
+  border-top-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+.dark .date-group.selected,
+.dark .day-cell:hover {
+  background: #1e293b !important;
+}
+
+.dark .weekdays,
+.dark .is-other-month {
+  color: #64748b !important;
+}
+
+.dark .is-other-month .income,
+.dark .is-other-month .expense {
+  color: #475569 !important;
+}
+
+.dark .is-selected {
+  background: #334155 !important;
+}
+
+.dark .is-selected .day-number {
+  color: #f8fafc !important;
+}
+
+.dark .submit-button,
+.dark .delete-button {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+.dark .submit-button:hover:not(:disabled),
+.dark .delete-button:hover:not(:disabled) {
+  background: #475569 !important;
+}
+
+.dark .progress-background {
+  background-color: #334155 !important;
+}
+
+.dark .progress-bar {
+  background-color: #22c55e !important;
+}
+
+.dark .amount-item,
+.dark .amount-item-net-neutral {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+.dark .amount-item-income,
+.dark .amount-item-net-positive {
+  background: rgba(69, 10, 10, 0.45) !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
+}
+
+.dark .amount-item-expense,
+.dark .amount-item-net-negative {
+  background: rgba(30, 58, 138, 0.35) !important;
+  border-color: rgba(96, 165, 250, 0.35) !important;
+}
+
+.dark .donut-hole {
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.3) !important;
+}
