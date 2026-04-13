@@ -21,6 +21,14 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 }
 
+@font-face {
+  font-family: "YoonChoWooSan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408@1.0/YoonChildfundkoreaManSeh.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
 /* semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-white);
@@ -60,6 +68,22 @@ html:not(.dark) {
   --color-text: var(--vt-c-text-light-1);
 }
 
+html.bono {
+  --color-background: #6086d2;
+  --color-background-soft: #123e8e;
+  --color-background-mute: #0f347d;
+  --color-heading: #f5f9ff;
+  --color-text: blue;
+}
+
+html.bono .main-title {
+  font-family: "Gungsuh", "궁서", serif !important;
+}
+
+html.bono *:not(.main-title):not(.main-title *) {
+  font-family: "YoonChoWooSan", sans-serif !important;
+}
+
 *,
 *::before,
 *::after {
@@ -79,14 +103,14 @@ body {
     Inter,
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
+    "Segoe UI",
     Roboto,
     Oxygen,
     Ubuntu,
     Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
@@ -114,23 +138,23 @@ body {
 
 .dark .border-gray-100,
 .dark .border-gray-200,
-.dark [class*='border-[#cfd7df]'],
-.dark [class*='border-[#cfd5de]'],
-.dark [class*='border-[#cad3db]'],
-.dark [class*='border-[#d5dce3]'],
-.dark [class*='border-[#d5dee6]'],
-.dark [class*='border-[#d8cfd3]'] {
+.dark [class*="border-[#cfd7df]"],
+.dark [class*="border-[#cfd5de]"],
+.dark [class*="border-[#cad3db]"],
+.dark [class*="border-[#d5dce3]"],
+.dark [class*="border-[#d5dee6]"],
+.dark [class*="border-[#d8cfd3]"] {
   border-color: rgba(148, 163, 184, 0.28) !important;
 }
 
-.dark [class*='text-[#343434]'],
-.dark [class*='text-[#121212]'],
-.dark [class*='text-[#111111]'],
-.dark [class*='text-[#1f2937]'],
-.dark [class*='text-gray-400'],
-.dark [class*='text-gray-500'],
-.dark [class*='text-gray-600'],
-.dark [class*='text-gray-700'] {
+.dark [class*="text-[#343434]"],
+.dark [class*="text-[#121212]"],
+.dark [class*="text-[#111111]"],
+.dark [class*="text-[#1f2937]"],
+.dark [class*="text-gray-400"],
+.dark [class*="text-gray-500"],
+.dark [class*="text-gray-600"],
+.dark [class*="text-gray-700"] {
   color: #e5e7eb !important;
 }
 

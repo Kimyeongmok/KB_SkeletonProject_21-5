@@ -2,7 +2,9 @@
 <template>
   <div class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200">
     <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
-      <div class="text-3xl main-title">{{ currentUserBudget }} 원으로 한 달 살기</div>
+      <div class="text-3xl main-title" :class="{ 'main-title--bono': isBonoMode }">
+        {{ currentUserBudget }} 원으로 한 달 살기
+      </div>
     </div>
     <div class="flex gap-5 items-center">
       <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
@@ -29,9 +31,11 @@
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useThemeStore } from "@/stores/theme";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const dbData = ref(null);
 const currentMonth = new Date().toISOString().slice(0, 7);
 
@@ -53,6 +57,7 @@ onMounted(async () => {
 const currentUserId = computed(() => authStore.currentUser?.id ?? "");
 
 const userName = computed(() => authStore.currentUser?.name ?? "사용자 이름");
+const isBonoMode = computed(() => themeStore.actualTheme === "bono");
 
 const currentUserBudget = computed(() => {
   if (!dbData.value?.budgets || !currentUserId.value) {
@@ -83,5 +88,22 @@ function goSettings() {
 <style scoped>
 .main-title {
   font-family: "Gulim", sans-serif;
+}
+
+.main-title {
+  font-family: "YeogiOttaeJalnan", sans-serif;
+}
+
+.main-title--bono {
+  font-family: "Gungsuh", "궁서", serif;
+  color: blue;
+}
+
+@font-face {
+  font-family: "YeogiOttaeJalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
 }
 </style>

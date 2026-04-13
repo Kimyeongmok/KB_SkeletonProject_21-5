@@ -6,7 +6,7 @@
     <div v-if="userInfo" class="flex flex-col gap-5 w-full">
       <div class="flex justify-center w-full mb-10">
         <img
-          src="https://placehold.co/700x700"
+          :src="profileImageSrc"
           alt="프로필"
           class="w-20 h-20 rounded-full mb-5 mx-auto border border-blue-100"
         />
@@ -66,11 +66,17 @@
 </template>
 
 <script setup>
+import { computed, ref, watch } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { ref, computed, watch } from "vue";
+import { useThemeStore } from "@/stores/theme";
+import bonoProfileImage from "@/assets/profile/Profile1.png";
 
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const userInfo = computed(() => authStore.currentUser);
+const profileImageSrc = computed(() =>
+  themeStore.actualTheme === "bono" ? bonoProfileImage : "https://placehold.co/700x700",
+);
 const editData = ref({
   name: userInfo.value?.name || "",
   userEmail: userInfo.value?.userEmail || "",

@@ -1,12 +1,15 @@
 <script setup>
-import { computed } from 'vue';
-import { RouterView, useRoute } from 'vue-router';
-import Header from '@/components/Header.vue';
-import Menu from '@/components/Menu.vue';
-import UserBalance from '@/components/UserBalance.vue';
+import { computed } from "vue";
+import { RouterView, useRoute } from "vue-router";
+import Header from "@/components/Header.vue";
+import Menu from "@/components/Menu.vue";
+import UserBalance from "@/components/UserBalance.vue";
+import { useThemeStore } from "@/stores/theme";
+import bonobonoImage from "@/assets/bonobono.png";
 
 const route = useRoute();
-const isAuthLayout = computed(() => route.meta.layout === 'auth');
+const themeStore = useThemeStore();
+const isAuthLayout = computed(() => route.meta.layout === "auth");
 </script>
 
 <template>
@@ -25,12 +28,8 @@ const isAuthLayout = computed(() => route.meta.layout === 'auth');
     </header>
     <div class="p-4"></div>
 
-    <main
-      class="mx-auto grid max-w-8xl grid-cols-12 gap-4 md:gap-8 px-4 py-2 md:px-0 md:py-0"
-    >
-      <div
-        class="col-span-8 space-y-6 md:col-start-2 md:col-span-7 lg:col-start-3 lg:col-span-6"
-      >
+    <main class="mx-auto grid max-w-8xl grid-cols-12 gap-4 md:gap-8 px-4 py-2 md:px-0 md:py-0">
+      <div class="col-span-8 space-y-6 md:col-start-2 md:col-span-7 lg:col-start-3 lg:col-span-6">
         <RouterView></RouterView>
       </div>
 
@@ -47,6 +46,13 @@ const isAuthLayout = computed(() => route.meta.layout === 'auth');
       <p>© 2026 Project: Living on n Won. All rights reserved.</p>
       <p>Made by KO, KIM, O, Hwang</p>
     </footer>
+
+    <img
+      v-if="themeStore.actualTheme === 'bono'"
+      :src="bonobonoImage"
+      alt="보노보노"
+      class="pointer-events-none fixed bottom-4 right-4 z-50 w-28 sm:w-36 md:w-44"
+    />
   </div>
 </template>
 

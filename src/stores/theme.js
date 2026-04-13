@@ -4,6 +4,7 @@ import { ref } from "vue";
 export const useThemeStore = defineStore("theme", () => {
   const THEME_STORAGE_KEY = "app-theme";
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const SUPPORTED_THEMES = ["system", "light", "dark", "bono"];
 
   const theme = ref("system");
   const actualTheme = ref("light");
@@ -20,7 +21,8 @@ export const useThemeStore = defineStore("theme", () => {
     const root = document.documentElement;
 
     root.classList.toggle("dark", actualTheme.value === "dark");
-    root.style.colorScheme = actualTheme.value;
+    root.classList.toggle("bono", actualTheme.value === "bono");
+    root.style.colorScheme = actualTheme.value === "dark" ? "dark" : "light";
   };
 
   const saveTheme = () => {
@@ -57,7 +59,7 @@ export const useThemeStore = defineStore("theme", () => {
   };
 
   const changeTheme = (newTheme) => {
-    if (!["system", "light", "dark"].includes(newTheme)) {
+    if (!SUPPORTED_THEMES.includes(newTheme)) {
       return;
     }
 
@@ -75,7 +77,7 @@ export const useThemeStore = defineStore("theme", () => {
     }
 
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-    if (["system", "light", "dark"].includes(savedTheme)) {
+    if (SUPPORTED_THEMES.includes(savedTheme)) {
       theme.value = savedTheme;
     }
 
