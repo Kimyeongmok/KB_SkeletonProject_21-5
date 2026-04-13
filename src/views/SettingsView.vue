@@ -62,7 +62,7 @@ const submitChangePassword = async (payload: {
       <h2 class="small-title font-bold text-xl text-[#343434]">비밀번호 변경</h2>
       <button
         @click="clickPWhandler"
-        class="mt-4 w-50 rounded-full border border-[#cfd7df] bg-blue-50 px-4 py-2.5 text-sm font-bold text-[#2f4f6a] transition hover:bg-blue-100"
+        class="mt-4 w-50 rounded-full border border-[#cfd7df] bg-blue-50 px-4 py-2.5 text-sm font-bold text-[#2f4f6a] transition hover:bg-blue-100 hover:cursor-pointer"
       >
         비밀번호 변경
       </button>

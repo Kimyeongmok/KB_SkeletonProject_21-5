@@ -61,6 +61,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     try {
       currentUser.value = JSON.parse(storedUser);
+      refreshCurrentUser().catch(() => {});
     } catch {
       localStorage.removeItem(SESSION_KEY);
       currentUser.value = null;

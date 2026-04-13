@@ -18,11 +18,7 @@
         <label class="field-chip">
           <span>카테고리</span>
           <select v-model="form.category">
-            <option
-              v-for="category in categoryOptions"
-              :key="category"
-              :value="category"
-            >
+            <option v-for="category in categoryOptions" :key="category" :value="category">
               {{ category }}
             </option>
           </select>
@@ -56,7 +52,7 @@
         </label>
 
         <button class="submit-button" type="submit" :disabled="isSubmitting">
-          {{ isSubmitting ? '등록 중..' : '등록' }}
+          {{ isSubmitting ? "등록 중.." : "등록" }}
         </button>
       </div>
 
@@ -71,45 +67,45 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { computed, reactive, ref, watch } from 'vue';
+import axios from "axios";
+import { computed, reactive, ref, watch } from "vue";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
-const emit = defineEmits(['created']);
+const emit = defineEmits(["created"]);
 
-const apiBaseUrl = 'http://localhost:3000';
+const apiBaseUrl = "http://localhost:3000";
 const authStore = useAuthStore();
 const today = new Date().toISOString().slice(0, 10);
 
 const isSubmitting = ref(false);
-const errorMessage = ref('');
-const infoMessage = ref('');
+const errorMessage = ref("");
+const infoMessage = ref("");
 
 const categoryMap = {
-  income: ['월급', '부수입', '용돈', '상여', '금융소득', '기타(수입)'],
+  income: ["월급", "부수입", "용돈", "상여", "금융소득", "기타(수입)"],
   expense: [
-    '식비',
-    '교통/차량',
-    '문화생활',
-    '쇼핑',
-    '주거/통신',
-    '교육',
-    '경조사/회비',
-    '기타(소비)',
+    "식비",
+    "교통/차량",
+    "문화생활",
+    "쇼핑",
+    "주거/통신",
+    "교육",
+    "경조사/회비",
+    "기타(소비)",
   ],
 };
 
 const form = reactive({
-  type: 'expense',
+  type: "expense",
   category: categoryMap.expense[0],
   date: today,
   amount: null,
-  memo: '',
+  memo: "",
 });
 
 const currentUserId = computed(
-  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? '',
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
 );
 
 const categoryOptions = computed(() => categoryMap[form.type]);
@@ -122,28 +118,27 @@ watch(
 );
 
 function buildTimeLabel(date = new Date()) {
-  return `${String(date.getHours()).padStart(2, '0')}:${String(
-    date.getMinutes(),
-  ).padStart(2, '0')}`;
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(
+    2,
+    "0",
+  )}`;
 }
 
 function resetForm() {
-  form.type = 'expense';
+  form.type = "expense";
   form.category = categoryMap.expense[0];
   form.date = today;
   form.amount = null;
-  form.memo = '';
+  form.memo = "";
 }
 
 function getBalanceDelta(type, amount) {
   const numericAmount = Number(amount) || 0;
-  return type === 'income' ? numericAmount : -numericAmount;
+  return type === "income" ? numericAmount : -numericAmount;
 }
 
 async function fetchCurrentBalance() {
-  const { data } = await axios.get(
-    `${apiBaseUrl}/users/${currentUserId.value}`,
-  );
+  const { data } = await axios.get(`${apiBaseUrl}/users/${currentUserId.value}`);
   return Number(data?.balance) || 0;
 }
 
@@ -166,26 +161,26 @@ async function refreshAuthenticatedUser(nextBalance) {
       balance: Number(nextBalance) || 0,
     };
     authStore.currentUser = fallbackUser;
-    localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
+    localStorage.setItem("currentUser", JSON.stringify(fallbackUser));
   }
 }
 
 async function submitTransaction() {
   if (!currentUserId.value) {
-    errorMessage.value = '로그인 정보가 없습니다. 다시 로그인해 주세요.';
-    infoMessage.value = '';
+    errorMessage.value = "로그인 정보가 없습니다. 다시 로그인해 주세요.";
+    infoMessage.value = "";
     return;
   }
 
   if (!form.amount || form.amount <= 0) {
-    errorMessage.value = '금액은 0보다 크게 입력해 주세요.';
-    infoMessage.value = '';
+    errorMessage.value = "금액은 0보다 크게 입력해 주세요.";
+    infoMessage.value = "";
     return;
   }
 
   isSubmitting.value = true;
-  errorMessage.value = '';
-  infoMessage.value = '';
+  errorMessage.value = "";
+  infoMessage.value = "";
 
   const createdAt = new Date();
   const payload = {
@@ -201,8 +196,7 @@ async function submitTransaction() {
 
   try {
     const currentBalance = await fetchCurrentBalance();
-    const nextBalance =
-      currentBalance + getBalanceDelta(payload.type, payload.amount);
+    const nextBalance = currentBalance + getBalanceDelta(payload.type, payload.amount);
 
     await axios.post(`${apiBaseUrl}/finances`, payload);
 
@@ -210,18 +204,15 @@ async function submitTransaction() {
       await updateUserBalance(nextBalance);
       await refreshAuthenticatedUser(nextBalance);
     } catch (balanceError) {
-      await axios
-        .delete(`${apiBaseUrl}/finances/${payload.id}`)
-        .catch(() => {});
+      await axios.delete(`${apiBaseUrl}/finances/${payload.id}`).catch(() => {});
       throw balanceError;
     }
 
     resetForm();
-    emit('created');
+    emit("created");
   } catch (serverError) {
-    console.error('거래 등록에 실패했습니다.', serverError);
-    errorMessage.value =
-      'json-server 연결이 필요합니다. 서버 실행 상태를 확인해 주세요.';
+    console.error("거래 등록에 실패했습니다.", serverError);
+    errorMessage.value = "json-server 연결이 필요합니다. 서버 실행 상태를 확인해 주세요.";
   } finally {
     isSubmitting.value = false;
   }

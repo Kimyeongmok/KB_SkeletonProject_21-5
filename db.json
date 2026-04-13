@@ -5,7 +5,7 @@
       "name": "김가계",
       "userEmail": "kbstudent@abc.com",
       "pw": "kb1234",
-      "balance": 2840000
+      "balance": 2710000
     },
     {
       "id": "user-002",
@@ -37,16 +37,6 @@
       "memo": "4월 급여"
     },
     {
-      "id": "fin-003",
-      "userId": "user-001",
-      "type": "expense",
-      "amount": 120000,
-      "category": "식비",
-      "date": "2026-04-02",
-      "time": "12:35",
-      "memo": "주말 식사"
-    },
-    {
       "id": "fin-004",
       "userId": "user-001",
       "type": "expense",
@@ -67,16 +57,6 @@
       "memo": "생활용품 구매"
     },
     {
-      "id": "fin-006",
-      "userId": "user-001",
-      "type": "income",
-      "amount": 400000,
-      "category": "부수입",
-      "date": "2026-04-27",
-      "time": "21:15",
-      "memo": "프리랜서 작업"
-    },
-    {
       "id": "fin-007",
       "userId": "user-001",
       "type": "expense",
@@ -85,26 +65,6 @@
       "date": "2026-02-10",
       "time": "10:00",
       "memo": "관리비"
-    },
-    {
-      "id": "fin-008",
-      "userId": "user-001",
-      "type": "income",
-      "amount": 50000,
-      "category": "용돈",
-      "date": "2026-04-14",
-      "time": "18:30",
-      "memo": "부모님께 받은 용돈"
-    },
-    {
-      "id": "fin-009",
-      "userId": "user-001",
-      "type": "expense",
-      "amount": 200000,
-      "category": "교육",
-      "date": "2026-04-20",
-      "time": "20:00",
-      "memo": "학원 등록"
     }
   ],
   "budgets": [
