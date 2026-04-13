@@ -152,6 +152,24 @@ async function updateUserBalance(nextBalance) {
     balance: nextBalance,
   });
 }
+
+async function refreshAuthenticatedUser(nextBalance) {
+  if (!authStore.currentUser) {
+    return;
+  }
+
+  try {
+    await authStore.refreshCurrentUser();
+  } catch {
+    const fallbackUser = {
+      ...authStore.currentUser,
+      balance: Number(nextBalance) || 0,
+    };
+    authStore.currentUser = fallbackUser;
+    localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
+  }
+}
+
 async function submitTransaction() {
   if (!currentUserId.value) {
     errorMessage.value = '로그인 정보가 없습니다. 다시 로그인해 주세요.';
@@ -190,6 +208,7 @@ async function submitTransaction() {
 
     try {
       await updateUserBalance(nextBalance);
+      await refreshAuthenticatedUser(nextBalance);
     } catch (balanceError) {
       await axios
         .delete(`${apiBaseUrl}/finances/${payload.id}`)
