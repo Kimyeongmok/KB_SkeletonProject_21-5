@@ -1,6 +1,9 @@
 <!-- 페이지 상단 헤더 -->
 <template>
-  <div class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200">
+  <div
+    class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200"
+    :class="{ 'header--bono': isBonoMode }"
+  >
     <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
       <div class="text-3xl main-title" :class="{ 'main-title--bono': isBonoMode }">
         {{ currentUserBudget }} 원으로 한 달 살기
@@ -101,6 +104,20 @@ function goSettings() {
 </script>
 
 <style scoped>
+.header--bono {
+  background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff8400 16%,
+    #ffd500 32%,
+    #00ff33 48%,
+    #00d5ff 64%,
+    #0022ff 80%,
+    #8000ff 100%
+  );
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
 .main-title {
   font-family: "Gulim", sans-serif;
 }
