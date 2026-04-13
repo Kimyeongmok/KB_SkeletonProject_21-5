@@ -4,12 +4,36 @@
   >
     <h2 class="text-xl font-bold mb-4 text-[#343434] small-title">사용자 정보</h2>
     <div v-if="userInfo" class="flex flex-col gap-5 w-full">
-      <div class="flex justify-center w-full mb-10">
+      <div class="flex justify-center w-full mb-3">
         <img
           :src="profileImageSrc"
           alt="프로필"
-          class="w-20 h-20 rounded-full mb-5 mx-auto border border-blue-100"
+          class="w-16 h-16 rounded-full mx-auto border border-blue-100 object-cover"
         />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-sm font-bold text-[#343434]">프로필 사진 선택</p>
+        <div class="flex flex-wrap justify-center gap-2">
+          <button
+            v-for="profile in profileOptions"
+            :key="profile.value"
+            type="button"
+            @click="selectProfile(profile.value)"
+            class="rounded-xl border p-1.5 transition hover:border-blue-300 hover:bg-blue-50"
+            :class="
+              selectedProfile === profile.value
+                ? 'border-blue-400 bg-blue-50'
+                : 'border-[#cfd7df] bg-white'
+            "
+          >
+            <img
+              :src="profile.image"
+              :alt="profile.label"
+              class="h-12 w-12 rounded-lg object-cover"
+            />
+          </button>
+        </div>
       </div>
 
       <form @submit.prevent="saveUserInfo" class="w-full flex flex-col gap-6">
@@ -68,14 +92,25 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { useThemeStore } from "@/stores/theme";
-import bonoProfileImage from "@/assets/profile/Profile1.png";
+import profileImage1 from "@/assets/profile/Profile1.png";
+import profileImage2 from "@/assets/profile/Profile2.png";
+import profileImage3 from "@/assets/profile/Profile3.png";
 
 const authStore = useAuthStore();
-const themeStore = useThemeStore();
 const userInfo = computed(() => authStore.currentUser);
-const profileImageSrc = computed(() =>
-  themeStore.actualTheme === "bono" ? bonoProfileImage : "https://placehold.co/700x700",
+const profileOptions = [
+  { value: "Profile1.png", label: "프로필 1", image: profileImage1 },
+  { value: "Profile2.png", label: "프로필 2", image: profileImage2 },
+  { value: "Profile3.png", label: "프로필 3", image: profileImage3 },
+];
+const profileImageMap = {
+  "Profile1.png": profileImage1,
+  "Profile2.png": profileImage2,
+  "Profile3.png": profileImage3,
+};
+const selectedProfile = ref(userInfo.value?.profile || "Profile1.png");
+const profileImageSrc = computed(
+  () => profileImageMap[selectedProfile.value] || profileImageMap["Profile1.png"],
 );
 const editData = ref({
   name: userInfo.value?.name || "",
@@ -90,9 +125,14 @@ watch(
       name: value?.name || "",
       userEmail: value?.userEmail || "",
     };
+    selectedProfile.value = value?.profile || "Profile1.png";
   },
   { immediate: true },
 );
+
+const selectProfile = (profile) => {
+  selectedProfile.value = profile;
+};
 
 const saveUserInfo = async () => {
   localErrorMessage.value = "";
@@ -101,6 +141,7 @@ const saveUserInfo = async () => {
     await authStore.updateUser({
       name: editData.value.name,
       userEmail: editData.value.userEmail,
+      profile: selectedProfile.value,
     });
     alert("사용자 정보가 성공적으로 업데이트되었습니다.");
   } catch (error) {
@@ -115,6 +156,7 @@ const resetForm = () => {
     name: userInfo.value?.name || "",
     userEmail: userInfo.value?.userEmail || "",
   };
+  selectedProfile.value = userInfo.value?.profile || "Profile1.png";
 };
 
 const isLoading = computed(() => authStore.isLoading);

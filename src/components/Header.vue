@@ -7,7 +7,10 @@
       </div>
     </div>
     <div class="flex gap-5 items-center">
-      <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
+      <div
+        class="flex items-center gap-2 whitespace-nowrap text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm"
+      >
+        <img :src="headerProfileImageSrc" alt="프로필" class="h-7 w-7 rounded-full object-cover" />
         <span class="text-blue-700">{{ userName }}</span> 님
       </div>
       <button
@@ -32,6 +35,9 @@ import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useThemeStore } from "@/stores/theme";
+import profileImage1 from "@/assets/profile/Profile1.png";
+import profileImage2 from "@/assets/profile/Profile2.png";
+import profileImage3 from "@/assets/profile/Profile3.png";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -57,6 +63,15 @@ onMounted(async () => {
 const currentUserId = computed(() => authStore.currentUser?.id ?? "");
 
 const userName = computed(() => authStore.currentUser?.name ?? "사용자 이름");
+const profileImageMap = {
+  "Profile1.png": profileImage1,
+  "Profile2.png": profileImage2,
+  "Profile3.png": profileImage3,
+};
+const headerProfileImageSrc = computed(() => {
+  const profile = authStore.currentUser?.profile || "Profile1.png";
+  return profileImageMap[profile] || profileImageMap["Profile1.png"];
+});
 const isBonoMode = computed(() => themeStore.actualTheme === "bono");
 
 const currentUserBudget = computed(() => {

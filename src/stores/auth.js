@@ -38,6 +38,7 @@ export const useAuthStore = defineStore("auth", () => {
         userEmail,
         pw,
         balance: Number(signupData.balance) || 0,
+        profile: signupData.profile || "Profile1.png",
       };
 
       const { data: createdUser } = await axios.post("/api/users", newUser);
