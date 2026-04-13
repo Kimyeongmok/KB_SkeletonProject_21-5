@@ -1,18 +1,18 @@
 <template>
-  <section class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
-    <div class="flex w-full max-w-md flex-col gap-8 rounded-lg bg-white p-8 shadow-lg">
+  <section class="signup-page flex min-h-screen items-center justify-center px-4 py-10">
+    <div class="signup-card flex w-full max-w-md flex-col gap-8 rounded-lg p-8 shadow-lg">
       <div>
-        <h1 class="text-2xl font-bold text-slate-800 small-title">회원가입</h1>
-        <p class="mt-2 text-sm text-slate-500">가계부를 사용할 계정을 만드세요.</p>
+        <h1 class="signup-title text-2xl font-bold small-title">회원가입</h1>
+        <p class="signup-subtitle mt-2 text-sm">가계부를 사용할 계정을 만드세요.</p>
       </div>
 
       <form class="mt-6 flex flex-col gap-4" @submit.prevent="handleSignup">
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="name">이름</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="name">이름</label>
           <input
             id="name"
             v-model.trim="form.name"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
+            class="signup-input w-full rounded-lg border px-3 py-2 outline-none transition focus:border-blue-500"
             type="text"
             autocomplete="name"
             required
@@ -20,11 +20,11 @@
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="userEmail">이메일</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="userEmail">이메일</label>
           <input
             id="userEmail"
             v-model.trim="form.userEmail"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
+            class="signup-input w-full rounded-lg border px-3 py-2 outline-none transition focus:border-blue-500"
             type="email"
             autocomplete="username"
             required
@@ -32,11 +32,11 @@
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="pw">비밀번호</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="pw">비밀번호</label>
           <input
             id="pw"
             v-model="form.pw"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
+            class="signup-input w-full rounded-lg border px-3 py-2 outline-none transition focus:border-blue-500"
             type="password"
             autocomplete="new-password"
             required
@@ -44,11 +44,11 @@
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="confirmPw">비밀번호 확인</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="confirmPw">비밀번호 확인</label>
           <input
             id="confirmPw"
             v-model="form.confirmPw"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
+            class="signup-input w-full rounded-lg border px-3 py-2 outline-none transition focus:border-blue-500"
             type="password"
             autocomplete="new-password"
             required
@@ -56,14 +56,14 @@
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700" for="balance">초기 잔액</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="balance">초기 잔액</label>
           <input
             id="balance"
             v-model.number="form.balance"
-            class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500"
+            class="signup-input w-full rounded-lg border px-3 py-2 outline-none transition focus:border-blue-500"
             type="number"
             min="0"
-            step="1000"
+            step="1"
           />
         </div>
 
@@ -79,9 +79,9 @@
           {{ authStore.isLoading ? "가입 중..." : "회원가입" }}
         </button>
 
-        <p class="text-center text-sm text-slate-600">
+        <p class="signup-footer text-center text-sm">
           이미 계정이 있으신가요?
-          <RouterLink class="font-semibold text-sky-700 hover:text-sky-800" to="/login">
+          <RouterLink class="signup-link font-semibold" to="/login">
             로그인
           </RouterLink>
         </p>
@@ -125,3 +125,51 @@ async function handleSignup() {
   }
 }
 </script>
+
+<style scoped>
+.signup-page {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.signup-card {
+  background: var(--color-background-soft);
+  border: 1px solid var(--color-border);
+}
+
+.signup-title {
+  color: var(--color-heading);
+}
+
+.signup-subtitle,
+.signup-label,
+.signup-footer {
+  color: var(--color-text);
+}
+
+.signup-input {
+  background: var(--color-background);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.signup-input:focus {
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.signup-link {
+  color: #0369a1;
+}
+
+.signup-link:hover {
+  color: #075985;
+}
+
+:global(.dark) .signup-link {
+  color: #7dd3fc;
+}
+
+:global(.dark) .signup-link:hover {
+  color: #bae6fd;
+}
+</style>
