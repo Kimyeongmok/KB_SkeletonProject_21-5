@@ -1,51 +1,66 @@
 <template>
   <section class="daily-card">
-    <div class="toolbar">
+    <div class="section-head section-head--list">
+      <h2>거래 내역</h2>
+      <p class="result-count">{{ filteredTransactions.length }}건</p>
+    </div>
+
+    <div class="filter-toolbar">
       <div class="filter-row">
-        <div class="type-filter">
-          <label class="sr-only" for="typeSelect">유형 선택</label>
-          <select id="typeSelect" v-model="typeFilter" class="category-select">
-            <option
-              v-for="item in typeOptions"
-              :key="item.value"
-              :value="item.value"
-            >
-              {{ item.label }}
-            </option>
-          </select>
-        </div>
-
-        <div class="category-filter">
-          <label class="sr-only" for="categorySelect">카테고리 선택</label>
-          <select
-            id="categorySelect"
-            v-model="categoryFilter"
-            class="category-select"
+        <select v-model="typeFilter" class="filter-select">
+          <option
+            v-for="item in typeOptions"
+            :key="item.value"
+            :value="item.value"
           >
-            <option value="all">카테고리 전체</option>
-            <option
-              v-for="category in categories"
-              :key="category"
-              :value="category"
-            >
-              {{ category }}
-            </option>
-          </select>
-        </div>
+            {{ item.label }}
+          </option>
+        </select>
 
-        <span class="result-count">{{ filteredTransactions.length }}건</span>
+        <select v-model="categoryFilter" class="filter-select">
+          <option value="all">카테고리 전체</option>
+          <option
+            v-for="category in categories"
+            :key="category"
+            :value="category"
+          >
+            {{ category }}
+          </option>
+        </select>
+
+        <div class="date-range-filter">
+          <span class="date-range-filter__label">기간</span>
+          <input
+            v-model="startDateFilter"
+            type="date"
+            class="date-range-filter__input"
+          />
+          <span class="date-range-filter__separator">~</span>
+          <input
+            v-model="endDateFilter"
+            type="date"
+            class="date-range-filter__input"
+          />
+          <button
+            type="button"
+            class="date-range-filter__reset"
+            @click="resetDateFilter"
+          >
+            초기화
+          </button>
+        </div>
       </div>
 
-      <div class="search-wrap">
-        <label class="search-label" for="transactionSearch">검색어</label>
+      <label class="search-field" for="transactionSearch">
+        <span class="search-field__label">검색</span>
         <input
           id="transactionSearch"
           v-model.trim="searchQuery"
           type="text"
-          class="search-input"
-          placeholder="메모 또는 카테고리 검색"
+          class="search-field__input"
+          placeholder="메모, 카테고리, 금액으로 검색"
         />
-      </div>
+      </label>
     </div>
 
     <div ref="scrollContainer" class="transaction-scroll">
@@ -132,6 +147,8 @@ const props = defineProps({
 
 const typeFilter = ref('all');
 const categoryFilter = ref('all');
+const startDateFilter = ref('');
+const endDateFilter = ref('');
 const searchQuery = ref('');
 const scrollContainer = ref(null);
 const pendingScroll = ref(false);
@@ -190,8 +207,15 @@ const filteredTransactions = computed(() => {
       typeFilter.value === 'all' || item.type === typeFilter.value;
     const categoryMatched =
       categoryFilter.value === 'all' || item.category === categoryFilter.value;
+    const startMatched =
+      !startDateFilter.value ||
+      (item.date && item.date >= startDateFilter.value);
+    const endMatched =
+      !endDateFilter.value || (item.date && item.date <= endDateFilter.value);
 
-    if (!typeMatched || !categoryMatched) return false;
+    if (!typeMatched || !categoryMatched || !startMatched || !endMatched) {
+      return false;
+    }
     if (!keyword) return true;
 
     const target = [
@@ -231,6 +255,8 @@ watch(
   async () => {
     typeFilter.value = 'all';
     categoryFilter.value = 'all';
+    startDateFilter.value = '';
+    endDateFilter.value = '';
     searchQuery.value = '';
     pendingScroll.value = true;
     await nextTick();
@@ -278,6 +304,13 @@ function toTimestamp(item) {
   return new Date(`${safeDate}T${safeTime}:00`).getTime();
 }
 
+function resetDateFilter() {
+  typeFilter.value = 'all';
+  categoryFilter.value = 'all';
+  startDateFilter.value = '';
+  endDateFilter.value = '';
+}
+
 function formatDateLabel(dateString) {
   const date = new Date(`${dateString}T00:00:00`);
   const weekday = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()];
@@ -298,56 +331,114 @@ function formatNumber(value) {
   box-shadow: 0 4px 12px rgba(71, 95, 114, 0.14);
 }
 
-.toolbar {
+.section-head {
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #121212;
+}
+
+.section-head--list {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+}
+
+.filter-toolbar {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .filter-row {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 2.3fr);
   gap: 8px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
-.type-filter {
-  display: inline-flex;
-}
-
-.category-select {
+.filter-select {
+  width: 100%;
+  min-width: 0;
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 8px 12px;
   background: #ffffff;
   color: #1f2937;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
 .result-count {
-  margin-left: auto;
+  margin-top: 0;
   background: #f2e59c;
   border-radius: 999px;
   padding: 8px 14px;
   font-size: 0.82rem;
   font-weight: 800;
-  color: #3f3a1a;
+  color: #111111;
 }
 
-.search-wrap {
+.date-range-filter {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.date-range-filter__label {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #364152;
+}
+
+.date-range-filter__input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.date-range-filter__separator {
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.date-range-filter__reset {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #cfd5de;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.search-field {
   display: grid;
   gap: 6px;
 }
 
-.search-label {
+.search-field__label {
   font-size: 0.85rem;
   font-weight: 700;
   color: #161a22;
 }
 
-.search-input {
+.search-field__input {
   border: 1px solid #cfd5de;
   border-radius: 999px;
   padding: 10px 14px;
@@ -471,7 +562,19 @@ function formatNumber(value) {
 
 @media (max-width: 760px) {
   .result-count {
-    margin-left: 0;
+    margin-top: 0;
+  }
+
+  .filter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .date-range-filter {
+    grid-template-columns: 1fr;
+  }
+
+  .date-range-filter__separator {
+    display: none;
   }
 
   .transaction-item,
