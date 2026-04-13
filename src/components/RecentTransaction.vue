@@ -10,7 +10,7 @@
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-    <h3 class="title">소비 금액</h3>
+    <h3 class="title small-title">소비 금액</h3>
 
     <div class="text-sm text-gray-700 mb-6">
       <p>1년 평균 소비 금액</p>
@@ -30,7 +30,9 @@
           class="flex-1 min-w-[120px] p-6 rounded-3xl bg-white border border-blue-50 shadow-sm text-center"
         >
           <p class="text-xs text-gray-400 mb-2">{{ month }}</p>
-          <p class="text-lg font-bold text-gray-700">₩ {{ amount.toLocaleString() }}</p>
+          <p class="text-lg font-bold text-gray-700">
+            ₩ {{ amount.toLocaleString() }}
+          </p>
         </div>
       </div>
     </div>
@@ -38,16 +40,16 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import axios from "axios";
-import { useAuthStore } from "@/stores/auth";
+import { computed, onMounted, ref } from 'vue';
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
 
 const yearAverage = ref(0);
 const lastThreeMonths = ref({});
 const authStore = useAuthStore();
 
 const currentUserId = computed(
-  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? '',
 );
 
 const fetchData = async () => {
@@ -58,10 +60,10 @@ const fetchData = async () => {
   }
 
   try {
-    const response = await axios.get("http://localhost:3000/finances", {
+    const response = await axios.get('http://localhost:3000/finances', {
       params: { userId: currentUserId.value },
     });
-    const expenses = response.data.filter((item) => item.type === "expense");
+    const expenses = response.data.filter((item) => item.type === 'expense');
 
     const monthlyTotals = expenses.reduce((acc, curr) => {
       const monthStr = curr.date.substring(0, 7); // "2026-04" 추출
@@ -74,7 +76,7 @@ const fetchData = async () => {
     const threeMonthsData = {};
     for (let i = 1; i <= 3; i++) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
       threeMonthsData[mStr] = monthlyTotals[mStr] || 0;
     }
     lastThreeMonths.value = threeMonthsData;
@@ -82,12 +84,12 @@ const fetchData = async () => {
     let totalYearExpense = 0;
     for (let i = 1; i <= 12; i++) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const mStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
       totalYearExpense += monthlyTotals[mStr] || 0;
     }
     yearAverage.value = Math.floor(totalYearExpense / 12);
   } catch (error) {
-    console.error("데이터 로드 실패:", error);
+    console.error('데이터 로드 실패:', error);
   }
 };
 

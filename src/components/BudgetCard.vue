@@ -3,14 +3,13 @@
   font-size: 20px;
   font-weight: 800;
 }
-
 </style>
 
 <template>
   <div
     class="flex flex-col w-full bg-white p-6 gap-4 rounded-[24px] border border-[#cfd7df] shadow-[0_4px_12px_rgba(71,95,114,0.14)]"
   >
-    <h3 class="title">목표 설정</h3>
+    <h3 class="title small-title">목표 설정</h3>
 
     <div class="grid grid-cols-2 gap-4 mb-4">
       <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
@@ -22,7 +21,11 @@
       <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
         <p class="text-xs text-blue-500 mb-1">이번 달 목표 예산</p>
         <p class="font-bold text-blue-700">
-          {{ currentMonthLimit > 0 ? currentMonthLimit.toLocaleString() + "원" : "미설정" }}
+          {{
+            currentMonthLimit > 0
+              ? currentMonthLimit.toLocaleString() + '원'
+              : '미설정'
+          }}
         </p>
       </div>
     </div>
@@ -49,22 +52,22 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import axios from "axios";
-import { useAuthStore } from "@/stores/auth";
+import { computed, onMounted, ref } from 'vue';
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
 
 const lastMonthLimit = ref(0);
 const currentMonthLimit = ref(0);
 const thisMonthLimit = ref(null);
 const authStore = useAuthStore();
 const currentUserId = computed(
-  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
+  () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? '',
 );
 
 const getMonthString = (offset = 0) => {
   const now = new Date();
   const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 };
 
 const fetchBudgets = async () => {
@@ -78,32 +81,34 @@ const fetchBudgets = async () => {
     const lastMonthStr = getMonthString(-1);
     const thisMonthStr = getMonthString(0);
 
-    const response = await axios.get("http://localhost:3000/budgets");
+    const response = await axios.get('http://localhost:3000/budgets');
 
     const lastData = response.data.find(
-      (item) => item.userId === currentUserId.value && item.month === lastMonthStr,
+      (item) =>
+        item.userId === currentUserId.value && item.month === lastMonthStr,
     );
     if (lastData) lastMonthLimit.value = lastData.limit;
     else lastMonthLimit.value = 0;
 
     const thisData = response.data.find(
-      (item) => item.userId === currentUserId.value && item.month === thisMonthStr,
+      (item) =>
+        item.userId === currentUserId.value && item.month === thisMonthStr,
     );
     if (thisData) currentMonthLimit.value = thisData.limit;
     else currentMonthLimit.value = 0;
   } catch (error) {
-    console.error("예산 로드 실패:", error);
+    console.error('예산 로드 실패:', error);
   }
 };
 
 const registerBudget = async () => {
   if (!currentUserId.value) {
-    alert("로그인 후 이용해주세요.");
+    alert('로그인 후 이용해주세요.');
     return;
   }
 
   if (!thisMonthLimit.value || thisMonthLimit.value <= 0) {
-    alert("올바른 금액을 입력해주세요.");
+    alert('올바른 금액을 입력해주세요.');
     return;
   }
 
@@ -119,7 +124,7 @@ const registerBudget = async () => {
         limit: thisMonthLimit.value,
       });
     } else {
-      await axios.post("http://localhost:3000/budgets", {
+      await axios.post('http://localhost:3000/budgets', {
         userId: currentUserId.value,
         month: thisMonthStr,
         limit: thisMonthLimit.value,
@@ -129,8 +134,8 @@ const registerBudget = async () => {
     currentMonthLimit.value = thisMonthLimit.value;
     thisMonthLimit.value = null;
   } catch (error) {
-    console.error("처리 실패:", error);
-    alert("오류가 발생했습니다.");
+    console.error('처리 실패:', error);
+    alert('오류가 발생했습니다.');
   }
 };
 
