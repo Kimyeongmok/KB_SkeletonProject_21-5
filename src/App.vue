@@ -4,11 +4,9 @@ import { RouterView, useRoute } from "vue-router";
 import Header from "@/components/Header.vue";
 import Menu from "@/components/Menu.vue";
 import UserBalance from "@/components/UserBalance.vue";
-import { useThemeStore } from "@/stores/theme";
-import bonobonoImage from "@/assets/bonobono.png";
+import Bonobono from "@/components/Bonobono.vue";
 
 const route = useRoute();
-const themeStore = useThemeStore();
 const isAuthLayout = computed(() => route.meta.layout === "auth");
 </script>
 
@@ -47,12 +45,7 @@ const isAuthLayout = computed(() => route.meta.layout === "auth");
       <p>Made by KO, KIM, O, Hwang</p>
     </footer>
 
-    <img
-      v-if="themeStore.actualTheme === 'bono'"
-      :src="bonobonoImage"
-      alt="보노보노"
-      class="pointer-events-none fixed bottom-4 right-4 z-50 w-28 sm:w-36 md:w-44"
-    />
+    <Bonobono />
   </div>
 </template>
 

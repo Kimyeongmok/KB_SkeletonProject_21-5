@@ -20,13 +20,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { useBudgetProgressStore } from "@/stores/budgetProgress";
 
 const apiBaseUrl = "http://localhost:3000";
 const dbData = ref(null);
 const isLoaded = ref(false);
 const authStore = useAuthStore();
+const budgetProgressStore = useBudgetProgressStore();
 const currentUserId = computed(
   () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
 );
@@ -75,6 +77,14 @@ const progressPercentage = computed(() => {
   if (monthlyBudget.value === 0) return 0;
   return (totalExpense.value / monthlyBudget.value) * 100;
 });
+
+watch(
+  progressPercentage,
+  (value) => {
+    budgetProgressStore.setProgressPercentage(value);
+  },
+  { immediate: true },
+);
 
 const progressPercentLabel = computed(() => `${Math.round(progressPercentage.value)}%`);
 
