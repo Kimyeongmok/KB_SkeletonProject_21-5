@@ -74,7 +74,7 @@ import { useAuthStore } from "@/stores/auth";
 
 const emit = defineEmits(["created"]);
 
-const apiBaseUrl = "http://localhost:3000";
+const apiBaseUrl = "/api";
 const authStore = useAuthStore();
 const today = new Date().toISOString().slice(0, 10);
 

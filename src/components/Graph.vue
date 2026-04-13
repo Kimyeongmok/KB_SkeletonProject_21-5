@@ -126,7 +126,7 @@ async function loadFinances() {
   isLoading.value = true;
 
   try {
-    const { data } = await axios.get('http://localhost:3000/finances', {
+    const { data } = await axios.get('/api/finances', {
       params: { userId: currentUserId.value },
     });
     finances.value = Array.isArray(data) ? data : [];

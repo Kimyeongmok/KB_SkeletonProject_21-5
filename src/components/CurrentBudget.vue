@@ -24,7 +24,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useBudgetProgressStore } from "@/stores/budgetProgress";
 
-const apiBaseUrl = "http://localhost:3000";
+const apiBaseUrl = "/api";
 const dbData = ref(null);
 const isLoaded = ref(false);
 const authStore = useAuthStore();

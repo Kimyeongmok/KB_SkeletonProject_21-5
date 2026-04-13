@@ -81,7 +81,7 @@ const fetchBudgets = async () => {
     const lastMonthStr = getMonthString(-1);
     const thisMonthStr = getMonthString(0);
 
-    const response = await axios.get('http://localhost:3000/budgets');
+    const response = await axios.get('/api/budgets');
 
     const lastData = response.data.find(
       (item) =>
@@ -115,16 +115,16 @@ const registerBudget = async () => {
   try {
     const thisMonthStr = getMonthString(0);
     const checkResponse = await axios.get(
-      `http://localhost:3000/budgets?userId=${currentUserId.value}&month=${thisMonthStr}`,
+      `/api/budgets?userId=${currentUserId.value}&month=${thisMonthStr}`,
     );
     const existingBudget = checkResponse.data[0];
 
     if (existingBudget) {
-      await axios.patch(`http://localhost:3000/budgets/${existingBudget.id}`, {
+      await axios.patch(`/api/budgets/${existingBudget.id}`, {
         limit: thisMonthLimit.value,
       });
     } else {
-      await axios.post('http://localhost:3000/budgets', {
+      await axios.post('/api/budgets', {
         userId: currentUserId.value,
         month: thisMonthStr,
         limit: thisMonthLimit.value,

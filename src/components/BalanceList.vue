@@ -140,7 +140,7 @@ const props = defineProps({
   },
 });
 
-const apiBaseUrl = 'http://localhost:3000';
+const apiBaseUrl = '/api';
 const authStore = useAuthStore();
 
 const transactions = ref([]);

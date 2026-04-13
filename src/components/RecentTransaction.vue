@@ -60,7 +60,7 @@ const fetchData = async () => {
   }
 
   try {
-    const response = await axios.get('http://localhost:3000/finances', {
+    const response = await axios.get('/api/finances', {
       params: { userId: currentUserId.value },
     });
     const expenses = response.data.filter((item) => item.type === 'expense');

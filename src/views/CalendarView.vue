@@ -27,7 +27,7 @@ import Calendar from "@/components/Calendar.vue";
 import DailyTransaction from "@/components/DailyTransaction.vue";
 import { useAuthStore } from "@/stores/auth";
 
-const apiBaseUrl = "http://localhost:3000";
+const apiBaseUrl = "/api";
 const authStore = useAuthStore();
 const currentUserId = computed(
   () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",

@@ -31,7 +31,7 @@ import { useAuthStore } from "@/stores/auth";
 
 const dbData = ref(null);
 const isLoaded = ref(false);
-const apiBaseUrl = "http://localhost:3000";
+const apiBaseUrl = "/api";
 const authStore = useAuthStore();
 const currentUserId = computed(
   () => authStore.currentUser?.id ?? authStore.currentUser?.userId ?? "",
