@@ -257,6 +257,8 @@ function formatDateTime(transaction) {
 }
 
 function resetDateFilter() {
+  typeFilter.value = 'all';
+  categoryFilter.value = 'all';
   startDateFilter.value = '';
   endDateFilter.value = '';
 }
@@ -283,6 +285,23 @@ async function updateUserBalance(nextBalance) {
   await axios.patch(`${apiBaseUrl}/users/${currentUserId.value}`, {
     balance: nextBalance,
   });
+}
+
+async function refreshAuthenticatedUser(nextBalance) {
+  if (!authStore.currentUser) {
+    return;
+  }
+
+  try {
+    await authStore.refreshCurrentUser();
+  } catch {
+    const fallbackUser = {
+      ...authStore.currentUser,
+      balance: Number(nextBalance) || 0,
+    };
+    authStore.currentUser = fallbackUser;
+    localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
+  }
 }
 
 async function fetchTransactions() {
@@ -332,6 +351,7 @@ async function deleteTransaction(transaction) {
 
       try {
         await updateUserBalance(nextBalance);
+        await refreshAuthenticatedUser(nextBalance);
       } catch (balanceError) {
         await axios.post(`${apiBaseUrl}/finances`, transaction).catch(() => {});
         throw balanceError;

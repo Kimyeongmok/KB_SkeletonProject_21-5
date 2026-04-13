@@ -12,7 +12,14 @@ const isAuthLayout = computed(() => route.meta.layout === 'auth');
 <template>
   <RouterView v-if="isAuthLayout" />
 
-  <div v-else class="min-h-screen bg-gray-50">
+  <div
+    v-else
+    class="min-h-screen transition-colors duration-300"
+    :style="{
+      backgroundColor: 'var(--color-background)',
+      color: 'var(--color-text)',
+    }"
+  >
     <header>
       <Header />
     </header>
@@ -36,7 +43,7 @@ const isAuthLayout = computed(() => route.meta.layout === 'auth');
       </div>
     </main>
 
-    <footer class="mt-16 p-6 text-center text-sm text-gray-500 space-y-1">
+    <footer class="mt-16 p-6 text-center text-sm space-y-1 text-inherit">
       <p>© 2026 Project: Living on n Won. All rights reserved.</p>
       <p>Made by KO, KIM, O, Hwang</p>
     </footer>
