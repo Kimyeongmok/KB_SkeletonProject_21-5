@@ -27,13 +27,13 @@ const isAuthLayout = computed(() => route.meta.layout === "auth");
       </header>
       <div class="p-4"></div>
 
-      <main class="mx-auto grid max-w-8xl grid-cols-12 gap-4 md:gap-8 px-4 py-2 md:px-0 md:py-0">
-        <div class="col-span-8 space-y-6 md:col-start-2 md:col-span-7 lg:col-start-3 lg:col-span-6">
+      <main class="mx-auto grid max-w-8xl grid-cols-1 gap-4 px-4 py-2 md:grid-cols-12 md:gap-8 md:px-0 md:py-0">
+        <div class="space-y-6 md:col-start-2 md:col-span-7 lg:col-start-3 lg:col-span-6">
           <RouterView></RouterView>
         </div>
 
         <div
-          class="col-span-4 space-y-6 self-start md:col-start-9 md:col-span-3 lg:col-span-2 sticky top-4"
+          class="space-y-6 self-start md:col-start-9 md:col-span-3 lg:col-span-2 md:sticky md:top-4"
         >
           <div><UserBalance /></div>
           <div class="p-4"></div>
