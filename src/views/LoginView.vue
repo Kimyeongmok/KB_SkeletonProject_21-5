@@ -43,6 +43,12 @@
         >
           {{ authStore.isLoading ? "로그인 중..." : "로그인" }}
         </button>
+        <p class="text-center text-sm text-slate-600">
+          계정이 없으신가요?
+          <RouterLink class="font-semibold text-sky-700 hover:text-sky-800" to="/signup">
+            회원가입
+          </RouterLink>
+        </p>
       </form>
     </div>
   </section>

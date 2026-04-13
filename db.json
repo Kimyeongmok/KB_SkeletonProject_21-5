@@ -13,6 +13,13 @@
       "userEmail": "kbstudent1@abc.com",
       "pw": "kb1234",
       "balance": 100
+    },
+    {
+      "id": "user-1776043713460",
+      "name": "aaa",
+      "userEmail": "rla@naver.com",
+      "pw": "11",
+      "balance": 1000
     }
   ],
   "finances": [

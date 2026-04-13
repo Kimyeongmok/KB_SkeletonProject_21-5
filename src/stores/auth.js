@@ -11,6 +11,46 @@ export const useAuthStore = defineStore("auth", () => {
 
   const isAuthenticated = computed(() => Boolean(currentUser.value));
 
+  async function signup(signupData) {
+    isLoading.value = true;
+    errorMessage.value = "";
+
+    try {
+      const userEmail = signupData.userEmail?.trim();
+      const name = signupData.name?.trim();
+      const pw = signupData.pw?.trim();
+
+      if (!name || !userEmail || !pw) {
+        throw new Error("이름, 이메일, 비밀번호를 모두 입력해 주세요.");
+      }
+
+      const { data: existingUsers } = await axios.get("/api/users", {
+        params: { userEmail },
+      });
+
+      if (existingUsers?.length) {
+        throw new Error("이미 가입된 이메일입니다.");
+      }
+
+      const newUser = {
+        id: `user-${Date.now()}`,
+        name,
+        userEmail,
+        pw,
+        balance: Number(signupData.balance) || 0,
+      };
+
+      const { data: createdUser } = await axios.post("/api/users", newUser);
+      persistSession(createdUser);
+      return createdUser;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "회원가입 중 오류가 발생했습니다.";
+      errorMessage.value = message;
+      throw error;
+    } finally {
+      isLoading.value = false;
+    }
+  }
   async function login(loginData) {
     isLoading.value = true;
     errorMessage.value = "";
@@ -156,6 +196,7 @@ export const useAuthStore = defineStore("auth", () => {
     isLoading,
     errorMessage,
     isAuthenticated,
+    signup,
     login,
     logout,
     initialize,
