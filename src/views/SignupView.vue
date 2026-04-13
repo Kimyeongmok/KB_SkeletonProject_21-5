@@ -44,7 +44,9 @@
         </div>
 
         <div>
-          <label class="signup-label mb-1 block text-sm font-medium" for="confirmPw">비밀번호 확인</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="confirmPw"
+            >비밀번호 확인</label
+          >
           <input
             id="confirmPw"
             v-model="form.confirmPw"
@@ -56,7 +58,7 @@
         </div>
 
         <div>
-          <label class="signup-label mb-1 block text-sm font-medium" for="balance">초기 잔액</label>
+          <label class="signup-label mb-1 block text-sm font-medium" for="balance">초기 자산</label>
           <input
             id="balance"
             v-model.number="form.balance"
@@ -81,9 +83,7 @@
 
         <p class="signup-footer text-center text-sm">
           이미 계정이 있으신가요?
-          <RouterLink class="signup-link font-semibold" to="/login">
-            로그인
-          </RouterLink>
+          <RouterLink class="signup-link font-semibold" to="/login"> 로그인 </RouterLink>
         </p>
       </form>
     </div>
