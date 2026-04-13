@@ -377,10 +377,18 @@ onMounted(() => {
   color: #111111;
 }
 
+html.dark .donut-hole span {
+  color: #f8fafc;
+}
+
 .donut-hole strong {
   font-size: clamp(0.82rem, 1.5vw, 0.95rem);
   color: #111827;
   word-break: keep-all;
+}
+
+html.dark .donut-hole strong {
+  color: #f8fafc;
 }
 
 .chart-legend {
