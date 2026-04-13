@@ -257,6 +257,8 @@ function formatDateTime(transaction) {
 }
 
 function resetDateFilter() {
+  typeFilter.value = 'all';
+  categoryFilter.value = 'all';
   startDateFilter.value = '';
   endDateFilter.value = '';
 }
