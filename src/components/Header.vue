@@ -1,11 +1,19 @@
 <!-- 페이지 상단 헤더 -->
 <template>
-  <div class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200">
+  <div
+    class="flex items-center lg:px-60 md:px-30 py-2 px-4 bg-white border border-gray-200"
+    :class="{ 'header--bono': isBonoMode }"
+  >
     <div class="flex flex-1 space-x-4 items-end hover:cursor-pointer" @click="router.push('/')">
-      <div class="text-3xl main-title">{{ currentUserBudget }} 원으로 한 달 살기</div>
+      <div class="text-3xl main-title" :class="{ 'main-title--bono': isBonoMode }">
+        {{ currentUserBudget }} 원으로 한 달 살기
+      </div>
     </div>
     <div class="flex gap-5 items-center">
-      <div class="text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm">
+      <div
+        class="flex items-center gap-2 whitespace-nowrap text-sm bg-mist-50 px-3 py-1 rounded-full shadow-sm"
+      >
+        <img :src="headerProfileImageSrc" alt="프로필" class="h-7 w-7 rounded-full object-cover" />
         <span class="text-blue-700">{{ userName }}</span> 님
       </div>
       <button
@@ -29,9 +37,14 @@
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useThemeStore } from "@/stores/theme";
+import profileImage1 from "@/assets/profile/Profile1.png";
+import profileImage2 from "@/assets/profile/Profile2.png";
+import profileImage3 from "@/assets/profile/Profile3.png";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const dbData = ref(null);
 const currentMonth = new Date().toISOString().slice(0, 7);
 
@@ -53,6 +66,16 @@ onMounted(async () => {
 const currentUserId = computed(() => authStore.currentUser?.id ?? "");
 
 const userName = computed(() => authStore.currentUser?.name ?? "사용자 이름");
+const profileImageMap = {
+  "Profile1.png": profileImage1,
+  "Profile2.png": profileImage2,
+  "Profile3.png": profileImage3,
+};
+const headerProfileImageSrc = computed(() => {
+  const profile = authStore.currentUser?.profile || "Profile1.png";
+  return profileImageMap[profile] || profileImageMap["Profile1.png"];
+});
+const isBonoMode = computed(() => themeStore.actualTheme === "bono");
 
 const currentUserBudget = computed(() => {
   if (!dbData.value?.budgets || !currentUserId.value) {
@@ -81,7 +104,38 @@ function goSettings() {
 </script>
 
 <style scoped>
+.header--bono {
+  background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff8400 16%,
+    #ffd500 32%,
+    #00ff33 48%,
+    #00d5ff 64%,
+    #0022ff 80%,
+    #8000ff 100%
+  );
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
 .main-title {
   font-family: "Gulim", sans-serif;
+}
+
+.main-title {
+  font-family: "YeogiOttaeJalnan", sans-serif;
+}
+
+.main-title--bono {
+  font-family: "Gungsuh", "궁서", serif;
+  color: blue;
+}
+
+@font-face {
+  font-family: "YeogiOttaeJalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
 }
 </style>

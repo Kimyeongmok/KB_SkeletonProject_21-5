@@ -5,21 +5,24 @@
       "name": "김가계",
       "userEmail": "kbstudent@abc.com",
       "pw": "kb1234",
-      "balance": 2710000
+      "balance": 2710000,
+      "profile": "Profile1.png"
     },
     {
       "id": "user-002",
       "name": "이소비",
       "userEmail": "kbstudent1@abc.com",
       "pw": "kb1234",
-      "balance": 100
+      "balance": 100,
+      "profile": "Profile2.png"
     },
     {
       "id": "user-1776043713460",
       "name": "aaa",
       "userEmail": "rla@naver.com",
       "pw": "11",
-      "balance": 1000
+      "balance": 1000,
+      "profile": "Profile3.png"
     }
   ],
   "finances": [
@@ -79,7 +82,7 @@
       "id": "budget-001",
       "userId": "user-001",
       "month": "2026-04",
-      "limit": 1000000
+      "limit": 200000
     },
     {
       "id": "budget-002",

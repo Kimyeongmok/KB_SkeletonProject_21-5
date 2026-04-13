@@ -87,6 +87,7 @@ const submitChangePassword = async (payload: {
         <option value="system">시스템 설정 사용</option>
         <option value="light">라이트 모드</option>
         <option value="dark">다크 모드</option>
+        <option value="bono">보노보노 모드</option>
       </select>
     </div>
   </div>
