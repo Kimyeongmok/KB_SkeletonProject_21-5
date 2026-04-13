@@ -13,7 +13,7 @@ const redOpacity = computed(() => budgetProgressStore.progressPercentage / 100);
 <template>
   <div
     v-if="themeStore.actualTheme === 'bono'"
-    class="pointer-events-none fixed bottom-4 right-4 z-50 w-28 sm:w-36 md:w-44"
+    class="pointer-events-none fixed bottom-4 right-4 z-0 w-28 sm:w-36 md:w-44"
   >
     <img :src="bonobonoImage" alt="보노보노" class="block w-full" />
     <img
