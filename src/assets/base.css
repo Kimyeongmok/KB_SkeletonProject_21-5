@@ -234,6 +234,12 @@ body {
   color: #e2e8f0 !important;
 }
 
+.dark .field-chip select option,
+.dark .filter-select option {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
 .dark .status-message {
   background: #1e293b !important;
   color: #cbd5e1 !important;
